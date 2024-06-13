@@ -1,0 +1,55 @@
+<div class="course-container">
+<div class="card-container" [class.scrollable]="showAll">
+  <div class="card-wrapper" *ngFor="let card of (showAll ? cards : cards.slice(0, 3)); let i = index">
+    <mat-card class="card bg-blue-100 mb-4 mx-2" (mouseenter)="showDetails(card)" (mouseleave)="hideDetails(card)">
+      <mat-card-header>
+        <mat-card-title>{{ card.title }}</mat-card-title>
+        <mat-card-subtitle>{{ card.subtitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="card.image" alt="Placeholder image">
+      <mat-card-content>
+        <p>
+          {{ card.showMore ? card.content : (card.content | slice: 0:60) + '...' }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" role="button" (click)="toggleShowMore(card)">
+          {{ card.showMore ? 'See Less' : 'See More' }}
+        </button>
+        <button mat-button color="primary" role="button">
+          <mat-icon aria-hidden="false" aria-label="save icon">bookmark_add</mat-icon>
+          Save
+        </button>
+        <a routerLink="/card_detail">
+          <button mat-button color="primary" role="button">Next</button>
+        </a>
+      </mat-card-actions>
+    </mat-card>
+    <div class="card-details" *ngIf="card.showDetails" [ngClass]="{'left': i % 3 !== 0, 'right': i % 3 === 0}">
+      <h3>{{ card.title }}</h3>
+      <p><strong>Updated:</strong> {{ card.updated }}</p>
+      <p>This Course Has:</p>
+      <ul>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="tv icon" class="text-sm inline-block align-middle">live_tv</mat-icon>
+          <span class="inline-block align-middle">3 Videos</span>
+        </li>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle">assignment</mat-icon>
+          <span class="inline-block align-middle">Assignment</span>
+        </li>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle">task</mat-icon>
+          <span class="inline-block align-middle">Exam</span>
+        </li>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle">military_tech</mat-icon>
+          <span class="inline-block align-middle">Certificate</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<button (click)="toggleShowAll()" mat-raised-button color="primary" class="mt-4">{{ showAll ? 'Show Less' : 'See More' }}</button>
+</div>
+<br><br>
