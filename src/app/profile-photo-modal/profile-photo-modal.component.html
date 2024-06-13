@@ -1,0 +1,12 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">Close</button>
+    <h2>Profile Photo</h2>
+    <p>Choose a photo that shows your face clearly and has a professional look. If you use other professional platforms, it’s a good idea to keep them consistent.</p>
+    <div class="profile-photo-container">
+      <img [src]="profile.picture" alt="Profile Photo" class="modal-profile-picture">
+    </div>
+    <button class="btn primary" (click)="changePhoto()">Change photo</button>
+    <button class="btn secondary" (click)="removePhoto()">Remove photo</button>
+  </div>
+</div>

@@ -1,0 +1,192 @@
+.course-creation-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 200px;
+    padding: 20px;
+    background-color: transparent;
+    border-right: 1px solid #e0e0e0;
+}
+
+.sidebar h3 {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.nav-list li.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.nav-list li.disabled {
+    color: #999;
+    cursor: not-allowed;
+}
+
+.course-creation-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.course-creation,
+.intended-structure {
+    flex: 1;
+}
+
+.course-creation h2,
+.intended-structure h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.course-creation form,
+.intended-structure form {
+    display: flex;
+    flex-direction: column;
+}
+
+.course-creation form div,
+.intended-structure .learning-objectives,
+.intended-structure .requirements {
+    margin-bottom: 15px;
+}
+
+.course-creation form label,
+.intended-structure label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.course-creation form input[type="text"],
+.course-creation form textarea,
+.intended-structure input[type="text"],
+.intended-structure textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.course-creation form button,
+.intended-structure button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.course-creation form button:hover,
+.intended-structure button:hover {
+    background-color: #0056b3;
+}
+
+.section {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.lecture {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+
+.learning-objectives p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.learning-objectives input[type="text"] {
+    margin-bottom: 10px;
+}
+
+.objective-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.objective-item input[type="text"] {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.objective-item button,
+.requirement-item .button-group button {
+    padding: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+}
+
+.objective-item button:hover,
+.requirement-item .button-group button:hover {
+    color: #0056b3;
+}
+
+.requirement-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.requirement-item textarea {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.button-group {
+    display: flex;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 5px;
+    color: #007bff;
+}
+
+.icon-button:hover {
+    color: #0056b3;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 1em 0;
+    text-align: center;
+    border-top: 1px solid #e9ecef;
+    font-size: 0.9em;
+    color: #6c757d;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    flex-shrink: 0;
+}

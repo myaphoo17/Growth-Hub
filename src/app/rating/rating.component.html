@@ -1,0 +1,116 @@
+<div class="max-w-4xl mx-auto p-4">
+  <!-- Header Section -->
+  <div class="text-center">
+    <h1 class="text-2xl font-bold">Learner Reviews & Feedback for Python for Data Science, AI & Development by IBM</h1>
+    <button mat-raised-button color="primary" class="mt-4">Enroll for Free</button>
+    <div class="mt-2 flex justify-center items-center space-x-1">
+      <mat-icon color="warn">star</mat-icon>
+      <mat-icon color="warn">star</mat-icon>
+      <mat-icon color="warn">star</mat-icon>
+      <mat-icon color="warn">star</mat-icon>
+      <mat-icon color="warn">star_half</mat-icon>
+      <span>4.6</span>
+      <span>(35,809 ratings)</span>
+    </div>
+  </div>
+
+  <!-- About the Course Section -->
+  <div class="my-8">
+    <h2 class="text-xl font-semibold">About the Course</h2>
+    <p [ngClass]="{'line-clamp-3': !showMore}">
+      Kickstart your learning of Python with this beginner-friendly self-paced course taught by an expert. Python is one of the most popular languages in the programming and data science world and demand for individuals who have the ability to apply Python has never been higher. This introduction to Python course will take you from zero to programming in Python in a matter of hours—no prior programming experience necessary! You will learn about Python basics and the different data types. You will familiarize yourself with Python data structures like List and Tuples, as well as logic concepts like conditions and branching. You will use Python libraries such as Pandas, Numpy & Beautiful Soup. You’ll also use Python to perform tasks such as data collection and web scraping with APIs. You will practice and apply what you learn through hands-on labs using Jupyter Notebooks. By the end of this course, you’ll feel comfortable creating basic programs, working with data, and automating real-world tasks using Python. This course is suitable for anyone who wants to learn Python.
+    </p>
+    <button mat-button color="primary" (click)="toggleShowMore()">
+      {{ showMore ? 'See Less' : 'See More' }}
+    </button>
+  </div>
+
+  <!-- Top Reviews Section -->
+  <div class="my-8">
+    <h2 class="text-xl font-semibold">Top reviews</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="p-4 border rounded shadow-sm">
+        <div class="flex items-center mb-2">
+          <span class="font-bold">MA</span>
+          <span class="ml-auto text-sm">May 16, 2020</span>
+        </div>
+        <div class="flex items-center">
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+        </div>
+        <p class="mt-2">The syllabus of the course takes you in a roller-coaster ride. From basic level to advance level and you won't feel any trouble nor hesitate a bit. It's easy, it's vast, and it's really useful.</p>
+        <button mat-button color="primary">Helpful</button>
+      </div>
+      <div class="p-4 border rounded shadow-sm">
+        <div class="flex items-center mb-2">
+          <span class="font-bold">TM</span>
+          <span class="ml-auto text-sm">Nov 17, 2019</span>
+        </div>
+        <div class="flex items-center">
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+          <mat-icon color="warn">star</mat-icon>
+        </div>
+        <p class="mt-2">It becomes easier and clearer when one gets to complete the assignments as to how to utilize what has been learned. Practical work is a great way to learn, which was a fundamental part of the course.</p>
+        <button mat-button color="primary">Helpful</button>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <button mat-button (click)="toggleAllReviews()">
+        {{ showAllReviews ? 'Hide' : 'See all 5 star reviews' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- All Reviews Section -->
+  <div *ngIf="showAllReviews" class="max-h-96 overflow-y-scroll my-8">
+    <div class="p-4 border rounded shadow-sm my-2" *ngFor="let review of allReviews">
+      <div class="flex items-center mb-2">
+        <span class="font-bold">{{ review.author }}</span>
+        <span class="ml-auto text-sm">{{ review.date }}</span>
+      </div>
+      <div class="flex items-center">
+        <mat-icon color="warn">star</mat-icon>
+        <mat-icon color="warn">star</mat-icon>
+        <mat-icon color="warn">star</mat-icon>
+        <mat-icon color="warn">star</mat-icon>
+        <mat-icon color="warn">star</mat-icon>
+      </div>
+      <p class="mt-2">{{ review.content }}</p>
+      <button mat-button color="primary">Helpful</button>
+    </div>
+  </div>
+
+  <!-- Reviews Filter Section -->
+  <div class="my-8">
+    <div class="flex justify-between items-center">
+      <span>1 - 25 of 3,806 Reviews for Python for Data Science, AI & Development</span>
+      <button mat-button (click)="toggleAllReviews()">
+        {{ showAllReviews ? 'Hide' : 'See all 5 star reviews' }}
+      </button>
+    </div>
+    <div class="text-center mt-4">
+      <button mat-button color="primary" (click)="toggleAddReviewForm()">Add Review</button>
+    </div>
+  </div>
+
+  <!-- Add Review Form -->
+  <div *ngIf="showAddReviewForm" class="mt-4 p-4 border rounded shadow-sm">
+    <h2 class="text-xl font-semibold">Add Review</h2>
+    <div class="flex items-center mb-4">
+      <mat-icon color="warn" *ngFor="let _ of [1, 2, 3, 4, 5]; let i = index" (click)="selectedStars = i + 1">star</mat-icon>
+      <span class="ml-2">{{ selectedStars }} Stars</span>
+    </div>
+    <textarea class="w-full h-32 p-2 border rounded" placeholder="Write your review here    " [(ngModel)]="reviewContent"></textarea>
+    <div class="text-center mt-4">
+      <button mat-button color="primary" (click)="submitReview()">Submit</button>
+      <button mat-button color="warn" (click)="cancelReview()">Cancel</button>
+    </div>
+  </div>
+</div>
+

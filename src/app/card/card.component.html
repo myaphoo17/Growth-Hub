@@ -1,0 +1,56 @@
+<div class="card-container">
+  <div class="card-wrapper" *ngFor="let card of pagedCards; let i = index">
+    <mat-card class="card bg-blue-100 w-80 mb-4 mx-2" (mouseenter)="showDetails(card)" (mouseleave)="hideDetails(card)">
+      <mat-card-header>
+        <mat-card-title>{{ card.title }}</mat-card-title>
+        <mat-card-subtitle>{{ card.subtitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="card.image" alt="Placeholder image">
+      <mat-card-content>
+        <p>
+          {{ card.showMore ? card.content : (card.content | slice: 0:60) + '...' }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" role="button" (click)="toggleShowMore(card)">
+          {{ card.showMore ? 'SeeLess' : 'SeeMore' }}
+        </button>
+        <button mat-button color="primary" role="button">
+          <mat-icon aria-hidden="false" aria-label="save icon">bookmark_add</mat-icon>
+          Save
+        </button>
+        <a routerLink="/card_detail">
+          <button mat-button color="primary" role="button">Next</button>
+        </a>
+      </mat-card-actions>
+    </mat-card>
+    <div class="card-details" *ngIf="card.showDetails" [ngClass]="{'left': i % 4 !== 0, 'right': i % 4 === 0}">
+      <h3>{{ card.title }}</h3>
+      <p><strong>Updated:</strong> {{ card.updated }}</p>
+      <p>This Course Has:</p>
+      <ul>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="tv icon" class="text-sm inline-block align-middle">live_tv</mat-icon>
+          <span class="inline-block align-middle">3 Videos</span>
+        </li>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle">assignment</mat-icon>
+          <span class="inline-block align-middle">Assignment</span>
+        </li>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle">task</mat-icon>
+          <span class="inline-block align-middle">Exam</span>
+        </li>
+        <li>
+          <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle">military_tech</mat-icon>
+          <span class="inline-block align-middle">Certificate</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<mat-paginator [length]="cards.length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="[8, 16, 24]"
+               (page)="handlePageEvent($event)">
+</mat-paginator>

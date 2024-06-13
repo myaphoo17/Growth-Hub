@@ -1,0 +1,44 @@
+<mat-toolbar color="brown" class="bg-blue-500 h-12">
+  <mat-toolbar-row class="flex items-center justify-between h-full">
+    <div class="flex items-center"> <!-- Removed 'space-x-2' class -->
+      <a class="navbar-brand" href="https://www.diracetechnology.com" style="margin-right: 20px;"> <!-- Added margin-right -->
+        <img src="https://www.diracetechnology.com/wp-content/themes/dat/assets/images/DAT Logo.png" alt="DAT Logo" class="logo w-25 h-12">
+      </a>
+      <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
+      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="/catagories">
+        Catagories
+      </a>
+      <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
+      
+    </div>
+    
+    <nav class="flex space-x-2 items-center"> <!-- Added 'items-center' class to align items vertically -->
+      
+      <div class="search-container flex items-center bg-white rounded-full px-1">
+        <mat-icon class="text-gray-500">search</mat-icon>
+        <input type="text" placeholder="Search..." [(ngModel)]="searchText" (input)="filterCards()" class="rounded-full border-none outline-none px-2 py-1 text-sm" />
+      </div>
+      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="/">Home</a>
+      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="/course_creation">
+        <mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">add_box</mat-icon>
+        Post
+      </a>
+      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="/profile">
+        <mat-icon aria-hidden="false" aria-label="Profile icon" class="text-sm">account_circle</mat-icon>
+        Profile
+      </a>
+      <div class="relative">
+        <button class="text-black text-sm hover:bg-blue-700 px-2 py-1 rounded-md" [matMenuTriggerFor]="dropdown">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <mat-menu #dropdown="matMenu">
+          <button mat-menu-item routerLink="/about" class="text-sm text-white hover:bg-blue-700">About</button>
+          <button mat-menu-item routerLink="/contact" class="text-sm text-white hover:bg-blue-700">Contact</button>
+          <button mat-menu-item routerLink="/logout">Logout</button>
+        </mat-menu>
+      </div>
+    </nav>
+  </mat-toolbar-row>
+</mat-toolbar>
