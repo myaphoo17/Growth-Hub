@@ -1,0 +1,622 @@
+/* General container styles */
+.video-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.selected-video-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.selected-video-and-text {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding-left: 40px;
+}
+
+.selected-video {
+  width: 600px;
+  height: 350px;
+  margin-right: 20px;
+}
+
+.video-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  max-width: 30px;
+  margin-left: 40px;
+}
+
+.video-text ul {
+  padding: 0;
+  margin: 0;
+}
+
+.video-text li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* Align text and icon in a straight line */
+.icon-text-container {
+  display: flex;
+  align-items: center;
+}
+
+.icon-text-container mat-icon {
+  margin-right: 8px;
+}
+
+.icon-container {
+  position: absolute;
+  top: 85px;
+  right: 640px;
+  display: flex;
+  gap: 10px;
+}
+
+.edit-icon,
+.delete-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: rgb(35, 128, 250);
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
+  background-color: rgb(35, 128, 250);
+  color: white;
+}
+
+.navigation {
+  width: 100%;
+}
+
+.small-videos-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+  margin-bottom: 80px;
+  width: 100%;
+}
+
+.small-video {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  position: relative;
+  width: 200px;
+  height: 150px;
+}
+
+.small-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.small-video.selected {
+  border: 2px solid #007BFF;
+}
+
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+}
+
+/* Modal styles */
+.modal-insert,
+.modal-edit,
+.modal-delete,
+.modal-instructor,
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content,
+.insert-modal-content,
+.edit-modal-content,
+.delete-modal-content,
+.instructor-modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 80%;
+  overflow-y: auto;
+}
+
+.insert-modal-content h2,
+.edit-modal-content h2,
+.delete-modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.insert-modal-content form,
+.edit-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insert-modal-content label,
+.edit-modal-content label {
+  text-align: left;
+}
+
+.insert-modal-content input[type="text"],
+.insert-modal-content input[type="file"],
+.edit-modal-content input[type="text"],
+.edit-modal-content input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button styles */
+.submit-button {
+  background-color: #6200EA;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.customize-button {
+  text-decoration: none;
+  background: none;
+  border: 2px solid rgb(35, 128, 250);
+  color: rgb(35, 128, 250);
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.customize-button:hover {
+  background-color: rgb(35, 128, 250);
+  color: white;
+}
+
+.confirm-button,
+.cancel-button {
+  background-color: #6200EA;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 20px 0 0;
+}
+
+.confirm-button {
+  background-color: #dc3545;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+}
+
+/* Success modal styles */
+.success-icon {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(19, 175, 19);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: white;
+  font-size: 24px;
+}
+
+.modal-content .modal-title {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.modal-content .modal-message {
+  font-size: 16px;
+  margin: 20px 0;
+}
+
+.modal-content .close-btn {
+  background-color: rgb(10, 176, 10);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Additional instructor modal styles */
+.instructor-modal-content {
+  max-width: 400px;
+  height: 300px;
+}
+
+.instructor-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.view-modules {
+  color: rgb(22, 22, 22);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.view-modules :hover{
+  color: rgb(73, 81, 240);
+  text-decoration: underline;
+  background: none;
+}
+/* General container styles */
+.video-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.selected-video-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.selected-video-and-text {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding-left: 40px;
+}
+
+.selected-video {
+  width: 600px;
+  height: 350px;
+  margin-right: 20px;
+}
+
+.video-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  max-width: 300px;
+  margin-left: 40px;
+}
+
+.video-text ul {
+  padding: 0;
+  margin: 0;
+}
+
+.video-text li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* Align text and icon in a straight line */
+.icon-text-container {
+  display: flex;
+  align-items: center;
+}
+
+.icon-text-container mat-icon {
+  margin-right: 8px;
+}
+
+.icon-container {
+  position: absolute;
+  top: 85px;
+  right: 640px;
+  display: flex;
+  gap: 10px;
+}
+
+.edit-icon,
+.delete-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: rgb(35, 128, 250);
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
+  background-color: rgb(35, 128, 250);
+  color: white;
+}
+
+.navigation {
+  width: 100%;
+}
+
+.small-videos-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+  margin-bottom: 80px;
+  width: 100%;
+}
+
+.small-video {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  position: relative;
+  width: 200px;
+  height: 150px;
+}
+
+.small-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.small-video.selected {
+  border: 2px solid #007BFF;
+}
+
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+}
+
+/* Modal styles */
+.modal-insert,
+.modal-edit,
+.modal-delete,
+.modal-instructor,
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content,
+.insert-modal-content,
+.edit-modal-content,
+.delete-modal-content,
+.instructor-modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 80%;
+  overflow-y: auto;
+}
+
+.insert-modal-content h2,
+.edit-modal-content h2,
+.delete-modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.insert-modal-content form,
+.edit-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insert-modal-content label,
+.edit-modal-content label {
+  text-align: left;
+}
+
+.insert-modal-content input[type="text"],
+.insert-modal-content input[type="file"],
+.edit-modal-content input[type="text"],
+.edit-modal-content input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button styles */
+.submit-button {
+  background-color: #6200EA;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.customize-button {
+  text-decoration: none;
+  background: none;
+  border: 2px solid rgb(35, 128, 250);
+  color: rgb(35, 128, 250);
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.customize-button:hover {
+  background-color: rgb(35, 128, 250);
+  color: white;
+}
+
+.confirm-button,
+.cancel-button {
+  background-color: #6200EA;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 20px 0 0;
+}
+
+.confirm-button {
+  background-color: #dc3545;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+}
+
+/* Success modal styles */
+.success-icon {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(19, 175, 19);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: white;
+  font-size: 24px;
+}
+
+.modal-content .modal-title {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.modal-content .modal-message {
+  font-size: 16px;
+  margin: 20px 0;
+}
+
+.modal-content .close-btn {
+  background-color: rgb(10, 176, 10);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Additional instructor modal styles */
+.instructor-modal-content {
+  max-width: 400px;
+  height: 300px;
+}
+
+.instructor-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.view-modules {
+  color: rgb(41, 41, 43);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.view-modules:hover {
+  color: rgb(21, 21, 254);
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+mat-icon {
+  margin-right: 8px;
+}
+
+/* Button group styles */
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 7px; /* Adjusted gap */
+  align-items: center; /* Align items vertically */
+}
+
+/* Align text and icon in a straight line */
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.info-row mat-icon {
+  margin-right: 8px;
+}
+

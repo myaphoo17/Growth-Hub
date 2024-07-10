@@ -1,0 +1,45 @@
+.box-container {
+    position: fixed;
+    top: 65px; /* Adjust top position as needed */
+    right: 20px; /* Adjust right position as needed */
+    z-index: 1000; /* Ensure it's on top of other content */
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    width: 300px; /* Adjust width as needed */
+    max-height: 80vh; /* Adjust max-height to limit the height and enable scrolling if needed */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+  }
+  
+  h2 {
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+  }
+  
+  .notification-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .notification-item {
+    margin-bottom: 10px;
+  }
+  
+  .notification-text-time {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .notification-text {
+    font-weight: bold;
+  }
+  
+  .notification-time {
+    color: #666;
+  }
+  

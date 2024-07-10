@@ -1,0 +1,92 @@
+
+<div class="course-creation-content bg-white p-10 rounded-lg shadow-lg max-w-4xl mt-9 mx-auto">
+  <!-- Stepper -->
+  <div class="flex justify-between mb-10">
+    <div class="flex items-center space-x-2">
+      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-500]="currentStep >= 1" [class.bg-gray-400]="currentStep < 1">
+        1
+      </div>
+      <span [class.text-blue-500]="currentStep >= 1" [class.text-gray-500]="currentStep < 1">Categories</span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-500]="currentStep >= 2" [class.bg-gray-400]="currentStep < 2">
+        2
+      </div>
+      <span [class.text-blue-500]="currentStep >= 2" [class.text-gray-500]="currentStep < 2">Course Details</span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-500]="currentStep >= 3" [class.bg-gray-400]="currentStep < 3">
+        3
+      </div>
+      <span [class.text-blue-500]="currentStep >= 3" [class.text-gray-500]="currentStep < 3">Add Lectures</span>
+    </div>
+  </div>
+
+  <form (ngSubmit)="saveCourse()" class="space-y-8">
+    <!-- Step 1: Categories -->
+    <div *ngIf="currentStep === 1">
+      <h2 class="text-xl font-bold mb-6">Step 1: Categories</h2>
+      <div class="mb-6">
+        <label for="category" class="block text-sm text-gray-700">Categories:</label>
+        <input type="text" id="category" [(ngModel)]="newObject.category" name="category" class="inputbox mt-2 w-full border  border-gray-500 rounded-md shadow-sm p-2 text-sm  outline-none" required>
+      </div>
+      <button type="button" (click)="nextStep()" class="btn btn-outline mt-3 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="!newObject.category">Next</button>
+    </div>
+
+    <!-- Step 2: Course Title & Description -->
+    <div *ngIf="currentStep === 2">
+      <h2 class="text-xl font-bold mb-6">Step 2: Course Title & Description</h2>
+      <div class="mb-6">
+        <label for="title" class="block text-sm text-gray-700">Course Title:</label>
+        <input type="text" id="title" [(ngModel)]="newObject.courseTitle" name="title" class="nputbox mt-2 w-full border  border-gray-500 rounded-md shadow-sm p-2 text-sm  outline-none" required>
+      </div>
+      <div class="mb-6">
+        <label for="description" class="block text-sm text-gray-700">Description:</label>
+        <textarea id="description" [(ngModel)]="newObject.courseDescription" name="description" class="inputbox mt-2 w-full border border-gray-500 rounded-md shadow-sm p-2 text-sm outline-none" required></textarea>
+      </div>
+      <div class="mb-6">
+        <label for="duration" class="block text-sm text-gray-700">Duration:</label>
+        <input type="text" id="duration" [(ngModel)]="newObject.courseDuration" name="duration" class="inputbox mt-2 w-full border border-gray-500 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+      </div>
+      <div class="flex space-x-4">
+        <button type="button" (click)="prevStep()" class="btn btn-outline bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Previous</button>
+        <button type="button" (click)="nextStep()" class="btn btn-outline bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="!newObject.courseTitle || !newObject.courseDescription || !newObject.courseDuration">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Add Lectures -->
+    <div *ngIf="currentStep === 3">
+      <h2 class="text-xl font-bold mb-6">Step 3: Add Lectures</h2>
+      <div *ngFor="let lecture of lectures; let i = index" class="lecture mb-6 p-6 border border-gray-200 rounded-lg">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-gray-700">Lecture Title:</label>
+            <input type="text" [(ngModel)]="lecture.title" placeholder="Lecture Title" name="video-title-{{i}}" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-700">Lecture File:</label>
+            <input type="file" (change)="onFileChange($event, i)" placeholder="Video File" name="video-file-{{i}}" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+          </div>
+          <button type="button" (click)="removeLecture(i)" class="btn btn-outline bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Remove</button>
+        </div>
+      </div>
+      <div class="flex space-ax-4">
+        <button type="button" (click)="prevStep()" class="btn btn-outline bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Previous</button>
+        <button type="button" (click)="addLecture()" class="btn btn-outline bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-500">Add Lecture</button>
+        <button type="submit" class="btn btn-outline bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="lectures.length === 0">Save Course</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75" *ngIf="showSuccessModal">
+  <div class="modal-content bg-white p-6 rounded-lg shadow-lg text-center">
+    <div class="success-icon text-green-500 text-6xl mb-4">
+      <span>&#10004;</span>
+    </div>
+    <div class="modal-title text-2xl font-bold mb-2">Success</div>
+    <div class="modal-message text-gray-700 mb-4">Check your course list confirmation. We'll see you soon!</div>
+    <button class="close-btn bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" (click)="redirectToCreationPage()">OK</button>
+  </div>
+</div>

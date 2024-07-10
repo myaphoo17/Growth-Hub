@@ -1,0 +1,124 @@
+.course-container {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .course-header {
+    margin-bottom: 20px;
+  }
+  
+  .course-header h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .subtitle, .languages {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .languages a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .languages a:hover {
+    text-decoration: underline;
+  }
+  
+  .course-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .instructor-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .instructor-info img.meta-logo {
+    width: 300px; /* Increased width for better visibility */
+    height: auto;
+    margin-right: 10px;
+  }
+  
+  .enroll-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .enroll-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .enrolled-count {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .course-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .course-details div {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rating-value {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .rating-stars {
+    color: #f5c518;
+    margin-right: 5px;
+  }
+  
+  .rating-reviews, .rating-likes {
+    color: #666;
+    margin-right: 10px;
+  }
+  
+  .view-modules {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .view-modules:hover {
+    text-decoration: underline;
+  }
+  .popular-course-header {
+    font-family: 'Arial', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #3b82f6; /* Adjust the color to match your theme */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 2px solid #3b82f6;
+    border-top: 2px solid #3b82f6;
+  }
