@@ -1,0 +1,93 @@
+.sidebar {
+  width: 100%;
+  height: 100%;
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.profile-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+mat-nav-list {
+  width: 100%;
+}
+
+a[mat-list-item] {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+}
+
+a[mat-list-item] .nav-icon {
+  margin-right: 10px;
+  font-size: 24px;
+  line-height: 24px;
+  color: white;
+}
+
+a[mat-list-item] .nav-text {
+  line-height: 24px;
+  flex-grow: 1;
+}
+
+a[mat-list-item]:hover {
+  background-color: #34495e;
+}
+
+.nav-icon {
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  color: white;
+}
+
+.nav-text {
+  color: white;
+}
+
+.dropdown-trigger {
+  justify-content: space-between;
+}
+
+.dropdown-icon {
+  font-size: 24px;
+  color: white;
+}
+
+.custom-menu {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.custom-menu button[mat-menu-item] {
+  display: flex;
+  align-items: center;
+  padding-left: 30px; /* Adjust as needed */
+  color: white;
+}
+
+.custom-menu .bullet-icon {
+  font-size: 12px; /* Smaller bullet point */
+  color: #1e90ff; /* Blue color */
+  margin-right: 10px; /* Space between bullet and text */
+}
+
+.custom-menu button[mat-menu-item]:hover {
+  background-color: #34495e;
+}

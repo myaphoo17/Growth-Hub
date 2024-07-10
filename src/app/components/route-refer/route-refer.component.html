@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb flex space-x-2">
+    <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+      <li class="breadcrumb-item" (click)="navigateBack(breadcrumb.url)" style="cursor: pointer;">
+        <span *ngIf="!last" class="text-gray-400">&gt;</span>
+        <span class="text-blue-500 hover:text-blue-700">{{ breadcrumb.label }}</span>
+      </li>
+    </ng-container>
+  </ol>
+</nav>

@@ -1,0 +1,78 @@
+<div class="course-container">
+    <div class="course-header">
+      <h1>Programming with JavaScript</h1>
+      <p class="subtitle">
+        This course is part of multiple programs. <a href="#">Learn more</a>
+      </p>
+      <div class="languages">
+        <span>Taught in English | </span>
+        <a href="#">20 languages available</a>
+        <span> | Some content may not be translated</span>
+      </div>
+    </div>
+    <div class="course-body">
+      <div class="instructor-info">
+        <img src="https://via.placeholder.com/150" alt="Meta Logo" class="meta-logo" />
+      </div>
+      <button class="enroll-button">Enroll<br>Starts Jun 8</button>
+      <p class="enrolled-count">174,807 already enrolled</p>
+    </div>
+    <div class="course-details">
+      <div class="rating">
+        <span class="rating-value">4.7</span>
+        <span class="rating-stars">★</span>
+        <span class="rating-reviews">(3,900 reviews)</span>
+        <span class="rating-likes">95%</span>
+      </div>
+      <div class="course-level">
+        <span>Beginner level</span>
+        <span>Recommended experience</span>
+      </div>
+      <div class="course-duration">
+        <span><button class="view-modules" (click)="toggleModulesModal()">View Course Modules</button></span>
+      </div>
+      <div class="course-schedule">
+        <span>Flexible schedule</span>
+        <span>Learn at your own pace</span>
+      </div>
+      <button class="view-modules" (click)="toggleInstructorModal()">View Instructor Information</button>
+      
+    </div>
+  </div>
+  <br><br>
+  <h2 class="popular-course-header">Most Popular Courses</h2>
+  <app-recomment-card></app-recomment-card>
+  <app-rating></app-rating>
+
+  
+  <!-- Instructor Modal -->
+  <div *ngIf="showInstructorModal" id="instructorModal" class="modal-instructor">
+    <div class="instructor-modal-content">
+      <span class="close" (click)="toggleInstructorModal()">&times;</span>
+      <h2>Instructor Information</h2>
+      <img src="https://via.placeholder.com/150" alt="Instructor Photo" class="instructor-photo">
+      <p>Name: John Doe</p>
+      <p>Title: Professor of Computer Science</p>
+      <p>Email: john</p>
+    </div>
+  </div>
+  
+  <!-- Course Modules Modal -->
+  <div *ngIf="showModulesModal" id="modulesModal" class="modal-course-module modal">
+    <div class="modal-content">
+      <span class="close" (click)="toggleModulesModal()">&times;</span>
+      <h2 class="module-header"><b>Course Modules</b></h2>
+      <div class="module-list">
+        <div class="module" *ngFor="let module of modules">
+          <h3>{{module.title}}</h3>
+          <p>{{module.description}}</p>
+          <div class="module-details">
+            <span>{{module.details}}</span>
+            <span>{{module.included}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

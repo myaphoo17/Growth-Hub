@@ -1,0 +1,75 @@
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four columns layout */
+    gap: 12px; /* Space between cards */
+    max-width: 1000px; /* Maximum width for the container */
+    margin: 0 auto; /* Center the container */
+  }
+  
+  .card-wrapper {
+    position: relative; /* For positioning card details */
+  }
+  
+  .card {
+    max-width: 260px; /* Set a maximum width for cards */
+    margin: 8px 0; /* Vertical margin for spacing */
+    padding: 8px; /* Padding inside the card */
+    box-sizing: border-box; /* Include padding in width and height */
+    overflow: hidden; /* Prevent content overflow */
+  }
+  
+  .card-details {
+    display: none; /* Hide by default */
+    position: absolute; /* Absolute positioning */
+    top: 0; /* Align to the top of the card */
+    width: 220px; /* Set width for the details box */
+    background: rgb(213, 211, 211); /* Background color */
+    border: 1px solid #ddd; /* Border styling */
+    padding: 12px; /* Padding inside the details box */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    z-index: 10; /* Ensure it appears above other elements */
+  }
+  
+  .card-details.left {
+    left: -240px; /* Position to the left of the card */
+  }
+  
+  .card-details.right {
+    right: -240px; /* Position to the right of the card */
+  }
+  
+  .card-wrapper:hover .card-details {
+    display: block; /* Show details on hover */
+  }
+  
+  .mat-card-header {
+    background-color: #3b82f6; /* Header background color */
+    color: white; /* Header text color */
+    padding: 8px; /* Padding inside the header */
+  }
+  
+  .mat-card-image {
+    width: 100%; /* Full width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100px; /* Limit the maximum height */
+  }
+  
+  .mat-card-title,
+  .mat-card-subtitle,
+  .mat-card-content p {
+    color: #333; /* Text color */
+    margin: 0; /* Remove default margins */
+  }
+  
+  .mat-card-content p {
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Ellipsis for overflow text */
+    display: -webkit-box; /* Flexbox for truncation */
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical; /* Vertical orientation */
+  }
+  
+  mat-paginator {
+    margin-top: 20px; /* Space above the paginator */
+  }
+  

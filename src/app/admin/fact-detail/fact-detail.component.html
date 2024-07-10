@@ -1,0 +1,129 @@
+<div class="video-gallery">
+  <!-- Selected video and text next to it -->
+  <div class="selected-video-container">
+    <div class="selected-video-and-text">
+      <div *ngIf="videos?.length" class="selected-file">
+        <ng-container [ngSwitch]="getFileType(videos[currentVideoIndex].url)">
+          <!-- Video File -->
+          <ng-container *ngSwitchCase="'video'">
+            <video controls class="selected-video">
+              <source [src]="videos[currentVideoIndex].url" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </ng-container>
+          <!-- Non-Video Files (Document) -->
+          <ng-container *ngSwitchDefault>
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="selected-video">
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="video-text" *ngIf="videos?.length">
+        <h2>{{ videos[currentVideoIndex].title }}</h2>
+        <ul>
+          <li>
+            <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle">assignment</mat-icon>
+            <span class="inline-block align-middle">Assignment</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle">task</mat-icon>
+            <span class="inline-block align-middle">Exam</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle">military_tech</mat-icon>
+            <span class="inline-block align-middle">Certificate</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="false" aria-label="visibility icon" class="text-sm inline-block align-middle">visibility</mat-icon>
+            <button class="view-modules" (click)="toggleInstructorModal()"><b>View Instructor Information</b></button>
+          </li>
+        </ul>
+        <div class="button-group">
+          <button class="customize-button" (click)="approveCourse()">Approve Course</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scrollable small videos container -->
+<div class="navigation">
+  <div class="small-videos-container" (scroll)="onScroll($event)">
+    <div class="small-video" *ngFor="let video of videos; let i = index"
+         [class.selected]="currentVideoIndex === i"
+         (click)="selectVideo(i)">
+      <ng-container [ngSwitch]="getFileType(video.url)">
+        <!-- Video File -->
+        <ng-container *ngSwitchCase="'video'">
+          <video controls>
+            <source [src]="video.url" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </ng-container>
+
+        <!-- Non-Video Files (Document) -->
+        <ng-container *ngSwitchDefault>
+          <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail">
+        </ng-container>
+      </ng-container>
+      <div class="video-overlay">
+        <p>{{ video.title }}</p> <!-- Display title here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Instructor Modal -->
+<div *ngIf="showInstructorModal" id="instructorModal" class="modal-instructor">
+  <div class="instructor-modal-content">
+    <span class="close" (click)="closeInstructorModal()">&times;</span>
+    <h2>Instructor Information</h2>
+    <img [src]="instructorInformation.profilePhotoUrl" alt="Instructor Photo" class="instructor-photo">
+    <div class="info-row">
+      <mat-icon>person</mat-icon>
+      <p>{{instructorInformation.name}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>work</mat-icon>
+      <p>{{instructorInformation.role}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>email</mat-icon>
+      <p>{{instructorInformation.email}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>badge</mat-icon>
+      <p>{{instructorInformation.staffId}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>apartment</mat-icon>
+      <p>{{instructorInformation.department}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>account_tree</mat-icon>
+      <p>{{instructorInformation.division}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>check_circle</mat-icon>
+      <p>{{instructorInformation.status}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>groups</mat-icon>
+      <p>{{instructorInformation.team}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>vpn_key</mat-icon>
+      <p>{{instructorInformation.doorLogNo}}</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Success Model -->
+<div id="successModal" class="modal" *ngIf="showSuccessModal">
+  <div class="modal-content">
+    <div class="success-icon">
+      <span>&#10004;</span>
+    </div>
+    <div class="modal-title">Success</div>
+    <div class="modal-message">Course Approved Is Successfully!</div>
+    <button class="close-btn" (click)="redirectToCreationPage()">OK</button>
+  </div>
+</div>
