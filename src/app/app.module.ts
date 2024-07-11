@@ -82,6 +82,7 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { RouteReferComponent } from './components/route-refer/route-refer.component';
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
+import { CourseAttendanceComponent } from './course-attendance/course-attendance.component';
 
 
 
@@ -158,6 +159,7 @@ import { StudentExamComponent } from './student/student-exam/student-exam.compon
     CreationHomeComponent,
     RouteReferComponent,
     StudentExamComponent,
+    CourseAttendanceComponent,
   ],
   imports: [
     
