@@ -15,6 +15,7 @@ export class UnapproveCoursesComponent implements OnInit {
   pageSize = 8;
   pageIndex = 0;
   pagedCards: CourseModel[] = [];
+  employerSr!:string;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
@@ -38,7 +39,8 @@ export class UnapproveCoursesComponent implements OnInit {
     return Base64.encode(id);
   }
   private getCourses(): void {
-    this.instructorService.getUnApprovedCourseList().subscribe({
+    this.employerSr=sessionStorage.getItem('dbId') || '';
+    this.instructorService.getUnApprovedCourseListByEmployerId(this.employerSr).subscribe({
       next: (data) => {
         this.courses = data;
         this.courses.forEach(course => {

@@ -52,15 +52,15 @@ export class ProfileService {
         'enctype': 'multipart/form-data'
       })});
   }
-  getCourseList(): Observable<CourseModel[]>{
-    return this.httpClient.get<CourseModel[]>(`${this.baseURL}/courseList`);
+  getApprovedCourseList(employerId: string): Observable<CourseModel[]>{
+    return this.httpClient.get<CourseModel[]>(`${this.baseURL}/getApprovedCourseByInstructor/${employerId}`);
+  }
+  getUnApprovedCourseListByEmployerId(employerId: string): Observable<CourseModel[]>{
+    return this.httpClient.get<CourseModel[]>(`${this.baseURL}/getUnApprovedCourseByInstructor/${employerId}`);
   }
   getCourseListById(courseId: string): Observable<UploadFiles[]>{
     return this.httpClient.get<UploadFiles[]>(`${this.baseURL}/courseListById/${courseId}`);
   }
-  // editVideoFileModel(editVideoMdel: EditEducationModel): Observable<Object> {
-  //   return this.httpClient.post(`${this.baseURL}/updateVideoFile`, editVideoMdel);
-  // }
   deleteUploadFile(fileId: string): Observable<Object> {
     return this.httpClient.delete(`${this.baseURL}/deleteUploadFile/${fileId}`);
   }
