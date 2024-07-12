@@ -1,4 +1,3 @@
-
 import { Component, ViewChild, AfterViewInit, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PreviewComponent } from '../preview/preview.component';
@@ -135,4 +134,3 @@ export class FormCreatorComponent implements OnInit, AfterViewInit {
     return index;
   }
 }
-

@@ -66,6 +66,11 @@ export class FactDetailComponent implements OnInit{
       error: (e) => console.error(e),
     });
   }
+
+  navigateToExamView(): void {
+    this.router.navigate(['/admin/exam-view-admin'], { queryParams: { courseId: this.id } });
+  }
+  
   private getCourses(): void {
     this.instructorService.getUnApprovedCourseList().subscribe({
       next: (data) => {

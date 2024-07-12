@@ -83,6 +83,9 @@ import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { RouteReferComponent } from './components/route-refer/route-refer.component';
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
 import { CourseAttendanceComponent } from './course-attendance/course-attendance.component';
+import { AnswerKeyInstructorComponent } from './instructor/answer-key-instructor/answer-key-instructor.component';
+import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
+import { ExamViewAdminComponent } from './admin/exam-view-admin/exam-view-admin.component';
 
 
 
@@ -110,6 +113,7 @@ import { CourseAttendanceComponent } from './course-attendance/course-attendance
     ReportComponent,
     SideBarComponent,
     StuAccountsComponent,
+    ExamViewAdminComponent,
     //instructor
     CardComponent,
     CardDetailComponent,
@@ -160,6 +164,9 @@ import { CourseAttendanceComponent } from './course-attendance/course-attendance
     RouteReferComponent,
     StudentExamComponent,
     CourseAttendanceComponent,
+    AnswerKeyInstructorComponent,
+    ExamDetailComponent,
+    ExamViewAdminComponent,
   ],
   imports: [
     

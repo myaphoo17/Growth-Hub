@@ -1,165 +1,74 @@
-/* General Styles */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f5f6fa;
-  font-size: medium;
-}
-
-/* Sidebar */
-.sidebar {
-  background-color: #fff;
-  height: 100vh;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Main Content */
 .main-container {
-  margin-left: 16rem; /* Adjust to match the width of the sidebar */
-  padding: 1.5rem;
-  background-color: #f5f6fa;
+  @apply flex justify-start items-start w-1/2 mx-auto my-5;
 }
 
 .form-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  @apply flex-grow mr-5;
+}
+
+.form-header {
+  @apply mb-5;
+}
+
+.questions-container {
+  @apply flex flex-col;
 }
 
 .form-container {
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @apply relative w-full mb-5 p-5 border border-gray-300 rounded-lg bg-white;
 }
 
 .color-bar {
-  height: 0.25rem;
-  background-color: #3b82f6;
-  border-radius: 0.5rem 0.5rem 0 0;
+  @apply absolute top-0 left-0 w-full h-2 bg-blue-800 rounded-t-lg;
 }
 
-.form-header input {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 1.25rem;
-  transition: border-color 0.2s;
-}
-
-.form-header input:focus {
-  outline: none;
-  border-bottom: 1px solid #3b82f6;
-}
-
-.questions-container .form-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.question-title {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.question-title:focus {
-  outline: none;
-  border-bottom: 1px solid #3b82f6;
-}
-
-.options .option {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
+.form-title,
+.form-description,
+.question-title,
 .option-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: none;
-  border-bottom: 1px solid #e5e7eb;
-  transition: border-color 0.2s;
+  @apply w-full p-2 mb-2 border border-gray-300 rounded;
 }
 
-.option-input:focus {
-  outline: none;
-  border-bottom: 1px solid #3b82f6;
+.form-title {
+  @apply text-2xl;
+}
+
+.form-description {
+  @apply text-lg text-gray-600;
+}
+
+.options {
+  @apply mb-5;
+}
+
+.option {
+  @apply flex items-center mb-2;
+}
+
+.option input[type="radio"] {
+  @apply mr-2;
 }
 
 .add-option-button {
-  color: #3b82f6;
-  cursor: pointer;
-}
-
-.add-option-button:hover {
-  text-decoration: underline;
+  @apply mt-2 bg-blue-800 text-white px-3 py-2 rounded;
 }
 
 .form-controls {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
+  @apply flex justify-end items-center mt-2;
 }
 
 .icon-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.icon-button:hover {
-  background-color: #f3f4f6;
+  @apply relative p-2 ml-2 text-blue-800;
 }
 
 .answer-key-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background-color: #3b82f6;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  @apply flex items-center bg-blue-800 text-white px-3 py-2 rounded ml-2;
 }
 
-.answer-key-button:hover {
-  background-color: #2563eb;
+.answer-key-button i {
+  @apply mr-2;
 }
 
 .additional-buttons {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.custom-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  border-radius: 50%;
-  background-color: #3b82f6;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.custom-button:hover {
-  background-color: #2563eb;
+  @apply flex flex-col items-center fixed ml-[800px] mt-[200px] p-2 border border-gray-300 rounded-lg bg-white;
 }

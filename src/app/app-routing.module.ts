@@ -42,6 +42,7 @@ import { StudentHasCourseComponent } from './student/student-has-course/student-
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
 import { StudentMessagingComponent } from './student/student-messaging/student-messaging.component';
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
+import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 
 
 
@@ -58,6 +59,7 @@ const routes: Routes = [
         { path: 'employee-data', component: EmployeeUploadComponent, data: { breadcrumb: 'Employee Data' } },
         { path: 'fact-check/fact-check-detail/:id', component: FactDetailComponent, data: { breadcrumb: 'Fact Detail' } },
         { path: 'graph', component: GraphComponent, data: { breadcrumb: 'Graph' } },
+        { path: 'exam-view-admin', component: ExamDetailComponent },
         { path: '', redirectTo: 'overview', pathMatch: 'full' },
       ] 
     },
@@ -83,6 +85,7 @@ const routes: Routes = [
         { path: '', redirectTo: 'course-creation', pathMatch: 'full' },
       ]},
       { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent, data: { breadcrumb: 'Update Course' } },
+      { path: 'exam-detail', component: ExamDetailComponent },
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },
     ],
   },

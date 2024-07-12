@@ -1,0 +1,42 @@
+<div *ngIf="exam">
+    <!-- Main container -->
+    <div class="main-container flex justify-start items-start w-1/2 mx-auto">
+      <!-- Form section -->
+      <div class="form-section flex-grow mr-4">
+        <!-- Form container -->
+        <div class="form-container relative bg-white p-4 border border-gray-300 rounded-lg mb-4">
+          <!-- Color bar -->
+          <div class="color-bar bg-blue-600 h-2 absolute top-0 left-0 w-full rounded-t-lg"></div>
+          <!-- Form header -->
+          <div class="form-header mb-4">
+            <h2>{{formTitle}}</h2>
+            <p>{{formDescription}}</p>
+          </div>
+        </div>
+  
+        <!-- Questions container -->
+        <div class="questions-container flex flex-col">
+          <ng-container *ngFor="let question of exam?.questions">
+            <!-- Question form container -->
+            <div class="form-container mb-4 p-4 border border-gray-300 rounded-lg bg-white">
+              <div class="question-title">
+                <h3>{{question.title}}</h3>
+              <ul>
+                <li *ngFor="let option of question.options">
+                  {{option.multiple}} (Points:{{option.points}})
+    
+                </li>
+              </ul>               
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- If no exam is loaded -->
+  <div *ngIf="!exam">
+    Exam is not available
+  </div>

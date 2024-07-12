@@ -1,55 +1,45 @@
-<div class="flex min-h-screen bg-gray-100">
-  <!-- Sidebar -->
-  <div class="w-64 shadow-md min-h-screen fixed bg-white">
-    <app-int-side-bar></app-int-side-bar>
-  </div>
-  
-  <!-- Main Content -->
-  <div class="ml-64 flex-1 p-6">
-    <!-- Form Header -->
-    <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-      <div class="h-1 bg-blue-500 mb-4"></div>
-      <div class="mb-4">
-        <input [(ngModel)]="formTitle" (ngModelChange)="onContentChanged($event)" placeholder="Add Exam Title" class="w-full p-2 text-xl border-b border-gray-300 focus:outline-none focus:border-blue-500" />
-        <input [(ngModel)]="formDescription" (ngModelChange)="onDescriptionChanged($event)" placeholder="Description" class="w-full p-2 mt-2 text-gray-600 border-b border-gray-300 focus:outline-none focus:border-blue-500" />
+<div class="flex justify-start items-start w-1/2 mx-auto my-5">
+  <div class="flex-grow mr-5">
+    <div class="relative w-full mb-5 p-5 border border-gray-300 rounded-lg bg-white">
+      <div class="absolute top-0 left-0 w-full h-2 bg-blue-800 rounded-t-lg"></div>
+      <div class="mb-5">
+        <input [(ngModel)]="formTitle" (ngModelChange)="onContentChanged($event)" placeholder="Untitled form" class="w-full p-2 mb-2 text-2xl border border-gray-300 rounded" />
+        <input [(ngModel)]="formDescription" (ngModelChange)="onDescriptionChanged($event)" placeholder="Form description" class="w-full p-2 mb-2 text-lg text-gray-600 border border-gray-300 rounded" />
       </div>
     </div>
-    
-    <!-- Questions Section -->
-    <div>
+    <div class="flex flex-col">
       <ng-container *ngFor="let question of questions; let qIndex = index">
-        <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-          <input class="w-full p-2 text-lg border-b border-gray-300 focus:outline-none focus:border-blue-500 mb-2" [(ngModel)]="question.title" placeholder="Untitled Question" />
-          <div class="mt-4">
+        <div class="relative w-full mb-5 p-5 border border-gray-300 rounded-lg bg-white">
+          <textarea class="w-full p-2 mb-2 text-lg border border-gray-300 rounded" [(ngModel)]="question.title" placeholder="Untitled Question"></textarea>
+          <div class="mb-5">
             <div *ngFor="let option of question.options; let oIndex = index; trackBy: trackByOptionFn" class="flex items-center mb-2">
               <input type="radio" class="mr-2" />
-              <input class="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500" [(ngModel)]="question.options[oIndex]" (ngModelChange)="onOptionChanged($event, qIndex, oIndex)" placeholder="Option" />
+              <input class="w-full p-2 border border-gray-300 rounded" [(ngModel)]="question.options[oIndex]" (ngModelChange)="onOptionChanged($event, qIndex, oIndex)" placeholder="Option" />
             </div>
-            <button class="text-blue-500 hover:underline mt-2" (click)="addOption(qIndex)" *ngIf="question.options.length < 4">Add option</button>
+            <button class="mt-2 bg-blue-800 text-white px-3 py-2 rounded" (click)="addOption(qIndex)" *ngIf="question.options.length < 4">Add option</button>
           </div>
-          <div class="mt-4 flex justify-end space-x-2">
-            <button class="p-2 rounded-full hover:bg-gray-100" title="Duplicate" (click)="duplicateQuestion(qIndex)">
+          <div class="flex justify-end items-center mt-2">
+            <button class="relative p-2 ml-2 text-blue-800" title="Duplicate" (click)="duplicateQuestion(qIndex)">
               <i class="material-icons">content_copy</i>
             </button>
-            <button class="p-2 rounded-full hover:bg-gray-100" title="Delete" (click)="deleteQuestion(qIndex)">
+            <button class="relative p-2 ml-2 text-blue-800" title="Delete" (click)="deleteQuestion(qIndex)">
               <i class="material-icons">delete</i>
             </button>
-            <button class="flex items-center space-x-1 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" (click)="openAnswerKeyModal(qIndex)">
-              <i class="material-icons">assignment_turned_in</i>
-              <span>Answer key ({{ question.points }} points)</span>
+            <button class="flex items-center bg-blue-800 text-white px-3 py-2 rounded ml-2" (click)="openAnswerKeyModal(qIndex)">
+              <i class="material-icons mr-2">assignment_turned_in</i>
+              Answer key ({{ question.points }} points)
             </button>
           </div>
         </div>
       </ng-container>
     </div>
   </div>
-  
-  <!-- Floating Buttons -->
-  <div class="fixed bottom-4 right-4 flex space-x-2">
-    <button class="p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600" title="Add Question" (click)="addQuestion()">
+
+  <div class="flex flex-col items-center fixed ml-[800px] mt-[200px] p-2 border border-gray-300 rounded-lg bg-white">
+    <button class="custom-button add-question text-blue-800 p-2 rounded" title="Add Question" (click)="addQuestion()">
       <i class="material-icons">add</i>
     </button>
-    <button class="p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600" title="Preview" (click)="openPreviewModal()">
+    <button class="custom-button preview text-blue-800 p-2 rounded" title="Preview" (click)="openPreviewModal()">
       <i class="material-icons">visibility</i>
     </button>
   </div>
