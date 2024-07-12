@@ -1,12 +1,12 @@
 
 <div class="w-60 p-5 bg-gray-100 shadow-lg flex flex-col h-full transition-all duration-300">
   <div class="flex flex-col items-start">
-    <div class="text-xl font-semibold text-gray-900 mb-2">Full Stack Application Development</div>
-    <div class="text-sm text-gray-600 mb-8">IBM</div>
+    <!-- <h2 class="text-lg font-bold mb-2">{{ videos[currentVideoIndex]?.title }}</h2> -->
+    <div class="text-sm text-gray-600 mb-4">IBM</div>
 
     <!-- Course Material -->
     <div>
-      <h3 class="font-bold text-lg mb-4">Course Material</h3>
+      <h3 class="font-bold text-lg mb-2">Course Material</h3>
       <div>
         <div *ngFor="let module of modules" (click)="selectItem(module)"
              [ngClass]="{'bg-gray-200 border-l-4 border-blue-600': selectedItem === module}" 
@@ -17,16 +17,10 @@
       </div>
     </div>
 
-    <!-- Grades -->
-    <div (click)="selectItem('Grades')" [ngClass]="{'bg-gray-200 border-l-4 border-blue-600': selectedItem === 'Grades'}" 
+    <!-- Assignment -->
+    <div (click)="selectItem('Assignment')" [ngClass]="{'bg-gray-200 border-l-4 border-blue-600': selectedItem === 'Assignment'}" 
          class="flex items-center mb-2 cursor-pointer p-2 rounded hover:bg-gray-300 transition-all duration-300">
-      <span class="ml-3 text-lg text-gray-900">Grades</span>
-    </div>
-
-    <!-- Notes -->
-    <div (click)="selectItem('Notes')" [ngClass]="{'bg-gray-200 border-l-4 border-blue-600': selectedItem === 'Notes'}" 
-         class="flex items-center mb-2 cursor-pointer p-2 rounded hover:bg-gray-300 transition-all duration-300">
-      <span class="ml-3 text-lg text-gray-900">Notes</span>
+      <span class="ml-3 text-lg text-gray-900">Assignment</span>
     </div>
   </div>
 </div>

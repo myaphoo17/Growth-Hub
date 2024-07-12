@@ -45,4 +45,8 @@ export class StudentprofileService {
 getEnrollCourses(staffId: string): Observable<StdentCourseModel[]> {
   return this.httpClient.get<StdentCourseModel[]>(`${this.baseURL}/enrollCourses/${staffId}`);
 }
+
+getCourseById(courseId: string): Observable<StdentCourseModel> {
+  return this.httpClient.get<StdentCourseModel>(`${this.baseURL}/courseListById/${courseId}`);
+}
 }

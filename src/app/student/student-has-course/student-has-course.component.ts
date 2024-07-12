@@ -73,7 +73,19 @@ export class StudentHasCourseComponent implements OnInit{
   getVideoFiles(files: UploadFiles[]): UploadFiles[] {
     return files.filter(file => file.url.endsWith('.mp4') || file.url.endsWith('.webm') || file.url.endsWith('.ogg')); // Add other video formats as needed
   }
+
   getDocumentFiles(files: UploadFiles[]): UploadFiles[] {
-    return files.filter(file => this.getFileType(file.url) === 'document');
-  }
+    const documentFiles = files.filter(file => 
+        file.url.endsWith('.pdf') || 
+        file.url.endsWith('.docx') || 
+        file.url.endsWith('.txt')
+    );
+
+    console.log('Document Files:', documentFiles); // Debugging output
+    return documentFiles;
+}
+
+  // getDocumentFiles(files: UploadFiles[]): UploadFiles[] {
+  //   return files.filter(file => this.getFileType(file.url) === 'document');
+  // }
 }

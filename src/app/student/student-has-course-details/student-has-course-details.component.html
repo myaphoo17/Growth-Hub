@@ -1,17 +1,15 @@
-<app-loading></app-loading>
 <div class="flex">
-  <app-student-course-details-side-bar></app-student-course-details-side-bar>
-
-
-  <div class="video-gallery">
-    <!-- Selected video and text next to it -->
-    <div class="selected-video-container">
+  <!-- Sidebar -->
+   <app-student-course-details-side-bar></app-student-course-details-side-bar>
+   <div class="video-gallery flex-grow p-8">
+    <!-- Selected Video and Text -->
+    <div class="selected-video-container mb-8">
       <div class="selected-video-and-text">
         <div *ngIf="videos?.length" class="selected-file">
           <ng-container [ngSwitch]="getFileType(videos[currentVideoIndex].url)">
             <!-- Video File -->
             <ng-container *ngSwitchCase="'video'">
-              <video controls class="selected-video">
+              <video controls class="selected-video w-full mt-6 ml-40" style="max-width: 70%; height: auto; max-height: 300px;">
                 <source [src]="videos[currentVideoIndex].url" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
@@ -22,8 +20,11 @@
             </ng-container>
           </ng-container>
         </div>
-        <div class="video-text" *ngIf="videos?.length">
-         
+      </div>
+    </div>
+
+        <!-- Video Text (if needed) -->
+        <!-- <div class="video-text" *ngIf="videos?.length">
           <h2>{{ videos[currentVideoIndex].title }}</h2>
           <ul>
             <li>
@@ -39,10 +40,33 @@
               <span class="inline-block align-middle">Certificate</span>
             </li>
           </ul>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Scrollable Small Videos Container -->
+    <div class="navigation overflow-y-auto">
+      <div class="small-videos-container" (scroll)="onScroll($event)">
+        <div class="small-video" *ngFor="let video of videos; let i = index"
+             [class.selected]="currentVideoIndex === i"
+             (click)="selectVideo(i)">
+          <ng-container [ngSwitch]="getFileType(video.url)">
+            <!-- Video File -->
+            <ng-container *ngSwitchCase="'video'">
+              <video controls class="w-full">
+                <source [src]="video.url" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </ng-container>
+  
+            <!-- Non-Video Files (Document) -->
+            <ng-container *ngSwitchDefault>
+              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail">
+            </ng-container>
+          </ng-container>
+          <!-- <div class="video-overlay"> -->
+            <!-- <p class="text-center">{{ video.title }}</p> Display title here -->
+          <!-- </div> -->
         </div>
       </div>
     </div>
-    
-  </div>
-  
-</div>
