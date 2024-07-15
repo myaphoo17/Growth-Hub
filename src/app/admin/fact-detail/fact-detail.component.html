@@ -1,3 +1,4 @@
+{{hasExam}}
 <div class="video-gallery">
   <!-- Selected video and text next to it -->
   <div class="selected-video-container">
@@ -24,7 +25,7 @@
             <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle">assignment</mat-icon>
             <span class="inline-block align-middle">Assignment</span>
           </li>
-          <li>
+          <li *ngIf="hasExam">
             <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle" (click)="navigateToExamView()">task</mat-icon>
             <span class="inline-block align-middle">Exam</span>
           </li>

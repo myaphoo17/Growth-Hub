@@ -39,10 +39,10 @@
     <button class="btn primary" (click)="openModal('updateProfileInfoModal')">Update your Info</button>
   </div>
 </div>
-
+<div *ngIf="instructorData.role == 'Instructor'">
 <h2 class="popular-course-header">My Courses</h2>
 <app-mycourse></app-mycourse>
-
+</div>
 
 <!-- Add Education Modal -->
 <div id="addEducationModal" class="modal">

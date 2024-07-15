@@ -54,6 +54,7 @@ export class FactCheckComponent implements OnInit{
     });
   }
 
+
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;

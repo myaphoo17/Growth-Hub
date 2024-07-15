@@ -12,4 +12,5 @@ export interface CourseModel{
     categoriesDTO: CategoriesDTO;
     employeeDTO:Employer;
     showDetail:boolean;
+    hasExam:boolean;
 }

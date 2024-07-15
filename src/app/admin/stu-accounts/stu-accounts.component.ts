@@ -15,12 +15,15 @@ export class StuAccountsComponent implements OnInit{
   staffId!: string;
   check = false;
   modalOpen = false;
+  updateOpen = false;
   modalProfileOpen = false;
   permissionModelOpen = false;
   selectedEmployer: Employer = {} as Employer;
+  Employer: Employer = {} as Employer;
   searchTerm: string = '';
   pageSize = 8;
   pageIndex = 0;
+  refreshInterval: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -29,10 +32,17 @@ export class StuAccountsComponent implements OnInit{
     private router: Router,
     private route: ActivatedRoute
   ) {}
-
   ngOnInit(): void {
     this.staffId = this.route.snapshot.params['staffId'];
     this.getEmployers();
+    this.refreshInterval = setInterval(() => {
+      this.getEmployers();
+    }, 10000); // Adjust the interval as needed
+  }
+  ngOnDestroy(): void {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
   }
 
   ngAfterViewInit() {
@@ -44,7 +54,6 @@ export class StuAccountsComponent implements OnInit{
     this.pageSize = event.pageSize;
     this.updatePagedCards();
   }
-
   updatePagedCards(): void {
     this.pagedCards = this.employers.slice(
       this.pageIndex * this.pageSize,
@@ -68,6 +77,29 @@ export class StuAccountsComponent implements OnInit{
       error: (e) => console.error(e),
     });
   }
+  openUpdateModal(staffId: string): void {
+    this.employerService.getEmployerByStaffId(staffId).subscribe({
+      next: (data) => {
+        this.selectedEmployer = data;
+        this.updateOpen = true;
+      },
+      error: (e) => console.error(e),
+    });
+  }
+  updateEmployer(sr: number): void {
+    if (!this.selectedEmployer) {
+      console.error('No employer selected');
+      return;
+    }
+    this.employerService.updateEmployer(sr, this.selectedEmployer).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => console.error(e),
+    });
+    this.closeUpdateModal();
+
+  }
 
   openPermissionModal(employer: Employer): void {
     this.selectedEmployer = employer;
@@ -76,6 +108,9 @@ export class StuAccountsComponent implements OnInit{
 
   closeModal(): void {
     this.modalOpen = false;
+  }
+  closeUpdateModal(): void {
+    this.updateOpen = false;
   }
 
   closeProfileModal(): void {
@@ -113,7 +148,6 @@ export class StuAccountsComponent implements OnInit{
     });
     this.closePermissionModal();
   }
-
   private getEmployers(): void {
     this.employerService.getEmployerStudentList().subscribe({
       next: (data) => {

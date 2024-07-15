@@ -86,6 +86,7 @@ import { CourseAttendanceComponent } from './course-attendance/course-attendance
 import { AnswerKeyInstructorComponent } from './instructor/answer-key-instructor/answer-key-instructor.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { ExamViewAdminComponent } from './admin/exam-view-admin/exam-view-admin.component';
+import { ChangePasswordComponent } from './security/change-password/change-password.component';
 
 
 
@@ -167,6 +168,7 @@ import { ExamViewAdminComponent } from './admin/exam-view-admin/exam-view-admin.
     AnswerKeyInstructorComponent,
     ExamDetailComponent,
     ExamViewAdminComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     

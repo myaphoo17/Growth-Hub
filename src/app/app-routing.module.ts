@@ -43,6 +43,7 @@ import { StudentHasCourseDetailsComponent } from './student/student-has-course-d
 import { StudentMessagingComponent } from './student/student-messaging/student-messaging.component';
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
+import { ChangePasswordComponent } from './security/change-password/change-password.component';
 
 
 
@@ -107,6 +108,7 @@ const routes: Routes = [
 
   // Security Routes
   { path: 'forget_pass', component: ForgotPasswordComponent, data: { breadcrumb: 'Forgot Password' } },
+  { path: 'change_pass', component: ChangePasswordComponent, data: { breadcrumb: 'Change Password' } },
   { path: 'login', component: LoginComponent, data: { breadcrumb: 'Login' } },
 
   // Admin Extra Routes

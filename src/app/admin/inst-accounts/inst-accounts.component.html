@@ -19,19 +19,23 @@
             <th>Staff ID</th>
             <th>Status</th>
             <th>Role</th>
-            <th>Profile</th>
+            <th>Informationh>
             <th>Role Update</th>
             <th>Status Permission</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let employer of pagedCards | filterData: searchTerm">
-            <td><img [src]="employer.profilePhotoUrl" alt="Profile" width="100" height="50" /></td>
+            <td>
+              <button (click)="openProfileModal(employer.staffId)">
+                <img [src]="employer.profilePhotoUrl" alt="Profile" width="100" height="50" />
+              </button>
+            </td>
             <td><button (click)="openProfileModal(employer.staffId)">{{ employer.name }}</button></td>
             <td>{{ employer.staffId }}</td>
             <td>{{ employer.status }}</td>
             <td>{{ employer.role }}</td>
-            <td><button (click)="openProfileModal(employer.staffId)" class="btn btn-success">See Profile</button></td>
+            <td><button (click)="openUpdateModal(employer.staffId)" class="btn btn-success">Update Employer</button></td>
             <td><button (click)="openModal(employer)" class="btn btn-primary">Update</button></td>
             <td><button (click)="openPermissionModal(employer)" class="btn btn-danger">Permission</button></td>
           </tr>
@@ -69,6 +73,22 @@
       </div>
     </div>
   </div>
+   <!-- Employer Update Modal -->
+<div class="modal" [class.open]="updateOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeUpdateModal()">&times;</span>
+    <h2>Update Employer Information</h2>
+    <div class="form-group">
+      <p><strong>Department:</strong> <input type="text" [(ngModel)]="selectedEmployer.department" name="department" required /></p>
+      <p><strong>Staff ID:</strong> <input type="text" [(ngModel)]="selectedEmployer.staffId" name="staffId" required /></p>
+      <p><strong>Name:</strong> <input type="text" [(ngModel)]="selectedEmployer.name" name="status" required /></p>
+      <p><strong>Team:</strong> <input type="text" [(ngModel)]="selectedEmployer.team" name="team" required /></p>
+      <p><strong>Door Log No:</strong> <input type="text" [(ngModel)]="selectedEmployer.doorLogNo" name="doorLogNo" required /></p>
+      <p><strong>Division:</strong> <input type="text" [(ngModel)]="selectedEmployer.division" name="division" required /></p>
+      <button class="btn btn-primary" (click)="updateEmployerInform(selectedEmployer.sr)">Update Role</button>
+    </div>
+  </div>
+</div>
   
   <!-- Permission Update Modal -->
   <div class="modal" [class.open]="permissionModelOpen">

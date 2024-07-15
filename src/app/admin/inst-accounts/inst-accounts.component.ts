@@ -16,12 +16,15 @@ export class InstAccountsComponent implements OnInit{
   check = false;
   modalOpen = false;
   modalProfileOpen = false;
+  updateOpen = false;
   permissionModelOpen = false;
+  employerUpdateModelOpen = false;
   selectedEmployer: Employer = {} as Employer;
+  updateEmployer: Employer = {} as Employer;
   searchTerm: string = '';
   pageSize = 8;
   pageIndex = 0;
-
+  refreshInterval: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -33,6 +36,14 @@ export class InstAccountsComponent implements OnInit{
   ngOnInit(): void {
     this.staffId = this.route.snapshot.params['staffId'];
     this.getEmployers();
+    this.refreshInterval = setInterval(() => {
+      this.getEmployers();
+    }, 10000); // Adjust the interval as needed
+  }
+  ngOnDestroy(): void {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
   }
 
   ngAfterViewInit() {
@@ -58,7 +69,6 @@ export class InstAccountsComponent implements OnInit{
   }
 
   openProfileModal(staffId: string): void {
-    console.log(`Opening profile modal for staffId: ${staffId}`);
     this.employerService.getEmployerByStaffId(staffId).subscribe({
       next: (data) => {
         this.selectedEmployer = data;
@@ -73,13 +83,41 @@ export class InstAccountsComponent implements OnInit{
     this.selectedEmployer = employer;
     this.permissionModelOpen = true;
   }
+  openUpdateModal(staffId: string): void {
+    this.employerService.getEmployerByStaffId(staffId).subscribe({
+      next: (data) => {
+        this.selectedEmployer = data;
+        this.updateOpen = true;
+      },
+      error: (e) => console.error(e),
+    });
+  }
+  updateEmployerInform(sr: number): void {
+    if (!this.selectedEmployer) {
+      console.error('No employer selected');
+      return;
+    }
+    this.employerService.updateEmployer(sr, this.selectedEmployer).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (e) => console.error(e),
+    });
+    this.closeUpdateModal();
+  }
 
   closeModal(): void {
     this.modalOpen = false;
   }
+  closeUpdateModal(): void {
+    this.updateOpen = false;
+  }
 
   closeProfileModal(): void {
     this.modalProfileOpen = false;
+  }
+  closeEmployerUpdateModal(): void {
+    this.employerUpdateModelOpen = false;
   }
 
   closePermissionModal(): void {

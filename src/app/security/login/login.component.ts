@@ -13,7 +13,6 @@ export class LoginComponent {
   loginData: loginModel = {} as loginModel;
   responseMessage: string = '';
   getRole:string='';
-
   constructor(private loginService: LoginServiceService,private authService:AuthServiceService,private router: Router) {}
 
   onSubmit() {
@@ -26,13 +25,25 @@ export class LoginComponent {
         sessionStorage.setItem('dbId', response.dbId);
         switch(this.getRole) {
           case 'Admin':
-            this.router.navigate(['admin/adm-home']);
+            if (response.defaultPasswordChange == false) {
+              this.router.navigate(['change_pass']);
+            } else {
+              this.router.navigate(['admin/adm-home']);
+            }
             break;
           case 'Instructor':
-            this.router.navigate(['instructor/int-home']);
+            if (response.defaultPasswordChange == false) {
+              this.router.navigate(['change_pass']);
+            } else {
+              this.router.navigate(['instructor/int-home']);
+            }
             break;
           case 'Student':
-            this.router.navigate(['student/stu-home']);
+            if (response.defaultPasswordChange == false) {
+              this.router.navigate(['change_pass']);
+            } else {
+              this.router.navigate(['student/stu-home']);
+            }
             break;
           default:
             this.router.navigate(['/']);
