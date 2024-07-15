@@ -6,7 +6,7 @@ import { ProfileService } from '../../services/instructor/profile.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { LoadingService } from '../../pageloading/loading.service';
 import { EditEducationModel } from '../../models/instructor/EditVideoFileModel';
-import { HttpClient,HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-update-detail-course',
@@ -29,7 +29,6 @@ export class UpdateDetailCourseComponent implements OnInit {
   newVideoFileModel: EditEducationModel = {} as EditEducationModel;
   showSuccessModal = false;
   private videoIdCounter = 0; // Counter for generating unique IDs
-
 
   constructor(
     private route: ActivatedRoute,
@@ -87,7 +86,7 @@ export class UpdateDetailCourseComponent implements OnInit {
   updateVideoSource(): void {
     const videoElement = this.renderer.selectRootElement('.selected-video', true);
     this.renderer.setAttribute(videoElement, 'src', this.videos[this.currentVideoIndex]?.url || '');
-    videoElement.load(); // Reload the video element
+    // videoElement.load(); // Reload the video element
     this.cdr.detectChanges(); // Manually trigger change detection
   }
 
@@ -111,21 +110,20 @@ export class UpdateDetailCourseComponent implements OnInit {
       editedVideo.title = this.updateVideoFileModel.title;
     }
     this.toggleEditModal();
-    this.updateVideoFileModel.courseId=this.id;
+    this.updateVideoFileModel.courseId = this.id;
     const formData = new FormData();
     formData.append('file', this.selectedFile);
     formData.append('id', this.updateVideoFileModel.id);
     formData.append('title', this.updateVideoFileModel.title);
-  
+
     this.loadingService.show(); // Show loader before starting async operation
-  
+
     this.http.post('http://localhost:8080/instructor/updateVideoFile', formData)
       .subscribe(
         (response) => {
           console.log(response);
           this.loadingService.hide(); // Hide loader on success
-           // Show success modal
-          this.showSuccessModal = true;
+          this.showSuccessModal = true; // Show success modal
         },
         (error: HttpErrorResponse) => {
           this.loadingService.hide(); // Hide loader on error
@@ -140,11 +138,12 @@ export class UpdateDetailCourseComponent implements OnInit {
         }
       );
   }
-  redirectToCreationPage() {
+
+  redirectToCreationPage(): void {
     this.showSuccessModal = false;
     this.router.navigate(['/instructor/profile']); // Adjust the route as needed
-    // window.location.reload();
   }
+
   openDeleteModal(): void {
     this.updateVideoFileModel.id = this.videos[this.currentVideoIndex].id;
     this.showDeleteModal = true;
@@ -165,26 +164,26 @@ export class UpdateDetailCourseComponent implements OnInit {
       error: (e) => console.error(e),
     });
   }
+
   saveFile(): void {
     if (!this.selectedFile) {
       alert('Please select a file first.');
       return;
     }
-    this.updateVideoFileModel.courseId=this.id;
+    this.updateVideoFileModel.courseId = this.id;
     const formData = new FormData();
     formData.append('file', this.selectedFile);
     formData.append('courseId', this.updateVideoFileModel.courseId);
     formData.append('title', this.updateVideoFileModel.title);
-  
+
     this.loadingService.show(); // Show loader before starting async operation
-  
+
     this.http.post('http://localhost:8080/instructor/saveOneVideoFile', formData)
       .subscribe(
         (response) => {
           console.log(response);
           this.loadingService.hide(); // Hide loader on success
-           // Show success modal
-          this.showSuccessModal = true;
+          this.showSuccessModal = true; // Show success modal
         },
         (error: HttpErrorResponse) => {
           this.loadingService.hide(); // Hide loader on error
@@ -199,6 +198,7 @@ export class UpdateDetailCourseComponent implements OnInit {
         }
       );
   }
+
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
@@ -226,14 +226,34 @@ export class UpdateDetailCourseComponent implements OnInit {
   onScroll(event: any): void {
     console.log('Scrolled:', event);
   }
+
   getFileType(url: string): string {
-    const videoExtensions = ['.mp4', '.avi', '.mkv'];
-    if (url) {
-      const extension = url.split('.').pop()?.toLowerCase();
-      if (extension && videoExtensions.includes('.' + extension)) {
+    const extension = url.split('.').pop()?.toLowerCase();
+    switch (extension) {
+      case 'mp4':
+      case 'avi':
+      case 'mov':
         return 'video';
-      }
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+        return 'image';
+      case 'pdf':
+        return 'pdf';
+      case 'pptx':
+        return 'pptx';
+      case 'xlsx':
+        return 'xlsx';
+      case 'docx':
+        return 'docx';
+      default:
+        return 'document'; // Default case for other document types
     }
-    return 'document';
+  }
+  confirmDownload(event: MouseEvent) {
+    if (!confirm('Do you want to download the file?')) {
+      event.preventDefault(); // Prevent default action (download) if not confirmed
+    }
   }
 }
