@@ -11,16 +11,16 @@ export class StudentExamService {
 
   constructor(private http: HttpClient) { }
 
-  // getExamById(examId: number): Observable<any> {
-  //   return this.http.get(${this.apiUrl}/exam/${examId});
-  // }
+  getExamById(examId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/exam/${examId}`);
+  }
 
-  // submitExamAnswers(examId: number, studentId: number, answers: any[]): Observable<any> {
-  //   const payload = { studentId, answers };
-  //   return this.http.post(${this.apiUrl}/student_exam/${examId}/submit, payload);
-  // }
+  submitExamAnswers(examId: number, studentId: number, answers: any[]): Observable<any> {
+    const payload = { studentId, answers };
+    return this.http.post(`${this.apiUrl}/student_exam/${examId}/submit`, payload);
+  }
 
-  // getExamResults(examId: number, studentId: number): Observable<any> {
-  //   return this.http.get(${this.apiUrl}/student_exam/${examId}/results/${studentId});
-  // }
+  getExamResults(examId: number, studentId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/student_exam/${examId}/results/${studentId}`);
+  }
 }

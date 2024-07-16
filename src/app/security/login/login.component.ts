@@ -24,6 +24,7 @@ export class LoginComponent {
         this.authService.login(this.getRole,token);
         sessionStorage.setItem('userId', response.staffId);
         sessionStorage.setItem('dbId', response.dbId);
+        sessionStorage.setItem('role', response.role);
         switch(this.getRole) {
           case 'Admin':
             this.router.navigate(['admin/adm-home']);

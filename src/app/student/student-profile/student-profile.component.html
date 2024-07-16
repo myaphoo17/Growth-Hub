@@ -4,7 +4,7 @@
     <img src="{{studentData.profilePhotoUrl}}" alt="Profile Picture" class="profile-picture">
     <h2>{{studentData.name}}</h2>
     <button class="btn secondary" (click)="openModal('updateProfilePhotoModal')">Update profile photo</button>
-    <button class="btn primary">Share profile link</button>
+    <button class="btn">Share profile link</button>
   </div>
 
   <div class="additional-info card">
@@ -25,7 +25,7 @@
         </div>
       </div>
     </ng-container>
-    <button class="btn primary" (click)="openModal('addEducationModal')">Add Education</button>
+    <button class="btn" (click)="openModal('addEducationModal')">Add Education</button>
   </div>
   
 
@@ -36,7 +36,7 @@
     <p><mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">badge</mat-icon>{{ studentData.department }}</p>
     <p><mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">vpn_key</mat-icon>{{ studentData.doorLogNo }}</p>
     <p><mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">work</mat-icon>{{ studentData.role }}</p>
-    <button class="btn primary" (click)="openModal('updateProfileInfoModal')">Update your Info</button>
+    <button class="btn" (click)="openModal('updateProfileInfoModal')">Update your Info</button>
   </div>
 </div>
 

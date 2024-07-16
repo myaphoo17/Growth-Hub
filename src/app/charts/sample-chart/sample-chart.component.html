@@ -1,0 +1,7 @@
+<div class="chart1">
+  <h2>Students Enrollment</h2>
+  <select (change)="onYearChange($event)">
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
+  <div id="chartContainer" style="height: 360px; width: 100%;"></div>
+</div>

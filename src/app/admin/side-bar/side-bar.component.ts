@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Employer } from '../../models/admin/employer';
 
 @Component({
   selector: 'app-side-bar',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class SideBarComponent {
 
+  adminData: Employer = {} as Employer;
 }

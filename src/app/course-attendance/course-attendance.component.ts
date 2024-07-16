@@ -21,22 +21,22 @@ export class CourseAttendanceComponent implements OnInit {
   constructor(private courseAttendanceService: EmployerServiceService) {}
 
   ngOnInit(): void {
-    this.fetchCourseAttendanceData();
+    // this.fetchCourseAttendanceData();
   }
 
-  fetchCourseAttendanceData(): void {
-    // Assuming your service returns data in a structure like this
-    this.courseAttendanceService.getCourseAttendanceData().subscribe(
-      (data: any[]) => {
-        const courses = data.map(entry => entry.courseName);
-        const attendanceCounts = data.map(entry => entry.attendanceCount);
+  // fetchCourseAttendanceData(): void {
+  //   // Assuming your service returns data in a structure like this
+  //   this.courseAttendanceService.getCourseAttendanceData().subscribe(
+  //     (data: any[]) => {
+  //       const courses = data.map(entry => entry.courseName);
+  //       const attendanceCounts = data.map(entry => entry.attendanceCount);
 
-        this.barChartLabels = courses;
-        this.barChartData[0].data = attendanceCounts;
-      },
-      error => {
-        console.error('Error fetching course attendance data:', error);
-      }
-    );
-  }
+  //       this.barChartLabels = courses;
+  //       this.barChartData[0].data = attendanceCounts;
+  //     },
+  //     error => {
+  //       console.error('Error fetching course attendance data:', error);
+  //     }
+  //   );
+  // }
 }

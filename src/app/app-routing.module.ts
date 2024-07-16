@@ -42,6 +42,8 @@ import { StudentHasCourseComponent } from './student/student-has-course/student-
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
 import { StudentMessagingComponent } from './student/student-messaging/student-messaging.component';
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
+import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
+import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
 
 
 
@@ -61,6 +63,8 @@ const routes: Routes = [
         { path: '', redirectTo: 'overview', pathMatch: 'full' },
       ] 
     },
+      { path: 'privateChat/:staffId',component:ChatUserPageComponent },
+      { path: 'chat-home', component: MessageHomeComponent },
       { path: 'message', component:  MessageComponent, data: { breadcrumb: 'Message' } },
       { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' } },
       { path: '', redirectTo: 'adm-home', pathMatch: 'full' },
@@ -82,6 +86,8 @@ const routes: Routes = [
         { path: 'unapprove-course', component: UnapproveCoursesComponent, data: { breadcrumb: 'Unapproved Courses' } },
         { path: '', redirectTo: 'course-creation', pathMatch: 'full' },
       ]},
+      { path: 'privateChat/:staffId',component:ChatUserPageComponent },
+      { path: 'chat-home', component: MessageHomeComponent },
       { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent, data: { breadcrumb: 'Update Course' } },
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },
     ],
@@ -89,25 +95,27 @@ const routes: Routes = [
 
   // Student Routes
   {
-    path: "student", component: StudentComponent, data: { breadcrumb: 'Student' },
+    path: "student", component: StudentComponent,
     children: [
-      { path: 'stu-home', component: StudentHomeComponent, data: { breadcrumb: 'Home' } },
-      { path: 'settings', component: StudentSettingsComponent, data: { breadcrumb: 'Settings' } },
-      { path: 'mycourses', component: StudentHasCourseComponent, data: { breadcrumb: 'My Courses' } },
-      { path: 'stu-profile', component: StudentProfileComponent, data: { breadcrumb: 'Profile' } },
-      { path: 'help-center', component: StudentHelpCenterComponent, data: { breadcrumb: 'Help Center' } },
-      { path: 'studentCourseDetails', component: StudentHasCourseDetailsComponent, data: { breadcrumb: 'Course Details' } },
-      { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent, data: { breadcrumb: 'Course Details' } },
-      { path: 'studentMessaging', component: StudentMessagingComponent, data: { breadcrumb: 'Messaging' } },
+      { path: 'stu-home', component: StudentHomeComponent},
+      { path: 'privateChat/:staffId',component:ChatUserPageComponent },
+      { path: 'chat-home', component: MessageHomeComponent },
+      { path: 'settings', component: StudentSettingsComponent},
+      { path: 'mycourses', component: StudentHasCourseComponent},
+      { path: 'stu-profile', component: StudentProfileComponent },
+      { path: 'help-center', component: StudentHelpCenterComponent},
+      { path: 'studentCourseDetails', component: StudentHasCourseDetailsComponent},
+      { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
+      { path: 'studentMessaging', component: StudentMessagingComponent},
     ],
   },
 
   // Security Routes
-  { path: 'forget_pass', component: ForgotPasswordComponent, data: { breadcrumb: 'Forgot Password' } },
-  { path: 'login', component: LoginComponent, data: { breadcrumb: 'Login' } },
+  { path: 'forget_pass', component: ForgotPasswordComponent},
+  { path: 'login', component: LoginComponent},
 
   // Admin Extra Routes
-  { path: 'employers', component: EmployersComponent, data: { breadcrumb: 'Employers' } },
+  { path: 'employers', component: EmployersComponent},
   
   // Default Route
   { path: '', redirectTo: '/login', pathMatch: 'full' },

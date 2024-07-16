@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ObjectModel } from '../../models/instructor/objectModel';
 import { ProfileService } from '../../services/instructor/profile.service';
 import { LoadingService } from '../../pageloading/loading.service';
+import { EmployerServiceService } from '../../services/admin/employer.service.service';
+import { WebSocketService } from '../../chat/service/web-socket.service';
 
 interface Lecture {
   title: string;
@@ -24,6 +26,8 @@ export class CourseCreationComponent {
   constructor(
     private instructorService: ProfileService,
     private loadingService: LoadingService,
+    private webSocketService: WebSocketService,
+    private employerService: EmployerServiceService,
     private router: Router
   ) {}
 
@@ -75,6 +79,14 @@ export class CourseCreationComponent {
         this.loadingService.hide();
         // Show success modal
         this.showSuccessModal = true;
+        this.employerService.getEmployerList().subscribe(employers => {
+          const adminIds = employers
+            .filter(employer => employer.role === 'Admin')
+            .map(employer => employer.staffId);
+          adminIds.forEach(adminId => {
+            this.webSocketService.sendMessageNotif(adminId, 'course created');
+          });
+        });
       },
       error => {
         this.loadingService.hide();

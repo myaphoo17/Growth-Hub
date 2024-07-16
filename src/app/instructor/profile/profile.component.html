@@ -4,7 +4,7 @@
     <img src="{{instructorData.profilePhotoUrl}}" alt="Profile Picture" class="profile-picture">
     <h2>{{instructorData.name}}</h2>
     <button class="btn secondary" (click)="openModal('updateProfilePhotoModal')">Update profile photo</button>
-    <button class="btn primary">Share profile link</button>
+    <button class="btn bg-blue-900">Share profile link</button>
   </div>
 
   <div class="additional-info card">
@@ -25,9 +25,8 @@
         </div>
       </div>
     </ng-container>
-    <button class="btn primary" (click)="openModal('addEducationModal')">Add Education</button>
+    <button class="btn" (click)="openModal('addEducationModal')">Add Education</button>
   </div>
-  
 
   <div class="additional-info card">
     <h3>Other info</h3>
@@ -42,7 +41,6 @@
 
 <h2 class="popular-course-header">My Courses</h2>
 <app-mycourse></app-mycourse>
-
 
 <!-- Add Education Modal -->
 <div id="addEducationModal" class="modal">
@@ -75,7 +73,7 @@
     <form class="modal-form" (ngSubmit)="saveEditedEducation()">
       <label for="editDegree">Degree:</label>
       <input type="text" id="editDegree" [(ngModel)]="editedEducation.degree" name="degree" required>
-      <input type="hidden" [(ngModel)]="editedEducation.id" >
+      <input type="hidden" [(ngModel)]="editedEducation.id">
       <label for="editInstitution">Institution:</label>
       <input type="text" id="editInstitution" [(ngModel)]="editedEducation.institution" name="institution" required>
 

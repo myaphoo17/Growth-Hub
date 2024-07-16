@@ -1,3 +1,4 @@
+
 <!-- <img [src]="m6ltpfoxoljvt2hxvaod" width="320" height="240" /> -->
 <!-- CanvasJS Chart -->
 <!-- <div id="chartContainer" style="height: 370px; width: 100%;">
@@ -105,6 +106,51 @@
       <p><strong>Email:</strong> {{ selectedEmployer.email }}</p>
       <p><strong>Division:</strong> {{ selectedEmployer.division }}</p>
     </div>
+
+
+  <!-- Column selection checkboxes -->
+  <div class="checkboxes">
+    <label *ngFor="let column of columns">
+      <input type="checkbox" (change)="toggleColumnVisibility(column.key, $event)" />
+      {{ column.label }}
+    </label>
   </div>
-  
+
+  <!-- Search input -->
+  <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchTerm" />
+
+  <!-- Download buttons -->
+  <div class="download-buttons">
+    <button (click)="downloadFile('pdf')" class="btn btn-primary">Download PDF</button>
+    <button (click)="downloadFile('excel')" class="btn btn-primary">Download Excel</button>
+    <button (click)="downloadFile('csv')" class="btn btn-primary">Download CSV</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th *ngFor="let column of columns" [hidden]="!shouldDisplayColumn(column.key)">
+            {{ column.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employer of pagedCards | filterData: searchTerm">
+          <td *ngFor="let column of columns" [hidden]="!shouldDisplayColumn(column.key)">
+            <img *ngIf="column.key === 'profilePhotoUrl'" [src]="employer.profilePhotoUrl" alt="Profile" width="100" height="50" />
+            <button *ngIf="column.key === 'name'" (click)="openProfileModal(employer.staffId)">{{ employer.name }}</button>
+            <button *ngIf="column.key === 'profileAction'" (click)="openProfileModal(employer.staffId)">Profile</button>
+            <button *ngIf="column.key === 'roleUpdate'" (click)="openModal(employer)">Role Update</button>
+            <button *ngIf="column.key === 'statusPermission'" (click)="openPermissionModal(employer)">Status</button>
+            <span *ngIf="column.key !== 'profilePhotoUrl' && column.key !== 'profileAction' && column.key !== 'roleUpdate' && column.key !== 'statusPermission'">
+              {{ employer[column.key] }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator [length]="employers.length" [pageSize]="pageSize" (page)="handlePageEvent($event)"></mat-paginator>
+</div>
 

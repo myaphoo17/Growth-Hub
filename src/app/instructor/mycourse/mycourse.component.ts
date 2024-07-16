@@ -1,10 +1,10 @@
-// mycourse.component.ts
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { CourseModel } from '../../models/instructor/courseModel'; // Ensure the import path is correct
 import { ProfileService } from '../../services/instructor/profile.service';
 import { UploadFiles } from '../../models/instructor/UploadFiles';
 import { Base64 } from 'js-base64';
+
 @Component({
   selector: 'app-mycourse',
   templateUrl: './mycourse.component.html',
@@ -15,7 +15,8 @@ export class MycourseComponent implements OnInit {
   pageSize = 8;
   pageIndex = 0;
   pagedCards: CourseModel[] = [];
-  employerSr!:string;
+  employerSr!: string;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
@@ -24,22 +25,25 @@ export class MycourseComponent implements OnInit {
 
   constructor(private instructorService: ProfileService) {}
 
-  showDetails(course:CourseModel) {
+  showDetails(course: CourseModel) {
     course.showDetail = true;
   }
 
-  hideDetails(course:CourseModel) {
+  hideDetails(course: CourseModel) {
     course.showDetail = false;
   }
 
   updatePagedCards() {
     this.pagedCards = this.courses.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
   }
+
   encodeId(id: string): string {
     return Base64.encode(id);
   }
+
+
   private getCourses(): void {
-    this.employerSr=sessionStorage.getItem('dbId') || '';
+    this.employerSr = sessionStorage.getItem('dbId') || '';
     this.instructorService.getApprovedCourseList(this.employerSr).subscribe({
       next: (data) => {
         this.courses = data;
@@ -58,6 +62,7 @@ export class MycourseComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.updatePagedCards();
   }
+
   getFileType(url: string): string {
     const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
     if (url) {
@@ -70,9 +75,11 @@ export class MycourseComponent implements OnInit {
     }
     return 'other';
   }
+
   getVideoFiles(files: UploadFiles[]): UploadFiles[] {
     return files.filter(file => file.url.endsWith('.mp4') || file.url.endsWith('.webm') || file.url.endsWith('.ogg')); // Add other video formats as needed
   }
+
   getDocumentFiles(files: UploadFiles[]): UploadFiles[] {
     return files.filter(file => this.getFileType(file.url) === 'document');
   }

@@ -2,6 +2,8 @@
   <div class="profile-section">
     <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic mx-auto">
     <h3>John Don</h3>
+    <h3>{{adminData.name}}</h3>
+
     <p>johndoncompany.com</p>
   </div>
   <mat-nav-list>
@@ -32,13 +34,9 @@
       <mat-icon class="nav-icon">fact_check</mat-icon>
       <span class="nav-text">Approval</span>
     </a>
-    <a mat-list-item routerLink="report">
-      <mat-icon class="nav-icon">summarize</mat-icon>
-      <span class="nav-text">Reports</span>
-    </a>
     <a mat-list-item routerLink="graph">
       <mat-icon class="nav-icon">bar_chart</mat-icon>
-      <span class="nav-text">Graph</span>
+      <span class="nav-text">Analytics</span>
     </a>
   </mat-nav-list>
 </div>

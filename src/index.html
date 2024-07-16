@@ -12,5 +12,10 @@
 </head>
 <body class="mat-typography">
   <app-root></app-root>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>  
+  <script>
+    window.SockJS = SockJS;
+    window.global = window;
+  </script>
 </body>
 </html>

@@ -46,7 +46,7 @@ import { RecommentCardComponent } from './instructor/recomment-card/recomment-ca
 import { AdminComponent } from './layout/admin/admin.component';
 import { InstructorComponent } from './layout/instructor/instructor.component';
 import { StudentComponent } from './layout/student/student.component';
-import { SampleChartComponent } from './sample-chart/sample-chart.component';
+import { SampleChartComponent } from './charts/sample-chart/sample-chart.component';
 import { ForgotPasswordComponent } from './security/forgot-password/forgot-password.component';
 import { LoginComponent } from './security/login/login.component';
 import { NgChartsModule } from 'ng2-charts';
@@ -82,7 +82,14 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { RouteReferComponent } from './components/route-refer/route-refer.component';
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
+
 import { CourseAttendanceComponent } from './course-attendance/course-attendance.component';
+import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
+import { AnalysisComponent } from './charts/analysis/analysis.component';
+import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
+import { ChataccListComponent } from './chat/component/chatacc-list/chatacc-list.component';
+import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
+
 
 
 
@@ -125,6 +132,7 @@ import { CourseAttendanceComponent } from './course-attendance/course-attendance
     AnswerKeyModalComponent,
     PreviewComponent,
     FormCreatorComponent,
+    StudentExamComponent,
     //layout
     AdminComponent,
     InstructorComponent,
@@ -160,6 +168,13 @@ import { CourseAttendanceComponent } from './course-attendance/course-attendance
     RouteReferComponent,
     StudentExamComponent,
     CourseAttendanceComponent,
+    MonthlyCourseAttendanceComponent,
+    AnalysisComponent,
+
+    //
+    ChatUserPageComponent,
+    ChataccListComponent,
+    MessageHomeComponent
   ],
   imports: [
     
@@ -168,7 +183,6 @@ import { CourseAttendanceComponent } from './course-attendance/course-attendance
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-
     ReactiveFormsModule,
     
     MatToolbarModule,
