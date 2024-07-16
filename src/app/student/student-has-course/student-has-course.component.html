@@ -1,94 +1,47 @@
-<!-- <div *ngFor="let course of courses" class="p-4">
+<div *ngFor="let course of courses" class="p-3">
   <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-    <div class="p-4 flex items-center">
-      <div class="flex-shrink-0">
-    
+    <div class="p-4">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <!-- Uncomment and use when image URL is available -->
+          <!-- <img class="h-16 w-16 rounded-md object-cover" [src]="course.imageUrl" [alt]="course.title"> -->
+        </div>
+        <div class="ml-4">
+          <div class="text-xl leading-6 font-semibold text-gray-900">{{ course.title }}</div>
+          <div class="mt-2 text-md text-gray-600">{{ course.duration }}</div>
+          <div class="mt-2 text-sm text-gray-700">{{ course.description }}</div>
+          <div class="mt-4">
+            <p class="font-semibold text-gray-800">This Course Has:</p>
+            <ul class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <li class="flex items-center">
+                <mat-icon aria-hidden="false" aria-label="tv icon" class="text-yellow-500">live_tv</mat-icon>
+                <span class="ml-2">{{ getVideoFiles(course.uploadFilesDTO).length }} videos</span>
+              </li>
+              <li class="flex items-center">
+                <mat-icon aria-hidden="false" aria-label="description icon" class="text-yellow-500">description</mat-icon>
+                <span class="ml-2">{{ getDocumentFiles(course.uploadFilesDTO).length }} documents</span>
+              </li>
+              <li class="flex items-center">
+                <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-yellow-500">assignment</mat-icon>
+                <span class="ml-2">Assignment</span>
+              </li>
+              <li class="flex items-center">
+                <mat-icon aria-hidden="false" aria-label="exam icon" class="text-yellow-500">task</mat-icon>
+                <span class="ml-2">Exam</span>
+              </li>
+              <li class="flex items-center">
+                <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-yellow-500">military_tech</mat-icon>
+                <span class="ml-2">Certificate</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="ml-4">
-        <div class="text-xl leading-6 font-semibold text-gray-900">
-          {{ course.title }}
-        </div>
-        <div class="mt-2 text-md text-gray-600">
-          {{ course.duration }} 
-        </div>
-        <div class="mt-2 text-sm text-gray-700">
-          {{ course.description }}
-        </div>
-        <div class="mt-4">
-          <p class="font-semibold text-gray-800">This Course Has:</p>
-          <ul class="mt-2 space-y-2">
-          
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="border-t border-gray-300">
-      <div class="p-4 flex justify-end items-center">
-        <a [routerLink]="'/student/courseDetails'">
-          <button class="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-700 transition duration-150">
-            Go To Course
-          </button>
-        </a>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
-<div *ngFor="let course of courses" class="p-4">
-  <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-    <div class="p-4 flex items-center">
-      <div class="flex-shrink-0">
-        <!-- Uncomment and use when image URL is available -->
-        <!-- <img class="h-16 w-16 rounded-md object-cover" [src]="course.imageUrl" [alt]="course.title"> -->
-      </div>
-      <div class="ml-4">
-        <div class="text-xl leading-6 font-semibold text-gray-900">
-          {{ course.title }}
-        </div>
-        <div class="mt-2 text-md text-gray-600">
-          {{ course.duration }} 
-        </div>
-        <div class="mt-2 text-sm text-gray-700">
-          {{ course.description }}
-        </div>
-        <div class="mt-4">
-          <p class="font-semibold text-gray-800">This Course Has:</p>
-          <ul class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <li class="flex items-center">
-              <mat-icon aria-hidden="false" aria-label="tv icon" class="text-yellow-500">live_tv</mat-icon>
-              <span class="ml-2">{{ getVideoFiles(course.uploadFilesDTO).length }} videos</span>
-            </li>
-            <li class="flex items-center">
-              <mat-icon aria-hidden="false" aria-label="description icon" class="text-yellow-500">description</mat-icon>
-              <span class="ml-2">{{ getDocumentFiles(course.uploadFilesDTO).length }} documents</span>
-            </li>
-            <li class="flex items-center">
-              <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-yellow-500">assignment</mat-icon>
-              <span class="ml-2">Assignment</span>
-            </li>
-            <li class="flex items-center">
-              <mat-icon aria-hidden="false" aria-label="exam icon" class="text-yellow-500">task</mat-icon>
-              <span class="ml-2">Exam</span>
-            </li>
-            <li class="flex items-center">
-              <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-yellow-500">military_tech</mat-icon>
-              <span class="ml-2">Certificate</span>
-            </li>
-          </ul>
-        </div>
-        <!-- <span class="font-semibold">{{ course.endDate }}</span> and achieve your goal. -->
-      </div>
-    </div>
-    <div class="border-t border-gray-300">
-      <div class="p-4 flex justify-end items-center">
-        <a [routerLink]="'/student/courseDetails'">
-          <button class="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-700 transition duration-150">
-            Go To Course
-          </button>
+      <div class="border-t border-blue-800 mt-4 pt-4 flex justify-end">
+        <a [routerLink]="['/student/courseDetails', encodeId(course.id)]">
+          <button mat-button color="primary">Go to Course</button>
         </a>
       </div>
     </div>
   </div>
 </div>
-

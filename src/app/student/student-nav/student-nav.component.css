@@ -12,18 +12,3 @@
 .dropdown.show {
   display: block;
 }
-
-.navbar .relative .dropdown {
-  right: 0;
-  top: 2.5rem; /* Adjust based on the height of your button */
-  display: none;
-}
-
-.navbar .relative .dropdown.show {
-  display: block;
-}
-
-.navbar .absolute.right-0.mt-2 {
-  top: 100%; /* Adjust if needed */
-  right: 0;
-}

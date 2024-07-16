@@ -109,7 +109,7 @@ const routes: Routes = [
       { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'stu-profile', component: StudentProfileComponent },
       { path: 'help-center', component: StudentHelpCenterComponent},
-      { path: 'studentCourseDetails', component: StudentHasCourseDetailsComponent},
+      // { path: 'courseDetails', component: StudentHasCourseDetailsComponent},
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'studentMessaging', component: StudentMessagingComponent},
     ],

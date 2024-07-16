@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./student-course-details-side-bar.component.css']
 })
 export class StudentCourseDetailsSideBarComponent {
-  modules = ['Module 1', 'Module 2', 'Module 3', 'Module 4', 'Module 5', 'Module 6'];
+  modules = ['Module 1', 'Module 2'];
   selectedItem: string = 'Module 1';
 
   constructor(private router: Router) {}

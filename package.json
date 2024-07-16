@@ -49,6 +49,8 @@
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
     "@types/papaparse": "^5.3.14",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.9",
     "autoprefixer": "^10.4.19",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
