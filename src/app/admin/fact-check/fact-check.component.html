@@ -33,10 +33,12 @@
           <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle">assignment</mat-icon>
           <span class="inline-block align-middle">Assignment</span>
         </li>
-        <li>
+        <div>
+        <li *ngIf="card.hasExam">
           <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle">task</mat-icon>
           <span class="inline-block align-middle">Exam</span>
-        </li>
+        </li>exam-view-admin
+      </div>
         <li>
           <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle">military_tech</mat-icon>
           <span class="inline-block align-middle">Certificate</span>

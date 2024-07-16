@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardComponent } from './dashboard.component';
+import { ExamViewAdminComponent } from './exam-view-admin.component';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('ExamViewAdminComponent', () => {
+  let component: ExamViewAdminComponent;
+  let fixture: ComponentFixture<ExamViewAdminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DashboardComponent]
+      declarations: [ExamViewAdminComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(DashboardComponent);
+
+    fixture = TestBed.createComponent(ExamViewAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

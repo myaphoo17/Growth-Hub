@@ -82,13 +82,16 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { RouteReferComponent } from './components/route-refer/route-refer.component';
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
-
 import { CourseAttendanceComponent } from './course-attendance/course-attendance.component';
-import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
-import { AnalysisComponent } from './charts/analysis/analysis.component';
+import { ExamViewAdminComponent } from './admin/exam-view-admin/exam-view-admin.component';
+import { ChangePasswordComponent } from './security/change-password/change-password.component';
+import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
+import { AnswerKeyInstructorComponent } from './instructor/answer-key-instructor/answer-key-instructor.component';
 import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
 import { ChataccListComponent } from './chat/component/chatacc-list/chatacc-list.component';
 import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
+import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
+import { AnalysisComponent } from './charts/analysis/analysis.component';
 
 
 
@@ -117,6 +120,7 @@ import { MessageHomeComponent } from './chat/component/message-home/message-home
     ReportComponent,
     SideBarComponent,
     StuAccountsComponent,
+    ExamViewAdminComponent,
     //instructor
     CardComponent,
     CardDetailComponent,
@@ -168,13 +172,15 @@ import { MessageHomeComponent } from './chat/component/message-home/message-home
     RouteReferComponent,
     StudentExamComponent,
     CourseAttendanceComponent,
-    MonthlyCourseAttendanceComponent,
-    AnalysisComponent,
-
-    //
+    ChangePasswordComponent,
+    ExamDetailComponent,
+    AnswerKeyInstructorComponent,
     ChatUserPageComponent,
     ChataccListComponent,
-    MessageHomeComponent
+    MessageHomeComponent,
+    MonthlyCourseAttendanceComponent,
+    AnalysisComponent
+    
   ],
   imports: [
     
@@ -184,7 +190,7 @@ import { MessageHomeComponent } from './chat/component/message-home/message-home
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    
+    RouterModule,
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,

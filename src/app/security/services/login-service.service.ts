@@ -40,5 +40,8 @@ export class LoginServiceService {
   updatePassword(updateData: forGetPassModel): Observable<Object> {
     return this.http.put(`${this.loginUrl}/updatePassword`, updateData);
   }
-
+  changePassword(newPass: string, staffId: string): Observable<any> {
+    const url = `${this.loginUrl}/changePassword/${encodeURIComponent(newPass)}/${encodeURIComponent(staffId)}`;
+    return this.http.post(url, {});
+  }
 }

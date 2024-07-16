@@ -24,6 +24,9 @@ export class EmployerServiceService {
   updateEmployerRole(staffId: string, employer: Employer): Observable<Object>{
     return this.httpClient.put(`${this.baseURL}/updateEmployer/${staffId}`, employer);
   }
+  updateEmployer(sr: number, employer: Employer): Observable<Object>{
+    return this.httpClient.put(`${this.baseURL}/updateEmployerInformation/${sr}`, employer);
+  }
   changeEmployerPermission(staffId: string, employer: Employer): Observable<Object>{
     return this.httpClient.put(`${this.baseURL}/permission/${staffId}`, employer);
   }
@@ -34,7 +37,14 @@ export class EmployerServiceService {
     return this.httpClient.get<Employer>(`${this.baseURL}/getInstructorInfromation/${staffId}`);
   }
 
- 
-  
 
+  getMonthlyEnrollments(year: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseURL}/monthly/${year}`);
+  }
+  getCourseAttendanceData(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.baseURL);
+  }
+  checkExamHasCourse(courseId: string): Observable<boolean>{
+    return this.httpClient.get<boolean>(`${this.baseURL}/checkExamHasCourse/${courseId}`);
+  }
 }

@@ -17,12 +17,16 @@ interface Lecture {
   styleUrls: ['./course-creation.component.css']
 })
 export class CourseCreationComponent {
-
   currentStep = 1;
   newObject: ObjectModel = {} as ObjectModel;
   lectures: Lecture[] = [];
   showSuccessModal = false;
   userId = sessionStorage.getItem('userId');
+
+  // Add newLectureTitle and newLectureFile properties
+  newLectureTitle: string = '';
+  newLectureFile: File | null = null;
+
   constructor(
     private instructorService: ProfileService,
     private loadingService: LoadingService,
@@ -30,7 +34,6 @@ export class CourseCreationComponent {
     private employerService: EmployerServiceService,
     private router: Router
   ) {}
-
 
   nextStep() {
     this.currentStep++;
@@ -51,7 +54,12 @@ export class CourseCreationComponent {
   onFileChange(event: any, index: number) {
     const file = event.target.files[0];
     if (file) {
-      this.lectures[index].file = file;
+      if (index === -1) {
+        // Handle new lecture file
+        this.newLectureFile = file;
+      } else {
+        this.lectures[index].file = file;
+      }
     }
   }
 
@@ -59,6 +67,16 @@ export class CourseCreationComponent {
     const files: File[] = [];
     const fileNames: string[] = [];
     this.newObject.courseCreatorId = this.userId as string;
+
+    // Handle new lecture
+    if (this.newLectureFile && this.newLectureTitle) {
+      files.push(this.newLectureFile);
+      fileNames.push(this.newLectureTitle);
+    } else {
+      console.error('New lecture title or file is missing');
+      return;
+    }
+
     for (const lecture of this.lectures) {
       if (lecture.file && lecture.title) {
         files.push(lecture.file);
@@ -94,6 +112,7 @@ export class CourseCreationComponent {
       }
     );
   }
+
   redirectToCreationPage() {
     this.showSuccessModal = false;
     this.router.navigate(['/instructor/int-home']); // Adjust the route as needed

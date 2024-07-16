@@ -31,6 +31,7 @@ export class FactDetailComponent implements OnInit{
   approveModel: ApproveModel = {} as ApproveModel;
   instructorInformation: Employer = {} as Employer;
   showSuccessModal = false;
+  hasExam: boolean | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,6 +53,7 @@ export class FactDetailComponent implements OnInit{
       this.approveModel.adminId =adminId as string;
       this.getCoursesById(this.id);
       this.getCourses();
+      this.checkCourse(this.id);
     });
   }
   private getCoursesById(id: string): void {
@@ -66,6 +68,21 @@ export class FactDetailComponent implements OnInit{
       error: (e) => console.error(e),
     });
   }
+  checkCourse(id: string): void {
+    this.employerService.checkExamHasCourse(id).subscribe(
+      (result: boolean) => {
+        this.hasExam = result;
+      },
+      (error: string) => {
+        console.error(error);
+        this.hasExam = null;
+      }
+    );
+  }
+  navigateToExamView(): void {
+    this.router.navigate(['/admin/exam-view-admin'], { queryParams: { courseId: this.id } });
+  }
+  
   private getCourses(): void {
     this.instructorService.getUnApprovedCourseList().subscribe({
       next: (data) => {

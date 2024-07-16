@@ -1,30 +1,30 @@
 
-  <div class="modal-backdrop">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>Choose correct answers:</h3>
-      </div>
-      <div class="modal-body">
-        <div class="question-title">{{ question.title }}</div>
-        <div class="options">
-          <div *ngFor="let option of question.options; let oIndex = index" class="option">
-            <input 
-              type="radio" 
-              [checked]="selectedOption === oIndex" 
-              (change)="selectedOption = oIndex" 
-            />
-            <label>{{ option }}</label>
-          </div>
-        </div>
-        <div class="points">
-          <label for="points">Points:</label>
-          <input type="number" [(ngModel)]="points" min="0" id="points"/>
+<div class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white p-5 rounded-lg w-96 shadow-lg">
+    <div>
+      <h3 class="text-xl font-semibold">Choose correct answers:</h3>
+    </div>
+    <div class="my-5">
+      <div class="mb-4">{{ question.title }}</div>
+      <div>
+        <div *ngFor="let option of question.options; let oIndex = index" class="flex items-center mb-2">
+          <input 
+            type="radio" 
+            [checked]="selectedOption === oIndex" 
+            (change)="selectedOption = oIndex" 
+            class="mr-2"
+          />
+          <label>{{ option }}</label>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" (click)="saveAnswerKey()">Done</button>
-        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+      <div class="flex items-center mt-5">
+        <label for="points" class="mr-2">Points:</label>
+        <input type="number" [(ngModel)]="points" min="0" id="points" class="border border-gray-300 rounded p-2 w-20"/>
       </div>
     </div>
+    <div class="flex justify-end">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded ml-2" (click)="saveAnswerKey()">Done</button>
+      <button class="bg-gray-400 text-black px-4 py-2 rounded ml-2" (click)="closeModal()">Cancel</button>
+    </div>
   </div>
-  
+</div>

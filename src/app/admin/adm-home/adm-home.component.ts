@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './adm-home.component.css'
 })
 export class AdmHomeComponent {
+  isSidebarOpen = true;
 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;}
 }

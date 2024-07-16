@@ -30,7 +30,7 @@
             <span class="inline-block align-middle">Assignment</span>
           </li>
           <li>
-            <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle">task</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle" (click)="navigateToExamDetail()">task</mat-icon>
             <span class="inline-block align-middle">Exam</span>
           </li>
           <li>
@@ -49,7 +49,7 @@
     </div>
   </div>
   <!-- Scrollable small videos container -->
-<div class="navigation">
+  <div class="navigation">
   <div class="small-videos-container" (scroll)="onScroll($event)">
     <div class="small-video" *ngFor="let video of videos; let i = index"
          [class.selected]="currentVideoIndex === i"
@@ -63,10 +63,39 @@
           </video>
         </ng-container>
 
-        <!-- Non-Video Files (Document) -->
-        <ng-container *ngSwitchDefault>
-          <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail">
+        <!-- Image File -->
+        <ng-container *ngSwitchCase="'image'">
+          <img [src]="video.url" alt="Image">
         </ng-container>
+
+        <!-- Downloadable Files -->
+        <ng-container *ngSwitchCase="'pdf'">
+          <a [href]="video.url" download="filename.pdf" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PDF Thumbnail">
+          </a>
+        </ng-container>
+        <ng-container *ngSwitchCase="'pptx'">
+          <a [href]="video.url" download="filename.pptx" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PPTX Thumbnail">
+          </a>
+        </ng-container>
+        <ng-container *ngSwitchCase="'xlsx'">
+          <a [href]="video.url" download="filename.xlsx" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="XLSX Thumbnail">
+          </a>
+        </ng-container>
+        <ng-container *ngSwitchCase="'docx'">
+          <a [href]="video.url" download="filename.docx" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="DOCX Thumbnail">
+          </a>
+        </ng-container>
+
+        <!-- Default Case for Non-Recognized Files -->
+        <!-- <ng-container *ngSwitchDefault>
+          <a [href]="video.url" download>
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail">
+          </a>
+        </ng-container> -->
       </ng-container>
       <div class="video-overlay">
         <p>{{ video.title }}</p> <!-- Display title here -->

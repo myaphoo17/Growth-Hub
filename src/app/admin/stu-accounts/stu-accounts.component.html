@@ -1,15 +1,5 @@
-<!-- <img [src]="m6ltpfoxoljvt2hxvaod" width="320" height="240" /> -->
-<!-- CanvasJS Chart -->
-<!-- <div id="chartContainer" style="height: 370px; width: 100%;">
-  <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-</div> -->
-<!-- <video width="640" height="360" controls>
-    <source src="http://res.cloudinary.com/duh1rvznn/video/upload/v1718011680/vlo0fu8r3dq5xyhzp7kf.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video> -->
-  <div class="employers-container">
+<div class="employers-container">
     <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchTerm" />
-  
     <div class="table-responsive">
       <table class="table table-bordered table-hover">
         <thead class="thead-dark">
@@ -19,19 +9,23 @@
             <th>Staff ID</th>
             <th>Status</th>
             <th>Role</th>
-            <th>Profile</th>
+            <th>Information</th>
             <th>Role Update</th>
             <th>Status Permission</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let employer of pagedCards | filterData: searchTerm">
-            <td><img [src]="employer.profilePhotoUrl" alt="Profile" width="100" height="50" /></td>
+            <td>
+              <button (click)="openProfileModal(employer.staffId)">
+                <img [src]="employer.profilePhotoUrl" alt="Profile" width="100" height="50" />
+              </button>
+            </td> 
             <td><button (click)="openProfileModal(employer.staffId)">{{ employer.name }}</button></td>
             <td>{{ employer.staffId }}</td>
             <td>{{ employer.status }}</td>
             <td>{{ employer.role }}</td>
-            <td><button (click)="openProfileModal(employer.staffId)" class="btn btn-success">See Profile</button></td>
+            <td><button (click)="openUpdateModal(employer.staffId)" class="btn btn-success">Update Employer</button></td>
             <td><button (click)="openModal(employer)" class="btn btn-primary">Update</button></td>
             <td><button (click)="openPermissionModal(employer)" class="btn btn-danger">Permission</button></td>
           </tr>
@@ -69,7 +63,22 @@
       </div>
     </div>
   </div>
-  
+  <!-- Employer Update Modal -->
+<div class="modal" [class.open]="updateOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeUpdateModal()">&times;</span>
+    <h2>Update Employer Information</h2>
+    <div class="form-group">
+      <p><strong>Department:</strong> <input type="text" [(ngModel)]="selectedEmployer.department" name="department" required /></p>
+      <p><strong>Staff ID:</strong> <input type="text" [(ngModel)]="selectedEmployer.staffId" name="staffId" required /></p>
+      <p><strong>Name:</strong> <input type="text" [(ngModel)]="selectedEmployer.name" name="status" required /></p>
+      <p><strong>Team:</strong> <input type="text" [(ngModel)]="selectedEmployer.team" name="team" required /></p>
+      <p><strong>Door Log No:</strong> <input type="text" [(ngModel)]="selectedEmployer.doorLogNo" name="doorLogNo" required /></p>
+      <p><strong>Division:</strong> <input type="text" [(ngModel)]="selectedEmployer.division" name="division" required /></p>
+      <button class="btn btn-primary" (click)="updateEmployer(selectedEmployer.sr)">Update Role</button>
+    </div>
+  </div>
+</div>
   <!-- Permission Update Modal -->
   <div class="modal" [class.open]="permissionModelOpen">
     <div class="modal-content">
@@ -106,6 +115,55 @@
       <p><strong>Division:</strong> {{ selectedEmployer.division }}</p>
     </div>
   </div>
-  
+
+  <br>
+  <div class="flex items-center mb-4">
+    <ng-container *ngFor="let column of columns">
+      <input type="checkbox" [id]="'select' + column.key" class="form-checkbox text-indigo-600 mr-2" (change)="toggleColumnVisibility(column.key, $event)" [checked]="checkboxState[column.key]">
+      <label [for]="'select' + column.key" class="mr-4">{{ column.label }}</label>
+    </ng-container>
+    </div>
+    
+    <!-- Download buttons -->
+    <div class="mb-4">
+    <button (click)="downloadFile('pdf')" class="btn btn-primary mr-2">Download PDF</button>
+    <button (click)="downloadFile('excel')" class="btn btn-primary mr-2">Download Excel</button>
+    <button (click)="downloadFile('csv')" class="btn btn-primary">Download CSV</button>
+    </div>
+    <div class="employers-container">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th class="py-2 px-4" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
+                {{ column.label }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employer of pagedCards | filterData: searchTerm" class="hover:bg-gray-100">
+              <td class="py-2 px-4" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
+                <ng-container *ngIf="shouldDisplayImage(column.key); else textContent">
+                  <img [src]="getItemValue(employer, column.key)" alt="Profile Image" style="width: 50px; height: auto;">
+                </ng-container>
+                <ng-template #textContent>
+                  {{ getItemValue(employer, column.key) }}
+                </ng-template>
+              </td>
+            </tr>
+            <tr *ngIf="pagedCards.length === 0">
+              <td colspan="8" class="text-center">No employers found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <mat-paginator [length]="employers.length"
+                     [pageSize]="pageSize"
+                     [pageSizeOptions]="[4, 8, 16, 24]"
+                     (page)="handlePageEvent($event)">
+      </mat-paginator>
+    </div> 
+
 
 

@@ -26,14 +26,23 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   pageSize = 8;
   pageIndex = 0;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   columns = [
     { key: 'profilePhotoUrl', label: 'Profile' },
     { key: 'name', label: 'Name' },
     { key: 'staffId', label: 'Staff ID' },
-    { key: 'role', label: 'Role' }
+    { key: 'status', label: 'Status' },
+    { key: 'role', label: 'Role' },
+    // Add more columns as needed
   ];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  // columns = [
+  //   { key: 'profilePhotoUrl', label: 'Profile' },
+  //   { key: 'name', label: 'Name' },
+  //   { key: 'staffId', label: 'Staff ID' },
+  //   { key: 'role', label: 'Role' }
+  // ];
 
   visibleColumns: { [key: string]: boolean } = {};
   checkboxState: { [key: string]: boolean } = {};
@@ -52,6 +61,7 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.staffId = this.route.snapshot.params['staffId'];
     this.getEmployers();
+    this.initializeColumnVisibility();
   }
 
   ngAfterViewInit(): void {
@@ -71,6 +81,7 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     );
   }
 
+
   toggleColumnVisibility(column: string, event: any): void {
     this.checkboxState[column] = event.target.checked;
 
@@ -81,15 +92,13 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
         this.visibleColumns[col.key] = this.checkboxState[col.key];
       });
     } else {
+      // If no checkbox is checked, show all columns
       this.columns.forEach(col => {
         this.visibleColumns[col.key] = true;
       });
     }
   }
 
-  shouldDisplayColumn(column: string): boolean {
-    return this.visibleColumns[column];
-  }
 
   openModal(employer: Employer): void {
     this.selectedEmployer = employer;
@@ -166,32 +175,58 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  downloadFile(type: string): void {
-    const selectedColumns = this.columns.filter(column => this.checkboxState[column.key]);
+  initializeColumnVisibility(): void {
+    // Initialize all columns to be visible and checkboxes to be unchecked
+    this.columns.forEach(column => {
+      this.visibleColumns[column.key] = true;
+      this.checkboxState[column.key] = false;
+    });
+  }
 
-    if (selectedColumns.length === 0) {
-      alert('Please select at least one column to download.');
-      return;
-    }
+  
+  shouldDisplayColumn(column: string): boolean {
+    const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
+    return anyCheckboxChecked ? this.visibleColumns[column] : true;
+  }
 
-    const selectedData = this.pagedCards.map(item => {
+  shouldDisplayImage(columnKey: string): boolean {
+    return columnKey === 'profilePhotoUrl';
+  }
+
+  getItemValue(item: Employer, columnKey: string): string {
+    return item[columnKey as keyof Employer] as string;
+  }
+
+  get selectedColumns() {
+    const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
+    return anyCheckboxChecked ? this.columns.filter(column => this.checkboxState[column.key]) : this.columns;
+  }
+
+  get selectedData() {
+    return this.pagedCards.map(item => {
       const newItem: any = {};
-      selectedColumns.forEach(column => {
+      this.selectedColumns.forEach(column => {
         newItem[column.key] = item[column.key as keyof Employer];
       });
       return newItem;
     });
+  }
 
+  isDownloadDisabled(): boolean {
+    return false;
+  }
+
+  downloadFile(type: string) {
     if (type === 'pdf') {
-      this.downloadPDF(selectedColumns, selectedData);
+      this.downloadPDF(this.selectedColumns, this.selectedData);
     } else if (type === 'excel') {
-      this.downloadExcel(selectedColumns, selectedData);
+      this.downloadExcel(this.selectedColumns, this.selectedData);
     } else if (type === 'csv') {
-      this.downloadCSV(selectedColumns, selectedData);
+      this.downloadCSV(this.selectedColumns, this.selectedData);
     }
   }
 
-  downloadPDF(columns: any[], data: any[]): void {
+  downloadPDF(columns: any[], data: any[]) {
     const doc = new jsPDF();
     const headers = columns.map(col => col.label);
     const rows = data.map(item => columns.map(col => item[col.key]));
@@ -201,22 +236,22 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
       body: rows
     });
 
-    doc.save('employers.pdf');
+    doc.save('table.pdf');
   }
 
-  downloadExcel(columns: any[], data: any[]): void {
+  downloadExcel(columns: any[], data: any[]) {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    XLSX.writeFile(workbook, 'employers.xlsx');
+    XLSX.writeFile(workbook, 'table.xlsx');
   }
 
-  downloadCSV(columns: any[], data: any[]): void {
+  downloadCSV(columns: any[], data: any[]) {
     const csv = Papa.unparse(data);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', 'employers.csv');
+    link.setAttribute('download', 'table.csv');
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();

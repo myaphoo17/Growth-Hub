@@ -5,6 +5,7 @@ import { CourseModel } from '../../models/instructor/courseModel';
 import { ProfileService } from '../../services/instructor/profile.service';
 import { UploadFiles } from '../../models/instructor/UploadFiles';
 import { Base64 } from 'js-base64';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class FactCheckComponent implements OnInit{
     this.getCourses();
   }
 
-  constructor(private instructorService: ProfileService) {}
+  constructor(private instructorService: ProfileService,private router: Router) {}
 
   showDetails(course:CourseModel) {
     course.showDetail = true;
@@ -52,6 +53,7 @@ export class FactCheckComponent implements OnInit{
       error: (e) => console.error(e),
     });
   }
+
 
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;
