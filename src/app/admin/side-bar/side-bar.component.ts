@@ -10,10 +10,16 @@ import { EmployerServiceService } from '../../services/admin/employer.service.se
 export class SideBarComponent implements OnInit{
   staffId: string = sessionStorage.getItem('userId') || '';
   adminData: Employer = {} as Employer;
+  isSidebarOpen = true;
   constructor(private employerService: EmployerServiceService) {}
   ngOnInit(): void {
+
+    
     this.instructorProfile();
   } 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
   instructorProfile(): void {
     this.employerService.getEmployerByStaffId(this.staffId).subscribe({
       next: (data) => {

@@ -115,6 +115,55 @@
       <p><strong>Division:</strong> {{ selectedEmployer.division }}</p>
     </div>
   </div>
-  
+
+  <br>
+  <div class="flex items-center mb-4">
+    <ng-container *ngFor="let column of columns">
+      <input type="checkbox" [id]="'select' + column.key" class="form-checkbox text-indigo-600 mr-2" (change)="toggleColumnVisibility(column.key, $event)" [checked]="checkboxState[column.key]">
+      <label [for]="'select' + column.key" class="mr-4">{{ column.label }}</label>
+    </ng-container>
+    </div>
+    
+    <!-- Download buttons -->
+    <div class="mb-4">
+    <button (click)="downloadFile('pdf')" class="btn btn-primary mr-2">Download PDF</button>
+    <button (click)="downloadFile('excel')" class="btn btn-primary mr-2">Download Excel</button>
+    <button (click)="downloadFile('csv')" class="btn btn-primary">Download CSV</button>
+    </div>
+    <div class="employers-container">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th class="py-2 px-4" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
+                {{ column.label }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employer of pagedCards | filterData: searchTerm" class="hover:bg-gray-100">
+              <td class="py-2 px-4" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
+                <ng-container *ngIf="shouldDisplayImage(column.key); else textContent">
+                  <img [src]="getItemValue(employer, column.key)" alt="Profile Image" style="width: 50px; height: auto;">
+                </ng-container>
+                <ng-template #textContent>
+                  {{ getItemValue(employer, column.key) }}
+                </ng-template>
+              </td>
+            </tr>
+            <tr *ngIf="pagedCards.length === 0">
+              <td colspan="8" class="text-center">No employers found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <mat-paginator [length]="employers.length"
+                     [pageSize]="pageSize"
+                     [pageSizeOptions]="[4, 8, 16, 24]"
+                     (page)="handlePageEvent($event)">
+      </mat-paginator>
+    </div> 
+
 
 
