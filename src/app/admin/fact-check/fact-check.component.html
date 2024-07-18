@@ -1,55 +1,18 @@
-
-<div class="card-container">
+<div class="card-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   <div class="card-wrapper" *ngFor="let card of pagedCards; let i = index">
-    <mat-card class="card bg-blue-100 w-80 mb-4 mx-2" (mouseenter)="showDetails(card)" (mouseleave)="hideDetails(card)">
+    <mat-card class="card bg-blue-100 w-full mb-4" (mouseenter)="showDetails(card)" (mouseleave)="hideDetails(card)">
       <mat-card-header>
         <mat-card-title>{{ card.title }}</mat-card-title>
         <mat-card-subtitle>{{ card.description }}</mat-card-subtitle>
       </mat-card-header>
-      <!-- <img mat-card-image [src]="card.image" alt="Placeholder image"> -->
       <div *ngIf="getVideoFiles(card.uploadFiles).length > 0">
         <video mat-card-image [src]="getVideoFiles(card.uploadFiles)[0].url" controls></video>
       </div>
       <mat-card-actions>
         <a [routerLink]="['fact-check-detail/', encodeId(card.id)]">
-          <button mat-button color="primary" role="button">View-Course</button>
+          <button mat-button color="primary" role="button">View Course</button>
         </a>
       </mat-card-actions>
     </mat-card>
-    <div class="card-details" *ngIf="card.showDetail" [ngClass]="{'left': i % 4 !== 0, 'right': i % 4 === 0}">
-      <h3>{{ card.title }}</h3>
-      <p><strong>Updated:</strong> {{ card.date }}</p>
-      <p>This Course Has:</p>
-      <ul>
-        <li>
-          <mat-icon aria-hidden="false" aria-label="tv icon" class="text-sm inline-block align-middle">live_tv</mat-icon>
-          <span class="inline-block align-middle">{{getVideoFiles(card.uploadFiles).length}} videos</span>
-        </li>
-        <li>
-          <mat-icon aria-hidden="false" aria-label="tv icon" class="text-sm inline-block align-middle">description</mat-icon>
-          <span class="inline-block align-middle">{{getDocumentFiles(card.uploadFiles).length}} Documents</span>
-        </li>
-        <li>
-          <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle">assignment</mat-icon>
-          <span class="inline-block align-middle">Assignment</span>
-        </li>
-        <div>
-        <li *ngIf="card.hasExam">
-          <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle">task</mat-icon>
-          <span class="inline-block align-middle">Exam</span>
-        </li>exam-view-admin
-      </div>
-        <li>
-          <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle">military_tech</mat-icon>
-          <span class="inline-block align-middle">Certificate</span>
-        </li>
-      </ul>
-    </div>
   </div>
 </div>
-
-<mat-paginator [length]="courses.length"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="[4, 8, 12]"
-               (page)="handlePageEvent($event)">
-</mat-paginator>

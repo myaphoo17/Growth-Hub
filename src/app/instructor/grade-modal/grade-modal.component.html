@@ -1,0 +1,25 @@
+<div class="container mx-auto mt-8">
+  <div class="color-bar bg-blue-600 h-2 absolute top-0 left-0 w-full rounded-t-lg"></div>
+  <div>
+    <h3 class="text-xl font-semibold mb-4">Define Grades</h3>
+    <h2>Total Points: {{ totalPoints }}</h2>
+  </div>
+  <div class="my-5">
+    <div *ngFor="let grade of grades; let i = index" class="flex items-center mb-2">
+      <input class="w-20 p-2 mr-2 border border-gray-300 rounded" [(ngModel)]="grade.name" placeholder="Grade" />
+      <input class="w-20 p-2 mr-2 border border-gray-300 rounded" min="0" type="number" [(ngModel)]="grade.minPoints" placeholder="Min Points" />
+      <input class="w-20 p-2 mr-2 border border-gray-300 rounded" type="number" [(ngModel)]="grade.maxPoints" placeholder="Max Points" />
+      <!-- Displaying courseId and examId for reference -->
+      <span class="mr-2">Course ID: {{ grade.courseId }}</span>
+      <button class="p-2 text-red-500" (click)="removeGrade(i)">Remove</button>
+    </div>
+    <button class="mt-2 bg-blue-800 text-white px-3 py-2 rounded" (click)="addGrade()" [disabled]="grades.length >= 4">
+      Add Grade
+    </button>
+    <p *ngIf="grades.length >= 4" class="text-red-500 mt-2">Maximum of 4 grades can be added.</p>
+  </div>
+  <div class="flex justify-end">
+    <button class="bg-blue-600 text-white px-4 py-2 rounded ml-2" (click)="save()">Save</button>
+    <button class="bg-gray-400 text-black px-4 py-2 rounded ml-2" (click)="cancel()">Cancel</button>
+  </div>
+</div>

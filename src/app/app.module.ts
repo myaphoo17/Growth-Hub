@@ -92,6 +92,8 @@ import { ChataccListComponent } from './chat/component/chatacc-list/chatacc-list
 import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
 import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
 import { AnalysisComponent } from './charts/analysis/analysis.component';
+import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
+import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
 
 
 
@@ -137,6 +139,7 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
     PreviewComponent,
     FormCreatorComponent,
     StudentExamComponent,
+    GradeModalComponent,
     //layout
     AdminComponent,
     InstructorComponent,
@@ -158,7 +161,7 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
     StudentHasCourseDetailsComponent,
     CoursesComponent,
     StudentHasCourseComponent,
-    
+    StudentExamComponent,
     //other
     FilterDataPipe,
     MessageComponent,
@@ -179,7 +182,9 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
     ChataccListComponent,
     MessageHomeComponent,
     MonthlyCourseAttendanceComponent,
-    AnalysisComponent
+    AnalysisComponent,
+    GradeModalComponent,
+    GradeDetailComponent
     
   ],
   imports: [

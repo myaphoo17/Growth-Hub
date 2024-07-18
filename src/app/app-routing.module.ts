@@ -46,6 +46,9 @@ import { MessageHomeComponent } from './chat/component/message-home/message-home
 import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { ChangePasswordComponent } from './security/change-password/change-password.component';
+import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
+import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
+import { StudentExamComponent } from './student/student-exam/student-exam.component';
 
 
 
@@ -94,6 +97,8 @@ const routes: Routes = [
       { path: 'chat-home', component: MessageHomeComponent },
       { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent, data: { breadcrumb: 'Update Course' } },
       { path: 'exam-detail', component: ExamDetailComponent },
+      { path: 'grade', component: GradeModalComponent },
+      { path: 'grade-detail', component: GradeDetailComponent },
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },
     ],
   },
@@ -109,6 +114,7 @@ const routes: Routes = [
       { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'stu-profile', component: StudentProfileComponent },
       { path: 'help-center', component: StudentHelpCenterComponent},
+      { path: 'student_exam', component: StudentExamComponent},
       // { path: 'courseDetails', component: StudentHasCourseDetailsComponent},
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'studentMessaging', component: StudentMessagingComponent},
