@@ -46,9 +46,13 @@ import { MessageHomeComponent } from './chat/component/message-home/message-home
 import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { ChangePasswordComponent } from './security/change-password/change-password.component';
+<<<<<<< HEAD
 import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
 import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
+=======
+import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
+>>>>>>> 79948e07ceb36d36466166aa86912dd2bb765859
 
 
 
@@ -97,8 +101,12 @@ const routes: Routes = [
       { path: 'chat-home', component: MessageHomeComponent },
       { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent, data: { breadcrumb: 'Update Course' } },
       { path: 'exam-detail', component: ExamDetailComponent },
+<<<<<<< HEAD
       { path: 'grade', component: GradeModalComponent },
       { path: 'grade-detail', component: GradeDetailComponent },
+=======
+      { path: 'int-assignment', component: IntAssignmentComponent},
+>>>>>>> 79948e07ceb36d36466166aa86912dd2bb765859
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },
     ],
   },

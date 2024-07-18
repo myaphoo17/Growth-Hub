@@ -8,6 +8,8 @@ import { WebSocketService } from '../../chat/service/web-socket.service';
 import { NotificationService } from '../../chat/service/notification.service';
 import { UserResponse } from '../../chat/model/UserResponse';
 import { Base64 } from 'js-base64';
+import { CoursesService } from '../../services/courses.service';
+import { Course } from '../../models/courses';
 
 // interface Notification {
 //   message: string;
@@ -38,12 +40,18 @@ export class StudentNavComponent implements OnInit {
   showNotifications = false;
   showForum = false;
 
-  constructor(private studentService: StudentprofileService, private cdr: ChangeDetectorRef,
+  query: string = '';
+  courses: Course[] = [];
+
+  constructor(
+    private studentService: StudentprofileService, 
+    private cdr: ChangeDetectorRef,
     private authenticationService:AuthServiceService,
     private router: Router,
     private userServ:UserService,
     private webSocketService:WebSocketService,
-    private notificationService :NotificationService
+    private notificationService :NotificationService,
+    private coursesService: CoursesService
   ) { this.loginUser = sessionStorage.getItem('userId') || '';
 
   }
@@ -70,6 +78,16 @@ export class StudentNavComponent implements OnInit {
       });
     }, 900);
     
+  }
+
+  searchCourses() {
+    if (this.query.trim()) {
+      this.coursesService.searchCourses(this.query).subscribe((courses: Course[]) => {
+        this.courses = courses;
+      });
+    } else {
+      this.courses = [];
+    }
   }
 
   studentProfile(): void {
