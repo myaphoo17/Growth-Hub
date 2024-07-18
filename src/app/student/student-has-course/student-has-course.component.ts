@@ -19,9 +19,6 @@ export class StudentHasCourseComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const encodedId = params.get('id');
-      this.id = encodedId ? Base64.decode(encodedId) : '';
     this.getCourses();
     
   }
@@ -56,9 +53,6 @@ export class StudentHasCourseComponent implements OnInit{
     });
   }
 
-  navigateToStudentExam(): void {
-    this.router.navigate(['/student/student-exam'], { queryParams: { courseId: this.id } });
-  }
 
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;

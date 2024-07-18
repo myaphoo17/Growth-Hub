@@ -92,12 +92,9 @@ import { ChataccListComponent } from './chat/component/chatacc-list/chatacc-list
 import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
 import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
 import { AnalysisComponent } from './charts/analysis/analysis.component';
-<<<<<<< HEAD
 import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
 import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
-=======
 import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
->>>>>>> 79948e07ceb36d36466166aa86912dd2bb765859
 
 
 
@@ -187,12 +184,9 @@ import { IntAssignmentComponent } from './instructor/int-assignment/int-assignme
     MessageHomeComponent,
     MonthlyCourseAttendanceComponent,
     AnalysisComponent,
-<<<<<<< HEAD
     GradeModalComponent,
-    GradeDetailComponent
-=======
-    IntAssignmentComponent
->>>>>>> 79948e07ceb36d36466166aa86912dd2bb765859
+    GradeDetailComponent,
+    IntAssignmentComponent,
     
   ],
   imports: [
