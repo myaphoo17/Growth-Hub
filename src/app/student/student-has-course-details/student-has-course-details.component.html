@@ -1,29 +1,28 @@
 <app-loading></app-loading>
 <div class="flex h-screen overflow-hidden">
-
   <app-student-course-details-side-bar class="w-1/4"></app-student-course-details-side-bar>
 
-  <div class="overflow-y-auto flex flex-col items-center p-4">
+  <div class="overflow-y-auto flex flex-col items-center p-4 w-full">
     <div class="w-full max-w-4xl">
-      <div class="grid grid-cols-1 gap-6 small-videos-container mr-6">
+      <div class="grid grid-cols-1 gap-6 small-videos-container">
         <div class="small-video w-full mb-6" *ngFor="let video of videos; let i = index"
              [class.selected]="currentVideoIndex === i"
              (click)="selectVideo(i)">
+             
+          <div class="mt-3 mb-3 ml-1 text-xl font-medium">
+          {{ video.title }} 
+          </div>
+
           <ng-container [ngSwitch]="getFileType(video.url)">
-       
             <ng-container *ngSwitchCase="'video'">
               <div class="relative">
                 <video controls class="w-full rounded-lg shadow-lg object-cover">
                   <source [src]="video.url" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
-                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center">
-                  {{ video.title }}
-                </div>
               </div>
             </ng-container>
 
-        
             <ng-container *ngSwitchDefault>
               <div class="relative">
                 <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="w-full h-48 rounded-lg shadow-lg object-cover">
@@ -33,6 +32,8 @@
               </div>
             </ng-container>
           </ng-container>
+          ,
+          
         </div>
       </div>
     </div>
