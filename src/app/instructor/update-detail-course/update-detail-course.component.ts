@@ -65,6 +65,10 @@ export class UpdateDetailCourseComponent implements OnInit {
     this.router.navigate(['/instructor/exam-detail'], { queryParams: { courseId: this.id } });
   }
 
+  navigateToAssignment(): void {
+    this.router.navigate(['/instructor/int-assignment'], { queryParams: { courseId: this.id } });
+  }
+  
   toggleInstructorModal(): void {
     this.showInstructorModal = !this.showInstructorModal;
   }

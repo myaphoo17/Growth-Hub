@@ -9,10 +9,15 @@ import { Course } from '../models/courses';
 export class CoursesService {
 
   private apiUrl = 'http://localhost:8080/courses/getAllCourses';
+  private baseUrl = 'http://localhost:8080';
+
 
   constructor(private http: HttpClient) { }
 
   getAllCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(this.apiUrl);
+  }
+  searchCourses(query: string): Observable<Course[]> {
+    return this.http.get<Course[]>(`${this.baseUrl}/search`, { params: { query } });
   }
 }

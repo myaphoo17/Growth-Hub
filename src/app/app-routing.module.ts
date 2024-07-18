@@ -46,6 +46,7 @@ import { MessageHomeComponent } from './chat/component/message-home/message-home
 import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { ChangePasswordComponent } from './security/change-password/change-password.component';
+import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
 
 
 
@@ -94,6 +95,7 @@ const routes: Routes = [
       { path: 'chat-home', component: MessageHomeComponent },
       { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent, data: { breadcrumb: 'Update Course' } },
       { path: 'exam-detail', component: ExamDetailComponent },
+      { path: 'int-assignment', component: IntAssignmentComponent},
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },
     ],
   },

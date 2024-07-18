@@ -92,6 +92,7 @@ import { ChataccListComponent } from './chat/component/chatacc-list/chatacc-list
 import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
 import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
 import { AnalysisComponent } from './charts/analysis/analysis.component';
+import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
 
 
 
@@ -179,7 +180,8 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
     ChataccListComponent,
     MessageHomeComponent,
     MonthlyCourseAttendanceComponent,
-    AnalysisComponent
+    AnalysisComponent,
+    IntAssignmentComponent
     
   ],
   imports: [

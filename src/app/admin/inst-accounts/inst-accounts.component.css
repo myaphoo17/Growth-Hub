@@ -148,3 +148,15 @@ margin-top: 20px;
 .hidden {
 display: none;
 }
+
+a.report-link {
+  color: black;
+  margin: 20px;
+  text-decoration: none;
+}
+
+a.report-link:hover {
+  color: blue;
+  margin: 20px;
+  text-decoration: none;
+}

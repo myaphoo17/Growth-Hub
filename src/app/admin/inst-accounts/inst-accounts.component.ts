@@ -25,6 +25,8 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   searchTerm: string = '';
   pageSize = 8;
   pageIndex = 0;
+  showReport = false;  // New property to toggle report visibility
+
 
   columns = [
     { key: 'profilePhotoUrl', label: 'Profile' },
@@ -80,6 +82,7 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
       (this.pageIndex + 1) * this.pageSize
     );
   }
+  
 
 
   toggleColumnVisibility(column: string, event: any): void {
@@ -256,5 +259,10 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  // New method to toggle report visibility
+  toggleReport(): void {
+    this.showReport = !this.showReport;
   }
 }
