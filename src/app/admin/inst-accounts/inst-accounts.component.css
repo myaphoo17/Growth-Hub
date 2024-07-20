@@ -10,12 +10,25 @@ table {
 th, td {
   padding: 10px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
 }
 
-th {
-  background-color: #f2f2f2;
+
+
+
+/* Custom Checkbox appearance */
+.custom-checkbox:checked::before {
+  content: '';
+  display: block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-width: 2px;
+  border-color: #ffffff; /* Color for the tick */
+  border-style: solid;
+  transform: rotate(45deg);
+  margin: auto;
+  position: absolute;
 }
+
 
 /* Base button style */
 .btn {
@@ -33,27 +46,6 @@ th {
   background-color: #28a745;
 }
 
-.btn-success:hover {
-  background-color: #218838;
-}
-
-/* Primary button style */
-.btn-primary {
-  background-color: #007bff;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-/* Danger button style */
-.btn-danger {
-  background-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-}
 
 .modal {
   display: none;
@@ -134,7 +126,7 @@ color: white;
 }
 
 .btn-primary {
-background-color: #007bff;
+background-color: #082b51;
 }
 
 .btn-primary:hover {
@@ -156,7 +148,7 @@ a.report-link {
 }
 
 a.report-link:hover {
-  color: blue;
+  color: rgb(25, 25, 107);
   margin: 20px;
   text-decoration: none;
 }

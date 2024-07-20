@@ -1,134 +1,62 @@
-<div class="employers-container">
-  <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchTerm" />
+<div class="employers-container p-4"> <!-- Search Input -->
+  <div class="search-form-container mb-6 flex justify-end">
+    <div class="flex items-center bg-white border border-gray-300 rounded-lg shadow-md">
+      <input
+        type="text"
+        class="flex-grow p-3 border-none outline-none focus:ring-2 focus:ring-blue-400 rounded-l-lg"
+        placeholder="Search..."
+        [(ngModel)]="searchTerm"
+      />
+      <button class="p-3 bg-blue-900 text-white rounded-r-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="flex mb-6 space-x-6">
+   
 
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead class="thead-dark">
+    
+    <!-- Column Selection -->
+    <div class="flex items-center space-x-2 rounded-lg">
+      <ng-container *ngFor="let column of columns">
+        <input type="checkbox" [id]="'select' + column.key" class="w-5 h-5 bg-blue-900 text-blue-900 rounded border-gray-300 focus:ring-2 focus:ring-blue-400" (change)="toggleColumnVisibility(column.key, $event)" [checked]="checkboxState[column.key]">
+        <label [for]="'select' + column.key" class="text-gray-700">{{ column.label }}</label>
+      </ng-container>
+    </div>
+      <label for="selectAll" class="flex items-center space-x-1">
+        <input type="checkbox"
+               id="selectAll"
+               class="w-5 h-5 bg-blue-900 text-blue-900 rounded border-gray-300 focus:ring-2 focus:ring-blue-400"
+               (change)="toggleSelectAll($event)"
+               [checked]="allSelected">
+        <span>Select All</span>
+      </label>
+
+  </div>
+  <div class="relative overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm rounded-lg">
+      <thead class="bg-blue-900 text-white">
         <tr>
-          <th>Profile</th>
-          <th>Name</th>
-          <th>Staff ID</th>
-          <th>Status</th>
-          <th>Role</th>
-          <th>Profile</th>
-          <th>Role Update</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let employer of pagedCards | filterData: searchTerm">
-          <td><img [src]="employer.profilePhotoUrl" alt="Profile" width="100" height="50" /></td>
-          <td><button (click)="openProfileModal(employer.staffId)">{{ employer.name }}</button></td>
-          <td>{{ employer.staffId }}</td>
-          <td>{{ employer.status }}</td>
-          <td>{{ employer.role }}</td>
-          <td><button (click)="openProfileModal(employer.staffId)" class="btn btn-success">See Profile</button></td>
-          <td><button (click)="openModal(employer)" class="btn btn-primary">Update</button></td>
-          <td><button (click)="openPermissionModal(employer)" class="btn btn-danger">Permission</button></td>
-        </tr>
-        <tr *ngIf="pagedCards.length === 0">
-          <td colspan="8" class="text-center">No employers found.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <mat-paginator [length]="employers.length"
-                 [pageSize]="pageSize"
-                 [pageSizeOptions]="[4,8, 16, 24]"
-                 (page)="handlePageEvent($event)">
-  </mat-paginator>
-</div>
-
-  
-<!-- Role Update Modal -->
-<div class="modal" [class.open]="modalOpen">
-  <div class="modal-content">
-    <span class="close" (click)="closeModal()">&times;</span>
-    <h2>Update Employer Role</h2>
-    <div class="form-group">
-      <label for="role">Select Role:</label>
-      <select id="role" [(ngModel)]="selectedEmployer.role">
-        <option value="Student">Student</option>
-        <option value="Admin">Admin</option>
-        <option value="Instructor">Instructor</option>
-      </select>
-    </div>
-    <div class="button-container">
-      <button class="btn btn-primary" (click)="updateEmployerRole(selectedEmployer.staffId)">Update Role</button>
-      <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- Permission Update Modal -->
-<div class="modal" [class.open]="permissionModelOpen">
-  <div class="modal-content">
-    <span class="close" (click)="closePermissionModal()">&times;</span>
-    <h2>Employer Permission</h2>
-    <div class="form-group">
-      <label for="role">Choice Permission:</label>
-      <select id="role" [(ngModel)]="selectedEmployer.status">
-        <option value="Active">Active</option>
-        <option value="UnActive">UnActive</option>
-      </select>
-    </div>
-    <div class="button-container">
-      <button class="btn btn-primary" (click)="updatePermissionEmployer(selectedEmployer.staffId)">Update Role</button>
-      <button class="btn btn-secondary" (click)="closePermissionModal()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- Employer Profile Card -->
-<div class="profile-card" [class.open]="modalProfileOpen">
-  <div class="profile-header">
-    <h2>{{ selectedEmployer.name }}</h2>
-    <p>{{ selectedEmployer.role }}</p>
-    <button class="close" (click)="closeProfileModal()">&times;</button>
-  </div>
-  <div class="profile-details">
-    <p><strong>Department:</strong> {{ selectedEmployer.department }}</p>
-    <p><strong>Staff ID:</strong> {{ selectedEmployer.staffId }}</p>
-    <p><strong>Status:</strong> {{ selectedEmployer.status }}</p>
-    <p><strong>Team:</strong> {{ selectedEmployer.team }}</p>
-    <p><strong>Door Log No:</strong> {{ selectedEmployer.doorLogNo }}</p>
-    <p><strong>Email:</strong> {{ selectedEmployer.email }}</p>
-    <p><strong>Division:</strong> {{ selectedEmployer.division }}</p>
-  </div>
-</div>
-
-<br>
-    <a>Report</a>
-<!-- Column selection checkboxes -->
-<div class="flex items-center mb-4">
-<ng-container *ngFor="let column of columns">
-  <input type="checkbox" [id]="'select' + column.key" class="form-checkbox text-indigo-600 mr-2" (change)="toggleColumnVisibility(column.key, $event)" [checked]="checkboxState[column.key]">
-  <label [for]="'select' + column.key" class="mr-4">{{ column.label }}</label>
-</ng-container>
-</div>
-
-<!-- Download buttons -->
-<div class="mb-4">
-<button (click)="downloadFile('pdf')" class="btn btn-primary mr-2">Download PDF</button>
-<button (click)="downloadFile('excel')" class="btn btn-primary mr-2">Download Excel</button>
-<button (click)="downloadFile('csv')" class="btn btn-primary">Download CSV</button>
-</div>
-<div class="employers-container">
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead class="thead-dark">
-        <tr>
-          <th class="py-2 px-4" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
+          <!-- Add checkbox column header -->
+          <th class="py-2 px-3 text-left font-medium">
+            <!-- <input type="checkbox" (change)="toggleSelectAll($event)"> -->
+          </th>
+          <th class="py-2 px-3 text-left font-medium" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
             {{ column.label }}
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let employer of pagedCards | filterData: searchTerm" class="hover:bg-gray-100">
-          <td class="py-2 px-4" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let employer of pagedCards | filterData: searchTerm" class="hover:bg-blue-100">
+          <!-- Add checkbox cell -->
+          <td class="py-2 px-3">
+            <!-- <input type="checkbox" [(ngModel)]="employer.selected"> -->
+          </td>
+          <td class="py-2 px-3" *ngFor="let column of columns" [ngClass]="{'hidden': !shouldDisplayColumn(column.key)}">
             <ng-container *ngIf="shouldDisplayImage(column.key); else textContent">
-              <img [src]="getItemValue(employer, column.key)" alt="Profile Image" style="width: 50px; height: auto;">
+              <img [src]="getItemValue(employer, column.key)" alt="Profile Image" class="w-10 h-10 object-cover rounded-full">
             </ng-container>
             <ng-template #textContent>
               {{ getItemValue(employer, column.key) }}
@@ -136,15 +64,155 @@
           </td>
         </tr>
         <tr *ngIf="pagedCards.length === 0">
-          <td colspan="8" class="text-center">No employers found.</td>
+          <td colspan="8" class="text-center py-3 text-gray-500">No employers found.</td>
         </tr>
       </tbody>
     </table>
   </div>
+  
+  <!-- Download Buttons -->
+  <div class="flex justify-end bg-white space-x-2 mb-4">
+    <!-- <h3 class="text-gray-700 flex mr-2">Export as:</h3> -->
+ 
+    <mat-paginator [length]="employers.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[4, 8, 16, 24]"
+    (page)="handlePageEvent($event)"
+    class="my-2">
+</mat-paginator>
+<button (click)="downloadFile('pdf')" class=" text-blue-900 p-2 rounded transition">
+  <mat-icon>picture_as_pdf</mat-icon>
+</button>
+<button (click)="downloadFile('excel')" class=" text-blue-900 p-2 rounded transition">
+  <mat-icon>grid_on</mat-icon>
+</button>
+<button (click)="downloadFile('csv')" class=" text-blue-900 p-2 mr-1 rounded transition">
+  <mat-icon>table_chart</mat-icon>
+</button>
+  </div>    
+</div>
 
-  <mat-paginator [length]="employers.length"
-                 [pageSize]="pageSize"
-                 [pageSizeOptions]="[4, 8, 16, 24]"
-                 (page)="handlePageEvent($event)">
-  </mat-paginator>
+<div class="employers-container p-6">
+  <!-- Search Input -->
+  <div class="flex justify-end mb-6">
+    <div class="flex items-center bg-white border border-gray-300 rounded-lg shadow-md">
+      <input
+        type="text"
+        class="flex-grow p-3 border-none outline-none focus:ring-2 focus:ring-blue-400 rounded-l-lg"
+        placeholder="Search..."
+        [(ngModel)]="searchTerm"
+      />
+      <button class="p-3 bg-blue-900 text-white rounded-r-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto mb-6">
+    <table class="min-w-full divide-y divide-gray-200 text-sm rounded-lg">
+      <thead class="bg-blue-900 text-white">
+        <tr>
+          <th class="py-3 px-4 text-left">Profile</th>
+          <th class="py-3 px-4 text-left">Name</th>
+          <th class="py-3 px-4 text-left">Staff ID</th>
+          <th class="py-3 px-4 text-left">Status</th>
+          <th class="py-3 px-4 text-left">Role</th>
+          <!-- <th class="py-3 px-4 text-left">Profile</th> -->
+          <th class="py-3 px-4 text-left">Edit Role</th>
+          <th class="py-3 px-4 text-left">Edit Status</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let employer of pagedCards | filterData: searchTerm" class="hover:bg-blue-100">
+          <td class="py-3 px-4"><img [src]="employer.profilePhotoUrl" alt="Profile" class="w-12 h-12 object-cover rounded-full" /></td>
+          <td class="py-3 px-4">
+            <button (click)="openProfileModal(employer.staffId)" class="text-blue-900 hover:underline">{{ employer.name }}</button>
+          </td>
+          <td class="py-3 px-4">{{ employer.staffId }}</td>
+          <td class="py-3 px-4">{{ employer.status }}</td>
+          <td class="py-3 px-4">{{ employer.role }}</td>
+          <!-- <td class="py-3 px-4">
+            <button (click)="openProfileModal(employer.staffId)" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">See Profile</button>
+          </td> -->
+          <td class="py-3 px-4">
+            <button (click)="openModal(employer)" class="bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Update</button>
+          </td>
+          <td class="py-3 px-4">
+            <button (click)="openPermissionModal(employer)" class="bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-red-600">Permission</button>
+          </td>
+        </tr>
+        <tr *ngIf="pagedCards.length === 0">
+          <td colspan="8" class="text-center py-3 text-gray-500">No employers found.</td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="employers.length" [pageSize]="pageSize" [pageSizeOptions]="[4, 8, 16, 24]" (page)="handlePageEvent($event)" ></mat-paginator>
+
+  </div>
+
+
+  <!-- Role Update Modal -->
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50" *ngIf="modalOpen">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold text-blue-900">Update Employer Role</h2>
+        <button class="text-gray-400 hover:text-gray-600" (click)="closeModal()">&times;</button>
+      </div>
+      <div class="mb-4">
+        <label for="role" class="block text-gray-700 mb-2">Select Role:</label>
+        <select id="role" [(ngModel)]="selectedEmployer.role" class="w-full p-2 border border-gray-300 rounded-lg">
+          <option value="Student">Student</option>
+          <option value="Admin">Admin</option>
+          <option value="Instructor">Instructor</option>
+        </select>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" (click)="updateEmployerRole(selectedEmployer.staffId)">Update Role</button>
+        <button class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Permission Update Modal -->
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50" *ngIf="permissionModelOpen">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold text-blue-900">Employer Permission</h2>
+        <button class="text-gray-400 hover:text-gray-600" (click)="closePermissionModal()">&times;</button>
+      </div>
+      <div class="mb-4">
+        <label for="status" class="block text-gray-700 mb-2">Select Permission:</label>
+        <select id="status" [(ngModel)]="selectedEmployer.status" class="w-full p-2 border border-gray-300 rounded-lg">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" (click)="updatePermissionEmployer(selectedEmployer.staffId)">Update Permission</button>
+        <button class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600" (click)="closePermissionModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Employer Profile Card -->
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50" *ngIf="modalProfileOpen">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold text-blue-900">{{ selectedEmployer.name }}</h2>
+        <button class="text-gray-400 hover:text-gray-600" (click)="closeProfileModal()">&times;</button>
+      </div>
+      <div class="space-y-2">
+        <p><strong>Department:</strong> {{ selectedEmployer.department }}</p>
+        <p><strong>Staff ID:</strong> {{ selectedEmployer.staffId }}</p>
+        <p><strong>Status:</strong> {{ selectedEmployer.status }}</p>
+        <p><strong>Team:</strong> {{ selectedEmployer.team }}</p>
+        <p><strong>Door Log No:</strong> {{ selectedEmployer.doorLogNo }}</p>
+        <p><strong>Email:</strong> {{ selectedEmployer.email }}</p>
+        <p><strong>Division:</strong> {{ selectedEmployer.division }}</p>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,49 +1,53 @@
-<div class="sidebar">
-  <div class="profile-section">
+<div class="sidebar  bg-navy overflow-y-auto">
+  <div class="profile-section text-white">
     <img src="{{adminData.profilePhotoUrl}}" alt="Profile Picture" class="profile-pic mx-auto">
     <h3>{{adminData.name}}</h3>
     <p>{{adminData.email}}</p>
   </div>
-  <mat-nav-list>
-    <a mat-list-item routerLink="overview" class="flex items-center">
-      <mat-icon class="nav-icon mr-2 mb-2">home</mat-icon>
-      <span class="nav-text">Overview</span>
-    </a>
-    <a mat-list-item [matMenuTriggerFor]="accountsMenu" class="flex items-center dropdown-trigger">
-      <mat-icon class="nav-icon mr-2 mb-1">manage_accounts</mat-icon>
-      <span class="nav-text">Accounts</span>
-      <mat-icon class="dropdown-icon ml-auto">arrow_drop_down</mat-icon>
-    </a>
-    <mat-menu #accountsMenu="matMenu" class="custom-menu">
-      <button mat-menu-item routerLink="inst-accounts" class="flex items-center">
-        <mat-icon class="bullet-icon mr-2">groups</mat-icon>
-        Instructors & Admin
-      </button>
-      <button mat-menu-item routerLink="stu-accounts" class="flex items-center">
-        <mat-icon class="bullet-icon mr-2">groups</mat-icon>
-        Students
-      </button>
-    </mat-menu>
-    <a mat-list-item routerLink="employee-data" class="flex items-center">
-      <mat-icon class="nav-icon mr-2 mb-2">upload_file</mat-icon>
-      <span class="nav-text">Upload Data</span>
-    </a>
-    <a mat-list-item routerLink="fact-check" class="flex items-center">
-      <mat-icon class="nav-icon mr-2 mb-1">fact_check</mat-icon>
-      <span class="nav-text">Approval</span>
-    </a>
+  <mat-nav-list >
+  
+      <a mat-list-item routerLink="overview" class="flex items-center">
+        <mat-icon class="nav-icon mr-2">home</mat-icon>
+        <span class="nav-text">Overview</span>
+      </a>
+      <a mat-list-item (click)="toggleAccountsSubmenu()" class="flex items-center cursor-pointer">
+        <mat-icon class="nav-icon mr-2 mb-1">manage_accounts</mat-icon>
+        <span class="nav-text">Accounts</span>
+        <mat-icon class="dropdown-icon ml-auto" [ngClass]="{'rotated': showAccountsSubmenu}">arrow_drop_down</mat-icon>
+      </a>
+      <div *ngIf="showAccountsSubmenu">
+        <a mat-list-item routerLink="inst-accounts" class="text-white flex items-center pl-6">
+          <div class="ml-4 flex">
+            <mat-icon class="bullet-icon mr-2 text-white">groups</mat-icon>
+            <span class="text-white">Instructors & Admin</span>
+          </div>
+          
+        </a>
+        <a mat-list-item routerLink="stu-accounts" class="text-white flex items-center pl-6">
+          <div class="ml-4 flex">
+            <mat-icon class="bullet-icon mr-2 text-white">groups</mat-icon>
+            <span class="text-white">Students</span>
+          </div>
+       
+        </a>
+      </div>
+      <a mat-list-item routerLink="employee-data" class="flex items-center">
+        <mat-icon class="nav-icon mr-2 mb-2">upload_file</mat-icon>
+        <span class="nav-text">Upload Data</span>
+      </a>
+      <a mat-list-item routerLink="fact-check" class="flex items-center">
+        <mat-icon class="nav-icon mr-2 mb-1">fact_check</mat-icon>
+        <span class="nav-text">Approval</span>
+      </a>
+      <a mat-list-item routerLink="report" class="flex items-center">
+        <mat-icon class="nav-icon mr-2 mb-1">summarize</mat-icon>
+        <span class="nav-text">Reports</span>
+      </a>
+      <a mat-list-item routerLink="graph" class="flex items-center">
+        <mat-icon class="nav-icon mr-2 mb-1 ">bar_chart</mat-icon>
+        <span class="nav-text">Analytics</span>
+      </a>
 
-    <!-- <a mat-list-item routerLink="graph">
-      <mat-icon class="nav-icon">bar_chart</mat-icon> -->
-
-    <a mat-list-item routerLink="report" class="flex items-center">
-      <mat-icon class="nav-icon mr-2 mb-1">summarize</mat-icon>
-      <span class="nav-text">Reports</span>
-    </a>
-    <a mat-list-item routerLink="graph" class="flex items-center">
-      <mat-icon class="nav-icon mr-2 mb-1 ">bar_chart</mat-icon>
-      <span class="nav-text">Analytics</span>
-    </a>
-    <!-- </a> -->
+  
   </mat-nav-list>
-</div>
+ 
