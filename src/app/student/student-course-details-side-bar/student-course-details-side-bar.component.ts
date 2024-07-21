@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
 import { StdentCourseModel } from '../../models/student/StudentCourseModel';
 import { Base64 } from 'js-base64';
+import { UploadFiles } from '../../models/instructor/UploadFiles';
 
 @Component({
   selector: 'app-student-course-details-side-bar',
@@ -10,12 +11,11 @@ import { Base64 } from 'js-base64';
   styleUrls: ['./student-course-details-side-bar.component.css']
 })
 export class StudentCourseDetailsSideBarComponent implements OnInit {
-  modules = ['Module 1', 'Module 2'];
-  selectedItem: string = 'Module 1';
   staffId: string = sessionStorage.getItem('userId') || '';
   courses: StdentCourseModel[] = [];
   selectedCourse: StdentCourseModel | undefined;
   courseId: string | null = null;
+  videos: UploadFiles[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -24,9 +24,8 @@ export class StudentCourseDetailsSideBarComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.courseId = params.get('id'); // Ensure this matches the parameter name in the route
+      this.courseId = params.get('id');
       if (this.courseId) {
-        console.log('Course ID from URL:', this.courseId); // Debug statement
         this.getCourseDetails(this.courseId);
       }
     });
@@ -37,7 +36,6 @@ export class StudentCourseDetailsSideBarComponent implements OnInit {
       next: (data) => {
         this.courses = data;
         this.selectedCourse = this.getCourseById(courseId);
-        console.log('Selected Course:', this.selectedCourse); // Debug statement
       },
       error: (e) => console.error(e),
     });
@@ -45,11 +43,5 @@ export class StudentCourseDetailsSideBarComponent implements OnInit {
 
   getCourseById(courseId: string): StdentCourseModel | undefined {
     return this.courses.find(course => course.id === courseId);
-  }
-
-  selectItem(item: string): void {
-    this.selectedItem = item;
-    if (item === 'Grades') {
-    }
   }
 }
