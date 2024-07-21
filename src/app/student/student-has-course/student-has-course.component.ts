@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CourseModel } from '../../models/instructor/courseModel';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
 import { Base64 } from 'js-base64';
 import { UploadFiles } from '../../models/instructor/UploadFiles';
 import { StdentCourseModel } from '../../models/student/StudentCourseModel';
+import { ActivatedRoute , Router } from '@angular/router';
 @Component({
   selector: 'app-student-has-course',
   templateUrl: './student-has-course.component.html',
@@ -12,18 +12,22 @@ import { StdentCourseModel } from '../../models/student/StudentCourseModel';
 })
 export class StudentHasCourseComponent implements OnInit{
   courses: StdentCourseModel[] = [];
+  id!: string;
   pageSize = 8;
   pageIndex = 0;
   pagedCards: StdentCourseModel[] = [];
   staffId: string = sessionStorage.getItem('userId') || '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngOnInit() {
-    this.getCourses();
-    
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const encodedId = params.get('id');
+      this.id = encodedId ? Base64.decode(encodedId) : '';
+      this.getCourses();
+    });
   }
 
-  constructor(private studentService: StudentprofileService) {}
+  constructor(private studentService: StudentprofileService , private route: ActivatedRoute, private router: Router) {}
 
   showDetails(course:StdentCourseModel) {
     course.showDetail = true;
@@ -53,6 +57,14 @@ export class StudentHasCourseComponent implements OnInit{
     });
   }
 
+  // navigateToStudentExam(courseId: string): void {
+  //   this.router.navigate(['/student/student-exam'], { queryParams: { courseId: this.encodeId(courseId) } });
+  // }
+
+  navigateToStudentExam(courseId: string): void {
+    this.router.navigate(['/student/student-exam'], { queryParams: { courseId: courseId, staffId: this.staffId } });
+  }
+  
 
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;

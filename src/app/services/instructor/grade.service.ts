@@ -22,4 +22,7 @@ export class GradeService {
   saveAndUpdateGrades(courseId: number, grades: GradeModel[]): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/grades/saveAndUpdate/${courseId}`, grades);
   }
+
+
+  
 }

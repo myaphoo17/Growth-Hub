@@ -116,7 +116,7 @@ const routes: Routes = [
       { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'stu-profile', component: StudentProfileComponent },
       { path: 'help-center', component: StudentHelpCenterComponent},
-      { path: 'student_exam', component: StudentExamComponent},
+      { path: 'student-exam', component: StudentExamComponent},
       // { path: 'courseDetails', component: StudentHasCourseDetailsComponent},
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'studentMessaging', component: StudentMessagingComponent},
