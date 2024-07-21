@@ -11,12 +11,16 @@ export class SideBarComponent implements OnInit{
   staffId: string = sessionStorage.getItem('userId') || '';
   adminData: Employer = {} as Employer;
   isSidebarOpen = true;
+  showAccountsSubmenu: boolean = false;
   constructor(private employerService: EmployerServiceService) {}
   ngOnInit(): void {
     this.instructorProfile();
   } 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+  toggleAccountsSubmenu(): void {
+    this.showAccountsSubmenu = !this.showAccountsSubmenu;
   }
   instructorProfile(): void {
     this.employerService.getEmployerByStaffId(this.staffId).subscribe({

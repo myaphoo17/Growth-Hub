@@ -26,7 +26,7 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   pageSize = 8;
   pageIndex = 0;
   showReport = false;  // New property to toggle report visibility
-
+  allSelected = false; // New property to track select all state
 
   columns = [
     { key: 'profilePhotoUrl', label: 'Profile' },
@@ -34,17 +34,12 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     { key: 'staffId', label: 'Staff ID' },
     { key: 'status', label: 'Status' },
     { key: 'role', label: 'Role' },
-    // Add more columns as needed
+    { key: 'team', label: 'Team' },
+    { key: 'division', label: 'Division' },
+    { key: 'department', label: 'Department' },
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  // columns = [
-  //   { key: 'profilePhotoUrl', label: 'Profile' },
-  //   { key: 'name', label: 'Name' },
-  //   { key: 'staffId', label: 'Staff ID' },
-  //   { key: 'role', label: 'Role' }
-  // ];
 
   visibleColumns: { [key: string]: boolean } = {};
   checkboxState: { [key: string]: boolean } = {};
@@ -56,7 +51,7 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   ) {
     this.columns.forEach(column => {
       this.visibleColumns[column.key] = true;
-      this.checkboxState[column.key] = false;
+      this.checkboxState[column.key] = true;
     });
   }
 
@@ -76,18 +71,16 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     this.updatePagedCards();
   }
 
-  updatePagedCards(): void {
-    this.pagedCards = this.employers.slice(
-      this.pageIndex * this.pageSize,
-      (this.pageIndex + 1) * this.pageSize
-    );
+  toggleSelectAll(event: any): void {
+    const isChecked = event.target.checked;
+    this.allSelected = isChecked;
+    this.columns.forEach(column => {
+      this.checkboxState[column.key] = isChecked;
+    });
+    this.updateVisibleColumns();
   }
-  
 
-
-  toggleColumnVisibility(column: string, event: any): void {
-    this.checkboxState[column] = event.target.checked;
-
+  updateVisibleColumns(): void {
     const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
 
     if (anyCheckboxChecked) {
@@ -102,6 +95,17 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  updatePagedCards(): void {
+    this.pagedCards = this.employers.slice(
+      this.pageIndex * this.pageSize,
+      (this.pageIndex + 1) * this.pageSize
+    );
+  }
+
+  toggleColumnVisibility(column: string, event: any): void {
+    this.checkboxState[column] = event.target.checked;
+    this.updateVisibleColumns();
+  }
 
   openModal(employer: Employer): void {
     this.selectedEmployer = employer;
@@ -186,7 +190,6 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  
   shouldDisplayColumn(column: string): boolean {
     const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
     return anyCheckboxChecked ? this.visibleColumns[column] : true;
@@ -261,7 +264,6 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     document.body.removeChild(link);
   }
 
-  // New method to toggle report visibility
   toggleReport(): void {
     this.showReport = !this.showReport;
   }

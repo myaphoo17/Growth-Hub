@@ -12,9 +12,13 @@ import { ActivatedRoute , Router } from '@angular/router';
 })
 export class StudentHasCourseComponent implements OnInit{
   courses: StdentCourseModel[] = [];
+<<<<<<< HEAD
   id!: string;
   pageSize = 8;
   pageIndex = 0;
+=======
+ 
+>>>>>>> b9eb9f98ea40ea2cfc48e01463d1ff98ec3177a8
   pagedCards: StdentCourseModel[] = [];
   staffId: string = sessionStorage.getItem('userId') || '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,9 +41,7 @@ export class StudentHasCourseComponent implements OnInit{
     course.showDetail = false;
   }
 
-  updatePagedCards() {
-    this.pagedCards = this.courses.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
-  }
+
   encodeId(id: string): string {
     return Base64.encode(id);
   }
@@ -48,10 +50,9 @@ export class StudentHasCourseComponent implements OnInit{
       next: (data) => {
         this.courses = data;
         this.courses.forEach(course => {
-          course.uploadFilesDTO = course.uploadFilesDTO || []; // Initialize files if undefined
-          course.categoriesDTO = course.categoriesDTO || { name: '' }; // Initialize category if undefined
+          course.uploadFilesDTO = course.uploadFilesDTO || []; 
+          course.categoriesDTO = course.categoriesDTO || { name: '' }; 
         });
-        this.updatePagedCards();
       },
       error: (e) => console.error(e),
     });
@@ -66,11 +67,7 @@ export class StudentHasCourseComponent implements OnInit{
   }
   
 
-  handlePageEvent(event: PageEvent) {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.updatePagedCards();
-  }
+
   getFileType(url: string): string {
     const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
     if (url) {
