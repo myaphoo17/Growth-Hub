@@ -113,6 +113,7 @@ const routes: Routes = [
     children: [
       { path: 'stu-home', component: StudentHomeComponent},
       { path: 'stu-home/card_detail/:id', component: StudentCardDetailComponent, data: { breadcrumb: 'Card Detail' } },
+      { path: 'stu-home/:categoryId', component: StudentHomeComponent, data: { breadcrumb: 'Courses Component'} },
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
       { path: 'chat-home', component: MessageHomeComponent },
       { path: 'settings', component: StudentSettingsComponent},

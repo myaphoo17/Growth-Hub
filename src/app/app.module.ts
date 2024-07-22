@@ -100,7 +100,6 @@ import { StudentCardDetailComponent } from './student/student-card-detail/studen
 
 
 
-
 // // Services
 // import { LoginServiceService } from './security/services/login-service.service';
 // import { ProfileService } from './instructor/services/profile.service';

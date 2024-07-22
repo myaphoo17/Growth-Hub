@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Employer } from '../../models/admin/employer';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
 import { AuthServiceService } from '../../security/services/auth-service.service';
@@ -10,17 +10,11 @@ import { NotificationService } from '../../chat/service/notification.service';
 import { UserResponse } from '../../chat/model/UserResponse';
 import { Base64 } from 'js-base64';
 import { CoursesService } from '../../services/courses.service';
-import { Course } from '../../models/courses';
+
 import { HttpClient } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
+import { Category } from '../../models/category.model';
 
-
-// interface Notification {
-//   message: string;
-// }
-
-// interface ForumPost {
-//   title: string;
-// }
 
 @Component({
   selector: 'app-student-nav',
@@ -38,6 +32,10 @@ export class StudentNavComponent implements OnInit {
   dataSearch: Array<{ email: string,firstName:string,lastName:string }> = [];
   notifications:any;
 
+
+  searchControl = new FormControl();
+  categories: Category[] = [];
+  filteredCategory: Category[] = [];
 
   isDropdownVisible = false;
   showNotifications = false;
@@ -66,6 +64,7 @@ export class StudentNavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchCategories();
     this.studentProfile();
     this.getUserDetails();
     // this.findAllUsers();
@@ -83,6 +82,21 @@ export class StudentNavComponent implements OnInit {
       });
     }, 900);
     
+  }
+
+  fetchCategories(): void {
+    this.coursesService.getCategories().subscribe(
+      (data) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+
+  onCategorySelect(categoryId: number) {
+    this.router.navigate(['student/stu-home',  categoryId]);
   }
 
   searchCourses() {

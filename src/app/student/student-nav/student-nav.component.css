@@ -13,31 +13,46 @@
   display: block;
 }
 
+.nav-link {
+  color: black;
+  text-decoration: none;
+  padding: 0 8px;
+  font-size: 14px;
+  line-height: 40px;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: blue;
+}
+
+.categories-menu {
+  position: absolute;
+  top: 40px; /* Adjust this based on your layout */
+  left: 0;
+  z-index: 1000; /* Ensure the menu appears above other content */
+}
 .search-container {
-  position: relative; /* Ensure the parent container has relative positioning */
+position: relative;
 }
 
 .search-dropdown {
-  position: absolute;
-  top: 100%; /* Position the dropdown right below the search box */
-  left: 0;
-  width: 100%; /* Ensure the dropdown is the same width as the search box */
-  max-width: 200px; /* Set a maximum width for the dropdown */
-  max-height: 150px; /* Set maximum height for the dropdown */
-  overflow-y: auto; /* Enable vertical scrolling if needed */
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+position: absolute;
+top: 100%;
+left: 0;
+width: 100%;
+background-color: white;
+border: 1px solid #ccc;
+max-height: 200px;
+overflow-y: auto;
+z-index: 1000;
 }
 
 .dropdown-item {
-  padding: 5px; /* Reduce padding */
-  font-size: 14px; /* Adjust font size */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+padding: 8px;
+cursor: pointer;
 }
 
 .dropdown-item:hover {
-  background-color: #f0f0f0;
+background-color: #f0f0f0;
 }
