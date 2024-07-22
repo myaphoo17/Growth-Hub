@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Employer } from '../../models/admin/employer';
@@ -29,6 +29,8 @@ export class StuAccountsComponent implements OnInit{
   pageSize = 8;
   pageIndex = 0;
   refreshInterval: any;
+  showReport = false;  // New property to toggle report visibility
+  allSelected = false; // New property to track select all state
 
   columns = [
     { key: 'profilePhotoUrl', label: 'Profile' },
@@ -36,17 +38,29 @@ export class StuAccountsComponent implements OnInit{
     { key: 'staffId', label: 'Staff ID' },
     { key: 'status', label: 'Status' },
     { key: 'role', label: 'Role' },
+    { key: 'team', label: 'Team' },
+    { key: 'division', label: 'Division' },
+    { key: 'department', label: 'Department' },
     // Add more columns as needed
   ];
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  visibleColumns: { [key: string]: boolean } = {};
+  checkboxState: { [key: string]: boolean } = {};
+
   constructor(
     private employerService: EmployerServiceService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.columns.forEach(column => {
+      this.visibleColumns[column.key] = true;
+      this.checkboxState[column.key] = true;
+    });
+  }
+
   ngOnInit(): void {
     this.staffId = this.route.snapshot.params['staffId'];
     this.getEmployers();
@@ -61,8 +75,38 @@ export class StuAccountsComponent implements OnInit{
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.updatePagedCards();
+  }
+
+  toggleSelectAll(event: any): void {
+    const isChecked = event.target.checked;
+    this.allSelected = isChecked;
+    this.columns.forEach(column => {
+      this.checkboxState[column.key] = isChecked;
+    });
+    this.updateVisibleColumns();
+  }
+
+  updateVisibleColumns(): void {
+    const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
+
+    if (anyCheckboxChecked) {
+      this.columns.forEach(col => {
+        this.visibleColumns[col.key] = this.checkboxState[col.key];
+      });
+    } else {
+      // If no checkbox is checked, show all columns
+      this.columns.forEach(col => {
+        this.visibleColumns[col.key] = true;
+      });
+    }
+  }
+ 
+  
+  toggleColumnVisibility(column: string, event: any): void {
+    this.checkboxState[column] = event.target.checked;
+    this.updateVisibleColumns();
   }
 
   handlePageEvent(event: PageEvent): void {
@@ -185,25 +229,26 @@ export class StuAccountsComponent implements OnInit{
     });
   }
 
-  visibleColumns: { [key: string]: boolean } = {};
-  checkboxState: { [key: string]: boolean } = {};
 
-  toggleColumnVisibility(column: string, event: any): void {
-    this.checkboxState[column] = event.target.checked;
 
-    const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
 
-    if (anyCheckboxChecked) {
-      this.columns.forEach(col => {
-        this.visibleColumns[col.key] = this.checkboxState[col.key];
-      });
-    } else {
-      // If no checkbox is checked, show all columns
-      this.columns.forEach(col => {
-        this.visibleColumns[col.key] = true;
-      });
-    }
-  }
+
+  // toggleColumnVisibility(column: string, event: any): void {
+  //   this.checkboxState[column] = event.target.checked;
+
+  //   const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
+
+  //   if (anyCheckboxChecked) {
+  //     this.columns.forEach(col => {
+  //       this.visibleColumns[col.key] = this.checkboxState[col.key];
+  //     });
+  //   } else {
+  //     // If no checkbox is checked, show all columns
+  //     this.columns.forEach(col => {
+  //       this.visibleColumns[col.key] = true;
+  //     });
+  //   }
+  // }
 
   shouldDisplayColumn(column: string): boolean {
     const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
