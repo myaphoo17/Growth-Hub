@@ -95,6 +95,7 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
 import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
 import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
 import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
+import { StudentCardDetailComponent } from './student/student-card-detail/student-card-detail.component';
 
 
 
@@ -187,6 +188,7 @@ import { IntAssignmentComponent } from './instructor/int-assignment/int-assignme
     GradeModalComponent,
     GradeDetailComponent,
     IntAssignmentComponent,
+    StudentCardDetailComponent,
     
   ],
   imports: [

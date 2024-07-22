@@ -2,17 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../models/courses';
 import { ActivatedRoute } from '@angular/router';
-
+import * as Base64 from 'js-base64';
 
 
 @Component({
-  selector: 'app-card-detail',
-  templateUrl: './card-detail.component.html',
-  styleUrls: ['./card-detail.component.css']
+  selector: 'app-student-card-detail',
+  templateUrl: './student-card-detail.component.html',
+  styleUrl: './student-card-detail.component.css'
 })
-export class CardDetailComponent implements OnInit {
+export class StudentCardDetailComponent implements OnInit{
 
-  courses: Course[]=[];
+  course: Course = {} as Course;
+  courseId: number = 0;
+  query: string = '';
+
   showInstructorModal = false;
   showModulesModal = false;
   modules = [
@@ -50,14 +53,30 @@ export class CardDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private courseService: CoursesService
+    private coursesService: CoursesService
   ) {}
 
   ngOnInit(): void {
-    this.courseService.getAllCourses().subscribe(courses => {
-      this.courses = courses;
+    this.route.paramMap.subscribe(params => {
+      const encodedId = params.get('courseId');
+      const decodedId = encodedId ? Base64.decode(encodedId) : '';
+      this.courseId = +decodedId;
+      this.getCourseDetails();
     });
   }
+
+  getCourseDetails(): void {
+    this.coursesService.getCourseById(this.courseId).subscribe(
+        (courseData) => {
+            console.log('Course data received:', courseData);
+            this.course = courseData;
+        },
+        (error) => {
+            console.error('Error fetching course details', error);
+        }
+    );
+}
+
   toggleInstructorModal() {
     this.showInstructorModal = !this.showInstructorModal;
   }
@@ -65,5 +84,5 @@ export class CardDetailComponent implements OnInit {
   toggleModulesModal() {
     this.showModulesModal = !this.showModulesModal;
   }
-  
 }
+

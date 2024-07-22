@@ -12,13 +12,13 @@ import { ActivatedRoute , Router } from '@angular/router';
 })
 export class StudentHasCourseComponent implements OnInit{
   courses: StdentCourseModel[] = [];
-<<<<<<< HEAD
+
   id!: string;
   pageSize = 8;
   pageIndex = 0;
-=======
+
  
->>>>>>> b9eb9f98ea40ea2cfc48e01463d1ff98ec3177a8
+  
   pagedCards: StdentCourseModel[] = [];
   staffId: string = sessionStorage.getItem('userId') || '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;

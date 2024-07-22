@@ -6,13 +6,19 @@
         <div class="text-blue-900 text-2xl mt-3 font-semibold">Growth Hub</div>
       </div>
 
+     
       <div class="flex items-center space-x-1">
+
         <div class="search-container flex items-center rounded-lg bg-gray-200 px-4 py-2 border border-blue-900">
           <input [(ngModel)]="query" (input)="searchCourses()" type="text" placeholder="Search..." class="border-none outline-none bg-transparent text-md px-2" />
           <mat-icon class="text-blue-900">search</mat-icon>
+        
+          <div *ngIf="showDropdown && searchResults.length > 0" class="search-dropdown">
+            <div *ngFor="let course of searchResults" class="dropdown-item" (click)="navigateToCourseDetails(course.id, course.title)">
+              {{ course.title }}
+            </div>
+          </div>
         </div>
-    
-      <div class="flex items-center space-x-1">
         
         <a routerLink="stu-home" mat-button class="text-white text-sm px-2">Home</a>
         <a routerLink="mycourses" mat-button class="text-white text-sm px-2">My Courses</a>
@@ -42,7 +48,7 @@
         </div>
       </div>
     </div>
-    </div>
+
   </mat-toolbar-row>
 
 

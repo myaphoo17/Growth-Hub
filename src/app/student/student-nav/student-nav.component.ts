@@ -3,6 +3,7 @@ import { Employer } from '../../models/admin/employer';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
 import { AuthServiceService } from '../../security/services/auth-service.service';
 import { Router } from '@angular/router';
+
 import { UserService } from '../../chat/service/user.service';
 import { WebSocketService } from '../../chat/service/web-socket.service';
 import { NotificationService } from '../../chat/service/notification.service';
@@ -10,6 +11,8 @@ import { UserResponse } from '../../chat/model/UserResponse';
 import { Base64 } from 'js-base64';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../models/courses';
+import { HttpClient } from '@angular/common/http';
+
 
 // interface Notification {
 //   message: string;
@@ -41,7 +44,8 @@ export class StudentNavComponent implements OnInit {
   showForum = false;
 
   query: string = '';
-  courses: Course[] = [];
+  searchResults: any[] = [];
+  showDropdown: boolean = false;
 
   constructor(
     private studentService: StudentprofileService, 
@@ -51,6 +55,7 @@ export class StudentNavComponent implements OnInit {
     private userServ:UserService,
     private webSocketService:WebSocketService,
     private notificationService :NotificationService,
+    private http: HttpClient,
     private coursesService: CoursesService
   ) { this.loginUser = sessionStorage.getItem('userId') || '';
 
@@ -81,15 +86,26 @@ export class StudentNavComponent implements OnInit {
   }
 
   searchCourses() {
-    if (this.query.trim()) {
-      this.coursesService.searchCourses(this.query).subscribe((courses: Course[]) => {
-        this.courses = courses;
-      });
-    } else {
-      this.courses = [];
+    if (this.query.trim().length === 0) {
+      this.showDropdown = false;
+      return;
     }
+
+    this.http.get<any[]>(`http://localhost:8080/courses/search?title=${this.query}`)
+      .subscribe((data) => {
+        this.searchResults = data;
+        this.showDropdown = true;
+        this.cdr.detectChanges(); // Ensure change detection runs
+      });
+      
   }
 
+  navigateToCourseDetails(courseId: number, courseTitle: string) {
+    this.query = courseTitle;
+    this.router.navigate(['/student/stu-home/card_detail', courseId], { queryParams: { searchQuery: this.query } });
+    this.showDropdown = false;
+  }
+  
   studentProfile(): void {
     this.studentService.getStudentProfileById(this.loginUser).subscribe({
       next: (data: Employer) => {

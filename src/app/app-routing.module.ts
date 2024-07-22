@@ -50,6 +50,7 @@ import { GradeModalComponent } from './instructor/grade-modal/grade-modal.compon
 import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
 import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
+import { StudentCardDetailComponent } from './student/student-card-detail/student-card-detail.component';
 
 
 
@@ -84,7 +85,8 @@ const routes: Routes = [
     path: "instructor", component: InstructorComponent, canActivate: [InstructorGuard],
     children: [
       { path: 'int-home', component: InstructorHomeComponent, data: { breadcrumb: 'Home' } },
-      { path: 'int-home/card_detail', component: CardDetailComponent, data: { breadcrumb: 'Card Detail' } },
+      { path: 'int-home/card_detail/:id', component: CardDetailComponent, data: { breadcrumb: 'Card Detail' } },
+      { path: 'int-home/:categoryId', component: InstructorHomeComponent, data: { breadcrumb: 'Courses Component'} },
       { path: 'profile/mycourse_detail', component: MycourseDetailComponent, data: { breadcrumb: 'My Course Detail' } },
       { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' } },
       { path: 'preview', component: PreviewComponent, data: { breadcrumb: 'Preview' } },
@@ -110,6 +112,7 @@ const routes: Routes = [
     path: "student", component: StudentComponent,
     children: [
       { path: 'stu-home', component: StudentHomeComponent},
+      { path: 'stu-home/card_detail/:id', component: StudentCardDetailComponent, data: { breadcrumb: 'Card Detail' } },
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
       { path: 'chat-home', component: MessageHomeComponent },
       { path: 'settings', component: StudentSettingsComponent},

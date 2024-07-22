@@ -2,20 +2,31 @@
   <mat-toolbar-row class="flex items-center justify-between h-full">
     <div class="flex items-center"> <!-- Removed 'space-x-2' class -->
       <mat-icon class="text-blue-900 text-5xl " style="width: 60px;  height: 50px;">cast_for_education</mat-icon>
-  
+      
       <div class="text-blue-900 text-2xl mt-3 font-semibold">Growth Hub</div>
     </div>
-      <a mat-button class="text-white text-sm  px-2" routerLink="/catagories">
-        Categories
-      </a>      
-   
+
+    <a class="nav-link" [matMenuTriggerFor]="categoriesMenu">Categories</a>
+    <mat-menu #categoriesMenu="matMenu" class="categories-menu">
+      <button mat-menu-item *ngFor="let category of categories" (click)="onCategorySelect(category.id)">
+        {{ category.name }}
+      </button>
+    </mat-menu>
+
 
     <nav class="flex"> <!-- Added 'items-center' class to align items vertically -->
-      
+
       <div class="search-container flex items-center rounded-lg bg-gray-200 px-2 py-1 border border-blue-900">
-        <input type="text" placeholder="Search..." class="border-none outline-none bg-transparent text-sm px-2" />
-        <mat-icon class="text-blue-900">search</mat-icon>
-      </div>
+  <input [(ngModel)]="query" (input)="searchCourses()" type="text" placeholder="Search..." class="border-none outline-none bg-transparent text-sm px-2" />
+  <mat-icon class="text-blue-900">search</mat-icon>
+  <div *ngIf="showDropdown && searchResults.length > 0" class="search-dropdown">
+    <div *ngFor="let course of searchResults" class="dropdown-item" (click)="navigateToCourseDetails(course.id, course.title)">
+      {{ course.title }}
+    </div>
+  </div>
+</div>
+
+   
       <a mat-button class="text-white text-sm px-2" routerLink="int-home">Home</a>
       <a mat-button class="text-white text-sm px-2" routerLink="creation-home">
         <mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">add_box</mat-icon>
