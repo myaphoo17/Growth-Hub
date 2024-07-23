@@ -38,10 +38,10 @@
         </div>
       </div>
       <div class="border-t border-blue-800 mt-4 pt-4 flex justify-end">
-        <a [routerLink]="['/student/courseDetails', encodeId(course.id)]">
+        <a [routerLink]="[isAdmin ? '/admin/courseDetails' : (isInstructor ? '/instructor/courseDetails' : '/student/courseDetails'), encodeId(course.id)]">
           <button mat-button color="primary">Go to Course</button>
         </a>
-      </div>
+      </div>      
     </div>
   </div>
 </div>

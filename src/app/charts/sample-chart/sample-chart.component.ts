@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartsServices } from '../../services/charts/charts.service';
 import { MonthlyCourseEnrollmentModel } from '../../models/charts/MonthlyCourseEnrollmentModel';
+import { MonthlyDataModel } from '../../models/charts/MonthlyDataModel';
 
 declare var CanvasJS: any;
 
@@ -11,7 +12,7 @@ declare var CanvasJS: any;
 })
 export class SampleChartComponent implements OnInit {
   public years: number[] = [];
-  public monthlyAttendances: MonthlyCourseEnrollmentModel[] = [];
+  public monthlyAttendances: MonthlyDataModel[] = [];
   public chartOptions: any = {
     animationEnabled: true,
     theme: "light2", // Change to "light2" or any other theme you prefer
@@ -50,8 +51,8 @@ export class SampleChartComponent implements OnInit {
   }
 
   fetchMonthlyCourseAttendance(year: number): void {
-    this.chartsService.getMonthlyCourseAttendance(year).subscribe(
-      (data: MonthlyCourseEnrollmentModel[]) => {
+    this.chartsService.getMonthlyData(year).subscribe(
+      (data: MonthlyDataModel[]) => {
         this.monthlyAttendances = data;
         this.updateChart(data);
       },
@@ -61,10 +62,10 @@ export class SampleChartComponent implements OnInit {
     );
   }
 
-  updateChart(data: MonthlyCourseEnrollmentModel[]): void {
+  updateChart(data: MonthlyDataModel[]): void {
     const chartDataPoints = data.map(entry => ({
       name: this.getMonthName(entry.month),
-      y: entry.studentCount
+      y: entry.studentEnrollments
     }));
 
     this.chartOptions.data[0].dataPoints = chartDataPoints;

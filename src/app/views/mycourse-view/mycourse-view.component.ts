@@ -1,30 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CoursesService } from '../../services/courses.service';
-import { Course } from '../../models/courses';
+import { CourseModel } from '../../models/instructor/courseModel';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { UploadFiles } from '../../models/instructor/UploadFiles';
-import { CourseModel } from '../../models/instructor/courseModel';
 import { WebSocketService } from '../../chat/service/web-socket.service';
 import { Employer } from '../../models/admin/employer';
 import { ProfileService } from '../../services/instructor/profile.service';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { EmployerService } from '../../services/instructor/employer.service';
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html',
+  selector: 'app-mycourse-view',
+  templateUrl: './mycourse-view.component.html',
+  styleUrls: ['./mycourse-view.component.css']
 })
-export class CoursesComponent implements OnInit {
+export class MycourseViewComponent implements OnInit {
   courses: CourseModel[] = [];
   loading: boolean = true;
   error: string | null = null;
-  staffId: string = sessionStorage.getItem('userId') || '';
+  staffId: string = '';
   enrollStatus: { [courseId: string]: boolean } = {};
   enrollInst: { [courseId: string]: boolean } = {};
   isAdmin: boolean = false;
   isInstructor: boolean = false;
   isStudent: boolean = false;
-  role=sessionStorage.getItem('role');
+  role = sessionStorage.getItem('role');
   course: CourseModel = {} as CourseModel;
   instructorInformation: Employer = {} as Employer;
   instructorStaffId!: string;
@@ -33,18 +36,45 @@ export class CoursesComponent implements OnInit {
     private webSocketService: WebSocketService,
     private coursesService: CoursesService,
     private studentService: StudentprofileService,
-    private instructorSer:ProfileService,
-    private router: Router
-  ) {
-    
-  }
+    private instructorService: ProfileService,
+    private empSer: EmployerService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.isAdmin = this.role === 'Admin';
     this.isInstructor = this.role === 'Instructor';
     this.isStudent = this.role === 'Student';
-    this.fetchCourses();
+
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const encodedId = params.get('staffId');
+        this.staffId = encodedId ? Base64.decode(encodedId) : '';
+        if (this.staffId) {
+          return this.empSer.getEmployerByStaffId(this.staffId).pipe(
+            switchMap(instructor => {
+              this.instructorInformation = instructor;
+              return this.instructorService.getApprovedCourseList(instructor.sr.toString());
+            })
+          );
+        }
+        return of([]); // Return an empty array if no staffId is found
+      })
+    ).subscribe({
+      next: (data: CourseModel[]) => {
+        this.courses = data;
+        this.loading = false;
+        this.checkEnrollments();
+      },
+      error: (e) => {
+        this.error = 'Error fetching courses';
+        this.loading = false;
+        console.error(this.error, e);
+      }
+    });
   }
+
   getCoursesById(courseId: string, callback: () => void): void {
     this.studentService.getCourseDetailsById(courseId).subscribe({
       next: (data) => {
@@ -60,10 +90,10 @@ export class CoursesComponent implements OnInit {
         callback(); // Ensure callback is called even on error
       }
     });
-}
+  }
 
-  fetchCourses() {
-    this.coursesService.getAllCourses().subscribe(
+  fetchCourses(): void {
+    this.instructorService.getApprovedCourseList(this.instructorInformation.sr.toString()).subscribe(
       (data: CourseModel[]) => {
         this.courses = data;
         this.loading = false;
@@ -76,14 +106,15 @@ export class CoursesComponent implements OnInit {
       }
     );
   }
-  checkEnrollments() {
+
+  checkEnrollments(): void {
     this.courses.forEach(course => {
       this.checkEmployee(course.id);
       this.checkInstructor(course.id);
     });
   }
 
-  checkEmployee(courseId: string) {
+  checkEmployee(courseId: string): void {
     this.studentService.checkEmployeeExists(courseId, this.staffId).subscribe(
       (result: boolean) => {
         this.enrollStatus[courseId] = result;
@@ -94,8 +125,9 @@ export class CoursesComponent implements OnInit {
       }
     );
   }
-  checkInstructor(courseId: string) {
-    this.instructorSer.checkEmployeeExists(courseId, this.staffId).subscribe(
+
+  checkInstructor(courseId: string): void {
+    this.instructorService.checkEmployeeExists(courseId, this.staffId).subscribe(
       (result: boolean) => {
         this.enrollInst[courseId] = result;
       },
@@ -105,6 +137,7 @@ export class CoursesComponent implements OnInit {
       }
     );
   }
+
   enrollCourse(staffId: string, courseId: string): void {
     this.studentService.enrollCourse(staffId, courseId).subscribe(
       response => {
@@ -127,23 +160,25 @@ export class CoursesComponent implements OnInit {
         console.error('Enrollment failed', error);
       }
     );
-}
-getFileType(url: string): string {
-  const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
-  if (url) {
-    const extension = url.split('.').pop()?.toLowerCase();
-    if (extension && videoExtensions.includes('.' + extension)) {
-      return 'video';
-    } else if (['.pptx', '.ppt', '.pdf', '.xlsx', '.xls', '.docx'].includes('.' + extension)) {
-      return 'document';
+  }
+
+  getFileType(url: string): string {
+    const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
+    if (url) {
+      const extension = url.split('.').pop()?.toLowerCase();
+      if (extension && videoExtensions.includes('.' + extension)) {
+        return 'video';
+      } else if (['.pptx', '.ppt', '.pdf', '.xlsx', '.xls', '.docx'].includes('.' + extension)) {
+        return 'document';
+      }
     }
+    return 'other';
   }
-  return 'other';
-}
+
   getVideoFiles(files: UploadFiles[]): UploadFiles[] {
-    return files.filter(file => file.url.endsWith('.mp4')||  file.url.endsWith('.webm') || file.url.endsWith('.ogg')); // Add other video formats as needed
+    return files.filter(file => file.url.endsWith('.mp4') || file.url.endsWith('.webm') || file.url.endsWith('.ogg')); // Add other video formats as needed
   }
-  
+
   encodeId(id: string): string {
     return Base64.encode(id);
   }
@@ -151,5 +186,4 @@ getFileType(url: string): string {
   getDocumentFiles(files: UploadFiles[]): UploadFiles[] {
     return files.filter(file => this.getFileType(file.url) === 'document');
   }
-
 }

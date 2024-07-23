@@ -1,0 +1,63 @@
+<div class="grid grid-cols-1 px-4 gap-4 min-[1027px]:grid-cols-4 lg:gap-8">
+  <div class="max-[1027px]:hidden"></div>
+  <div class="lg:col-span-2 gap-4 flex flex-col">
+    <div class="flex w-full h-full items-center flex-col gap-4">
+      <div class="w-10/12 h-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex flex-col h-[550px] flex-grow w-full bg-white shadow-xl rounded-lg overflow-hidden">
+          <div class="h-[70px] flex items-center p-2 border-b w-full bg-white z-10">
+            <div class="flex items-center space-x-4">
+              <img class="w-10 h-10 rounded-full" [src]="profileImageProfile" alt="">
+              <div class="font-medium dark:text-black">
+                <div>{{userNameProfile}}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">{{emailProfile}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col flex-grow h-0 p-4 overflow-auto" id="allMessages">
+            <div *ngFor="let message of allMessage">
+              <div *ngIf="!checkIfSenderorReciever(message.sender.staffId)" class="flex w-full mt-2 space-x-3 max-w-xs">
+                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
+                  <img class="w-10 h-10 rounded-full" [src]="profileImageProfile" alt="Rounded avatar">
+                </div>
+                <div>
+                  <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
+                    <!-- Use [innerHTML] to render HTML content -->
+                    <p class="text-sm break-all" [innerHTML]="formatMessage(message.content)"></p>
+                  </div>
+                  <span class="text-xs text-gray-500 leading-none">{{timeGenerator(message.createdAt)}}</span>
+                </div>
+              </div>
+              <div *ngIf="checkIfSenderorReciever(message.sender.staffId)" class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
+                <div>
+                  <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
+                    <!-- Use [innerHTML] to render HTML content -->
+                    <p class="text-sm break-all" [innerHTML]="formatMessage(message.content)"></p>
+                  </div>
+                  <span class="text-xs text-gray-500 leading-none">{{timeGenerator(message.createdAt)}}</span>
+                </div>
+                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
+                  <img class="w-10 h-10 rounded-full" [src]="userDetails.body.profilePhotoUrl" alt="Rounded avatar">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-300">
+            <div class="bg-gray-300 p-2 flex gap-2">
+              <input [(ngModel)]="content" (keydown)="onWrite($event)" id="MessageInput" maxlength="250" class="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…">
+              <button (click)="sendPrivateMessage()" id="SendButton" type="button" class="text-white flex gap-2 bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Send
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                </svg>
+              </button>
+            </div>
+            <div class="flex w-10/12 mb-2 justify-end text-xs">{{length}}/250</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gap-3 flex flex-col max-[1027px]:hidden">
+    <!-- <app-chatacc-list class="w-full flex justify-center"></app-chatacc-list> -->
+  </div>
+</div>

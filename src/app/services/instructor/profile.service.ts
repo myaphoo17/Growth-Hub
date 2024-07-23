@@ -77,5 +77,8 @@ export class ProfileService {
   getUnApprovedCourseList(): Observable<CourseModel[]> {
     return this.httpClient.get<CourseModel[]>(`${this.baseURL}/unApprovedCourseList`);
   }
+  checkEmployeeExists(courseId: string,staffId:string): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${this.baseURL}/instructorExists/${courseId}/${staffId}`);
+  }
 }
 

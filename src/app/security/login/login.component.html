@@ -10,17 +10,20 @@
       <br>
       <h2 class="text-xl mt-3 mb-4 text-center">Login</h2>
     </div>
-    <div *ngIf="responseMessage">
-      {{ responseMessage }}
-    </div>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-form-field class="w-full mb-4">
-        <input matInput type="text" [(ngModel)]="loginData.staffId" name="staffId" required placeholder="Staff ID">
+        <input matInput type="text" formControlName="staffId" required placeholder="Staff ID">
+        <mat-error *ngIf="loginForm.get('staffId')?.invalid && loginForm.get('staffId')?.touched">
+          Staff ID is required
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="w-full mb-4">
-        <input matInput type="password" [(ngModel)]="loginData.password" name="password" required placeholder="Password">
+        <input matInput type="password" formControlName="password" required placeholder="Password">
+        <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          Password is required
+        </mat-error>
       </mat-form-field>
-      <button type="submit" mat-raised-button color="primary" class="w-full h-12 bg-purple-500 hover:bg-purple-600 text-white">Log In</button>
+      <button type="submit" mat-raised-button color="primary" class="w-full h-12 bg-purple-500 hover:bg-purple-600 text-white" [disabled]="loginForm.invalid">Log In</button>
     </form>
     <div class="text-center mt-4">
       <a routerLink="/forget_pass" class="text-purple-500 hover:underline">Forgot Password?</a>

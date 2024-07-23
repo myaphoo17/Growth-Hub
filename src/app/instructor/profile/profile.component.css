@@ -194,3 +194,76 @@ h3 {
   border-bottom: 2px solid #3b82f6;
   border-top: 2px solid #3b82f6;
 }
+
+
+.toast-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #444;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
+  z-index: 1000;
+}
+
+.toast-notification.success {
+  background-color: #4CAF50; /* Green */
+}
+
+.toast-notification.error {
+  background-color: #F44336; /* Red */
+}
+
+.toast-notification.info {
+  background-color: #2196F3; /* Blue */
+}
+
+.toast-notification.warning {
+  background-color: #FFC107; /* Amber */
+}
+
+.toast-notification .icon {
+  font-size: 20px;
+}
+
+.toast-notification .message {
+  flex: 1;
+}
+
+.toast-notification .close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+

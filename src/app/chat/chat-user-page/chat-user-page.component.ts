@@ -1,12 +1,12 @@
 import { Component, OnInit, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserResponse } from '../../model/UserResponse';
-import { MessagServiceService } from '../../service/messag-service.service';
-import { WebSocketService } from '../../service/web-socket.service';
-import { UserService } from '../../service/user.service';
 import { Subscription, interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Base64 } from 'js-base64';
+import { UserResponse } from '../model/UserResponse';
+import { UserService } from '../service/user.service';
+import { MessagServiceService } from '../service/messag-service.service';
+import { WebSocketService } from '../service/web-socket.service';
 
 @Component({
   selector: 'app-chat-user-page',
@@ -63,7 +63,7 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
               </div>
               <div>
                 <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                  <p class="text-sm break-all">${response.content}</p>
+                  <p class="text-sm break-all">${this.formatMessage(response.content)}</p>
                 </div>
                 <span class="text-xs text-gray-500 leading-none">${this.timeGenerator(response.createdAt)}</span>
               </div>
@@ -72,7 +72,7 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.refreshSubscription = interval(10000).pipe(
+    this.refreshSubscription = interval(500).pipe(
       switchMap(() => this.messageService.getMessaageBySenderReciver(this.userDetails.body.staffId, this.staffIdProfile))
     ).subscribe(response => {
       this.allMessage = response.body;
@@ -134,7 +134,7 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
               <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
                 <div>
                   <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                    <p class="text-sm break-all">${this.content}</p>
+                    <p class="text-sm break-all">${this.formatMessage(this.content)}</p>
                   </div>
                   <span class="text-xs text-gray-500 leading-none">${this.timeGenerator(date.getTime())}</span>
                 </div>
@@ -145,12 +145,9 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
             </div>`;
           this.content = '';
           this.length = 0;
-          setTimeout(() => {
-            this.scrollToLastElement();
-          }, 100);
-          setTimeout(() => {
-            this.webSocketService.sendMessageNotif(this.staffIdProfile, 'send Message');
-          }, 100);
+
+          this.scrollToLastElement();
+          this.webSocketService.sendMessageNotif(this.staffIdProfile, 'send Message');
         }
         this.isSending = false;
       } catch (error) {
@@ -215,5 +212,9 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
 
   checkIfSenderorReciever(idSender: string) {
     return idSender === this.loginUser;
+  }
+
+  formatMessage(message: string) {
+    return message.replace(/(\/profile\/[A-Za-z0-9]+)/g, '<a href="$1" target="_blank">$1</a>');
   }
 }

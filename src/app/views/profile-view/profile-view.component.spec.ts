@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChataccListComponent } from './chatacc-list.component';
+import { ProfileViewComponent } from './profile-view.component';
 
-describe('ChataccListComponent', () => {
-  let component: ChataccListComponent;
-  let fixture: ComponentFixture<ChataccListComponent>;
+describe('ProfileViewComponent', () => {
+  let component: ProfileViewComponent;
+  let fixture: ComponentFixture<ProfileViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ChataccListComponent]
+      declarations: [ProfileViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChataccListComponent);
+    fixture = TestBed.createComponent(ProfileViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

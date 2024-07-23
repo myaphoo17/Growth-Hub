@@ -1,0 +1,21 @@
+.toast-success {
+  background-color: #4caf50; /* Green for success */
+  color: white;
+}
+
+.toast-error {
+  background-color: #f44336; /* Red for error */
+  color: white;
+}
+
+.mat-snack-bar-container {
+  margin: 20px; /* Ensure space around the Snackbar */
+}
+
+.mat-snack-bar-container .toast-success {
+  border: 1px solid #388e3c; /* Add border for success */
+}
+
+.mat-snack-bar-container .toast-error {
+  border: 1px solid #d32f2f; /* Add border for error */
+}

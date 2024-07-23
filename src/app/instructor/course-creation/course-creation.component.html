@@ -1,4 +1,3 @@
-
 <app-loading></app-loading>
 
 <div class="course-creation-content bg-white p-10 rounded-lg shadow-lg max-w-4xl mt-9 mx-auto">
@@ -25,15 +24,33 @@
   </div>
 
   <form (ngSubmit)="saveCourse()" class="space-y-8">
-    <!-- Step 1: Categories -->
     <div *ngIf="currentStep === 1">
       <h2 class="text-xl font-bold mb-6">Step 1: Categories</h2>
-      <div class="mb-6">
-        <label for="category" class="block text-sm text-gray-700">Categories:</label>
-        <input type="text" id="category" [(ngModel)]="newObject.category" name="category" class="inputbox mt-2 w-full border  border-gray-500 rounded-md shadow-sm p-2 text-sm  outline-none" required>
-      </div>
-      <button type="button" (click)="nextStep()" class="btn btn-outline mt-3 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="!newObject.category">Next</button>
+      <mat-form-field class="mb-6 w-full" appearance="fill">
+        <mat-label>Select Category</mat-label>
+        <input
+          type="text"
+          id="category" 
+          [(ngModel)]="categoryFilter"
+          (input)="filterCategories()"
+          placeholder="Type to filter categories"
+          matInput
+          [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let category of filteredCategories" [value]="category.name" (onSelectionChange)="onCategorySelected(category)">
+            {{ category.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      
+      <button type="button" (click)="nextStep()" class="btn btn-outline mt-3 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+        Next
+      </button>
     </div>
+    
+
+
 
     <!-- Step 2: Course Title & Description -->
     <div *ngIf="currentStep === 2">
@@ -56,9 +73,6 @@
       </div>
     </div>
 
-   
-
-
 <!-- Step 3: Add Lectures -->
 <div *ngIf="currentStep === 3">
   <h2 class="text-xl font-bold mb-6">Step 3: Add Lectures</h2>
@@ -67,15 +81,19 @@
 <div class="lecture mb-6 p-6 border border-gray-200 rounded-lg">
   <div class="space-y-4">
     <div>
-      <label class="block text-sm text-gray-700">Lecture Title:</label>
-      <input type="text" [(ngModel)]="newLectureTitle" placeholder="Lecture Title" name="new-video-title" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+      <label class="block text-sm text-gray-700">Title:</label>
+      <input type="text" [(ngModel)]="newLectureTitle" placeholder="This is Trailer Video" name="new-video-title" 
+             class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required readonly>
     </div>
+    
     <div>
-      <label class="block text-sm text-gray-700">Lecture File:</label>
-      <input type="file" (change)="onFileChange($event, -1)" placeholder="Video File" name="new-video-file" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+      <label class="block text-sm text-gray-700">File:</label>
+      <input type="file" (change)="onFileChange($event, -1)" placeholder="Trailer Video" name="new-video-file" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
     </div>
+    You can insert trailer video and add lecture video.
   </div>
 </div>
+
   <div *ngFor="let lecture of lectures; let i = index" class="lecture mb-6 p-6 border border-gray-200 rounded-lg">
     <div class="space-y-4">
       <div>
@@ -95,10 +113,6 @@
     <button type="submit" class="btn btn-outline bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="lectures.length === 0">Save Course</button>
   </div>
 </div>
-
-
-     
-     
   </form>
 </div>
 

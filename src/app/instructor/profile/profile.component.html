@@ -1,3 +1,6 @@
+<div *ngIf="showToast" class="toast-notification">
+  {{ toastMessage }}
+</div>
 <app-loading></app-loading>
 <div class="profile-container mt-3">
   <div class="personal-details card">
@@ -114,4 +117,16 @@
       <button class="btn primary" (click)="updateProfilePhoto()">Upload Photo</button>
     </form>
   </div>
+</div>
+<!-- Toast Notification -->
+<div *ngIf="showToast" class="toast-notification" [ngClass]="toastType">
+  <span class="icon">
+    <!-- Optional icon based on toastType -->
+    <mat-icon *ngIf="toastType === 'success'">check_circle</mat-icon>
+    <mat-icon *ngIf="toastType === 'error'">error</mat-icon>
+    <mat-icon *ngIf="toastType === 'info'">info</mat-icon>
+    <mat-icon *ngIf="toastType === 'warning'">warning</mat-icon>
+  </span>
+  <span class="message">{{ toastMessage }}</span>
+  <button class="close-btn" (click)="showToast = false">&times;</button>
 </div>

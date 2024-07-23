@@ -8,14 +8,7 @@ import { WebSocketService } from '../../chat/service/web-socket.service';
 import { NotificationService } from '../../chat/service/notification.service';
 import { UserResponse } from '../../chat/model/UserResponse';
 import { Base64 } from 'js-base64';
-
-// interface Notification {
-//   message: string;
-// }
-
-// interface ForumPost {
-//   title: string;
-// }
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-student-nav',
@@ -27,25 +20,34 @@ export class StudentNavComponent implements OnInit {
   studentData: Employer = {} as Employer;
   
   loginUser!: string;
-  isHiddenNotif=true;
-  isAllRead=false;
-  userDetails: UserResponse = new UserResponse;
-  dataSearch: Array<{ email: string,firstName:string,lastName:string }> = [];
-  notifications:any;
-
-
+  isHiddenNotif = true;
+  isAllRead = false;
+  userDetails: UserResponse = new UserResponse();
+  dataSearch: Array<{ email: string, firstName: string, lastName: string }> = [];
+  notifications: any;
   isDropdownVisible = false;
   showNotifications = false;
   showForum = false;
+  isHiddenChat= true;
+  employers: Employer[] = [];
+  check = sessionStorage.getItem('userId');
+  isAdmin: boolean = false;
+  isInstructor: boolean = false;
+  isStudent: boolean = false;
+  role=sessionStorage.getItem('role');
+  searchTerm:string='';
 
-  constructor(private studentService: StudentprofileService, private cdr: ChangeDetectorRef,
-    private authenticationService:AuthServiceService,
+  constructor(
+    private studentService: StudentprofileService, 
+    private cdr: ChangeDetectorRef,
+    private authenticationService: AuthServiceService,
     private router: Router,
-    private userServ:UserService,
-    private webSocketService:WebSocketService,
-    private notificationService :NotificationService
-  ) { this.loginUser = sessionStorage.getItem('userId') || '';
-
+    private userServ: UserService,
+    private webSocketService: WebSocketService,
+    private notificationService: NotificationService,
+    private snackBar: MatSnackBar
+  ) {
+    this.loginUser = sessionStorage.getItem('userId') || '';
   }
 
   encodeId(id: string): string {
@@ -53,13 +55,16 @@ export class StudentNavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAdmin = this.role === 'Admin';
+    this.isInstructor = this.role === 'Instructor';
+    this.isStudent = this.role === 'Student';
+    this.getEmployers();
     this.studentProfile();
     this.getUserDetails();
-    // this.findAllUsers();
     this.webSocketService.connect();
     setTimeout(() => {
-      this.webSocketService.onConnectNotif(this.loginUser).subscribe(response=>{
-        if (response.content=="updateRole") {
+      this.webSocketService.onConnectNotif(this.loginUser).subscribe(response => {
+        if (response.content == "updateRole") {
           sessionStorage.clear();
           this.router.navigate(['login']);
           setTimeout(() => {
@@ -69,7 +74,22 @@ export class StudentNavComponent implements OnInit {
         this.showNotification();
       });
     }, 900);
-    
+  }
+
+  get filteredEmployers(): Employer[] {
+    return this.employers.filter(user =>
+      (user.name && user.name.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+      (user.email && user.email.toLowerCase().includes(this.searchTerm.toLowerCase()))
+    );
+  }
+
+  private getEmployers(): void {
+    this.userServ.getEmployerList().subscribe({
+      next: (data) => {
+        this.employers = data.filter(user => user.staffId !== this.check);
+      },
+      error: (e) => console.error(e),
+    });
   }
 
   studentProfile(): void {
@@ -106,91 +126,77 @@ export class StudentNavComponent implements OnInit {
       }
     );
   }
-  // findAllUsers(){
-  //   this.userServ.findAllUsers().subscribe(response=>{
-  //     this.dataSearch=response.body;
-    
-  //   });
-  // }
-  
-  showNotification(){
-    this.notificationService.showPostAndUserDetails(this.loginUser).subscribe((response)=>{
-      this.notifications=response.body;
-      let i=0
-      this.notifications.forEach(() => {
-        if (this.notifications[i].isRead==false) {
-          this.isAllRead=true;
+
+  showNotification() {
+    this.notificationService.showPostAndUserDetails(this.loginUser).subscribe((response) => {
+      this.notifications = response.body;
+      this.notifications.forEach((notification: any) => {
+        if (!notification.isRead) {
+          this.isAllRead = true;
         }
-        i++;
       });
-    })
+    });
   }
-  isMessage(type:string){
-    return type==="MESSAGE"
+
+  isMessage(type: string) {
+    return type === "MESSAGE";
   }
-  isComment(type:string){
-    return type==="COMMENT"
+
+  isComment(type: string) {
+    return type === "COMMENT";
   }
-  isLike(type:string){
-    return type==="LIKE"
+
+  isLike(type: string) {
+    return type === "LIKE";
   }
-  isFollow(type:string){
-    return type==="FOLLOW"
+
+  isFollow(type: string) {
+    return type === "FOLLOW";
   }
+
   isCourseCreate(type: string) {
     return type === "COURSECREATE";
   }
-  isRead(read:boolean){
-      return read==true
+
+  isRead(read: boolean) {
+    return read === true;
   }
 
-  dropDownMenueNotif(){
-    if (this.isHiddenNotif==true) {
-      this.isHiddenNotif=false;
-      return;
-    }
-    
-    this.isHiddenNotif=true;
-   
+  dropDownMenueNotif() {
+    this.isHiddenNotif = !this.isHiddenNotif;
   }
- 
+  dropDownMenueChat() {
+    this.isHiddenChat = !this.isHiddenChat;
+  }
+
   funcRead(staffIdUserTo: string, staffIdUserFrom: string, type: string, idPost: number) {
-    this.notificationService.funcRead( staffIdUserTo,staffIdUserFrom, type, idPost).subscribe();
+    this.notificationService.funcRead(staffIdUserTo, staffIdUserFrom, type, idPost).subscribe();
   }
 
-
-
-  timeGenerator(date:number){
-    const previousTime= new Date(date)
+  timeGenerator(date: number) {
+    const previousTime = new Date(date);
     const currentTime = new Date();
-      const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - previousTime.getTime()) / 1000);
-      if (timeDifferenceInSeconds < 60) {
-        return `${timeDifferenceInSeconds} seconds ago`;
-      }if (timeDifferenceInSeconds < 3600) {
-        const minutes = Math.floor(timeDifferenceInSeconds / 60);
-        return `${minutes} minutes ago`;
-      } if (timeDifferenceInSeconds < 86400) {
-        const hours = Math.floor(timeDifferenceInSeconds / 3600);
-        return  `${hours} hours ago`;
-      } if (timeDifferenceInSeconds < 2592000) {
-        const days = Math.floor(timeDifferenceInSeconds / 86400);
-        return `${days} days ago`;
-      }  
-        const months = Math.floor(timeDifferenceInSeconds / 2592000);
-        return `${months} months ago`;
+    const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - previousTime.getTime()) / 1000);
+
+    if (timeDifferenceInSeconds < 60) {
+      return `${timeDifferenceInSeconds} seconds ago`;
+    } else if (timeDifferenceInSeconds < 3600) {
+      const minutes = Math.floor(timeDifferenceInSeconds / 60);
+      return `${minutes} minutes ago`;
+    } else if (timeDifferenceInSeconds < 86400) {
+      const hours = Math.floor(timeDifferenceInSeconds / 3600);
+      return `${hours} hours ago`;
+    } else if (timeDifferenceInSeconds < 2592000) {
+      const days = Math.floor(timeDifferenceInSeconds / 86400);
+      return `${days} days ago`;
+    } else {
+      const months = Math.floor(timeDifferenceInSeconds / 2592000);
+      return `${months} months ago`;
+    }
   }
 
   navigateToProfilePage(staffId: string, idPost: number, idRecepeintto: string, idUserFrom: string, type: string) {
-   
-    if (staffId!=null) {
-     
-      // this.router.navigate(['profile', staffId]);
-      //       this.funcRead(idUserFrom,idRecepeint,type,idPost);
-      //       setTimeout(() => {
-      //         location.reload()
-      //       }, 50);
-      //       return;
-      // }
+    if (staffId != null) {
       this.router.navigate(['student/privateChat', this.encodeId(staffId)]);
       this.funcRead(idRecepeintto, idUserFrom, type, idPost);
       setTimeout(() => {
@@ -198,29 +204,16 @@ export class StudentNavComponent implements OnInit {
       }, 50);
     }
   }
-    //  this.router.navigate(['post', idPost]);
-    //  this.funcRead(idUserFrom,idRecepeint,type,idPost);
-    //  setTimeout(() => {
-    //   location.reload()
-    //  }, 50);
-     
-  
-    logout() {
-      this.authenticationService.logout();
-      this.webSocketService.disconnect();
-      this.router.navigate(['/login']);
-    }
 
-
-  // notifications: Notification[] = [
-  //   { message: 'New assignment available.' },
-  //   { message: 'Course updated.' },
-  //   { message: 'New message from instructor.' }
-  // ];
-
-  // forumPosts: ForumPost[] = [
-  //   { title: 'Discussion on Angular Best Practices' },
-  //   { title: 'New Features in Angular 12' },
-  //   { title: 'How to Improve Your Coding Skills' }
-  // ];
+  logout() {
+    this.authenticationService.logout(); // Clear authentication data
+    this.webSocketService.disconnect(); // Disconnect WebSocket
+    sessionStorage.clear(); // Clear session storage
+    this.router.navigate(['/login']); // Navigate to login page
+    this.snackBar.open('You have been logged out', 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
 }

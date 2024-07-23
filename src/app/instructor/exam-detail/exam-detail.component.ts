@@ -129,7 +129,7 @@ export class ExamDetailComponent implements OnInit {
     this.selectedQuestion = null;
   }
 
-  // Method to handle saving answer key from child component
+// Method to handle saving answer key from child component
   saveAnswerKey(data: { points: number, updatedOptions: OptionModel[] }) {
     if (this.exam && this.selectedQuestionIndex !== -1) {
       // Update totalPoints in QuestionModel

@@ -1,45 +1,113 @@
 <div class="course-container">
-    <div class="course-header">
-      <h1>Programming with JavaScript</h1>
-      <p class="subtitle">
-        This course is part of multiple programs. <a href="#">Learn more</a>
-      </p>
-      <div class="languages">
-        <span>Taught in English | </span>
-        <a href="#">20 languages available</a>
-        <span> | Some content may not be translated</span>
-      </div>
+  <div class="course-header">
+    <h1>{{course.title}}</h1>
+    <p class="subtitle">{{course.description}}</p>
+  </div>
+  <div class="course-body">
+    <div class="video-container">
+      <video [src]="getVideoFiles(course.uploadFiles)[0].url" controls></video>
     </div>
-    <div class="course-body">
-      <div class="instructor-info">
-        <img src="https://via.placeholder.com/150" alt="Meta Logo" class="meta-logo" />
+    <div class="course-details-vertical">
+      
+      <div class="detail-item">
+        <mat-icon>group</mat-icon>
+        <p class="enrolled-count">{{ enrolledCount | number }} already enrolled</p>
       </div>
-      <button class="enroll-button">Enroll<br>Starts Jun 8</button>
-      <p class="enrolled-count">174,807 already enrolled</p>
-    </div>
-    <div class="course-details">
-      <div class="rating">
-        <span class="rating-value">4.7</span>
-        <span class="rating-stars">★</span>
-        <span class="rating-reviews">(3,900 reviews)</span>
-        <span class="rating-likes">95%</span>
+      <div *ngIf="getVideoCount(course.uploadFiles) > 0" class="detail-item">
+        <mat-icon>video_library</mat-icon>
+        <p class="video-count">
+          {{ getVideoCount(course.uploadFiles) }} {{ getVideoCount(course.uploadFiles) > 1 ? ' Videos' : ' Video' }}
+        </p>
+      </div>      
+      <div class="detail-item">
+        <mat-icon>assignment</mat-icon> <!-- Icon for documents -->
+        <p class="exam-count">
+          {{ getDocumentCount(course.uploadFiles) }}
+          {{ getDocumentCount(course.uploadFiles) > 1 ? ' Documents' : ' Document' }}
+        </p>
+      </div>      
+      <div class="detail-item" *ngIf="hasExam">
+        <mat-icon>assignment</mat-icon> 
+        <p class="exam-count">Has Exam</p>
+        <!-- <div class="exam-details">
+          <p>Exam Title: {{ examDetails?.title }}</p>
+          <p>Exam Description: {{ examDetails?.description }}</p>
+        </div> -->
       </div>
-      <div class="course-level">
-        <span>Beginner level</span>
-        <span>Recommended experience</span>
+      <div class="detail-item" *ngIf="!hasExam">
+        <mat-icon>assignment_late</mat-icon> <!-- 'assignment_late' for no Exam -->
+        <p class="exam-count">No Exam</p>
       </div>
-      <div class="course-duration">
-        <span>42 hours (approximately)</span>
-      </div>
-      <div class="course-schedule">
-        <span>Flexible schedule</span>
-        <span>Learn at your own pace</span>
-      </div><a href="#" class="view-modules">View Instructor Information</a>
-      <a href="#" class="view-modules">View course modules</a>
+      <div class="detail-item" *ngIf="hasExam">
+        <mat-icon>emoji_events</mat-icon> <!-- 'emoji_events' for Certificate -->
+        <p class="certificate-count">Has Certificate</p>
+      </div>     
+      <div class="detail-item" *ngIf="!hasExam">
+        <mat-icon>emoji_events</mat-icon> <!-- 'emoji_events' for Certificate -->
+        <p class="certificate-count">No Certificate</p>
+      </div>     
+      <button class="btn-primary" *ngIf="!enrollStatus && !enrollInst" (click)="enrollCourse(staffId, course.id)">
+        Enroll
+      </button>
     </div>
   </div>
-  <br><br>
-  <h2 class="popular-course-header">Most Popular Courses</h2>
+  <div class="course-details">
+    <div class="course-level">
+      <span>Recommended Date </span>
+      <span>{{course.date}}</span>
+    </div>
+    <div class="course-duration">
+      <span>{{course.duration}} (approximately)</span>
+    </div>
+    <button class="view-modules" (click)="toggleInstructorModal()"><b>View Instructor Information</b></button>
+  </div>
+</div>
 
+<br><br>
 
-  
+<h2 class="popular-course-header">Most Popular Courses</h2>
+
+<!-- Instructor Modal -->
+<div *ngIf="showInstructorModal" id="instructorModal" class="modal-instructor">
+  <div class="instructor-modal-content">
+    <span class="close" (click)="closeInstructorModal()">&times;</span>
+    <h2>Instructor Information</h2>
+    <img [src]="instructorInformation.profilePhotoUrl" alt="Instructor Photo" class="instructor-photo">
+    <div class="info-row">
+      <mat-icon>person</mat-icon>
+      <p>{{instructorInformation.name}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>work</mat-icon>
+      <p>{{instructorInformation.role}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>email</mat-icon>
+      <p>{{instructorInformation.email}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>badge</mat-icon>
+      <p>{{instructorInformation.staffId}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>apartment</mat-icon>
+      <p>{{instructorInformation.department}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>account_tree</mat-icon>
+      <p>{{instructorInformation.division}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>check_circle</mat-icon>
+      <p>{{instructorInformation.status}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>groups</mat-icon>
+      <p>{{instructorInformation.team}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>vpn_key</mat-icon>
+      <p>{{instructorInformation.doorLogNo}}</p>
+    </div>
+  </div>
+</div>

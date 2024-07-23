@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Employer } from '../../models/admin/employer';
 import { ApproveModel } from '../../models/admin/ApprovedModel';
 import { MonthlyCourseEnrollmentModel } from '../../models/charts/MonthlyCourseEnrollmentModel';
+import { AmountOfAccount } from '../../models/admin/amountModel';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class EmployerServiceService {
   }
   getEmployerStudentList(): Observable<Employer[]>{
     return this.httpClient.get<Employer[]>(`${this.baseURL}/studentlist`);
+  }
+  getAmountOfAccount(): Observable<AmountOfAccount>{
+    return this.httpClient.get<AmountOfAccount>(`${this.baseURL}/amountOfAccount`);
   }
   getEmployerByStaffId(staffId: string): Observable<Employer>{
     return this.httpClient.get<Employer>(`${this.baseURL}/profile/${staffId}`);

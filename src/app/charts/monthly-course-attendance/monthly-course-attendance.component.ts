@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartsServices } from '../../services/charts/charts.service';
-import { MonthlyCourseEnrollmentModel } from '../../models/charts/MonthlyCourseEnrollmentModel';
+import { MonthlyDataModel } from '../../models/charts/MonthlyDataModel';
 
 declare var CanvasJS: any;
 
@@ -11,8 +11,7 @@ declare var CanvasJS: any;
 })
 export class MonthlyCourseAttendanceComponent implements OnInit {
   public years: number[] = [];
-  
-  public monthlyAttendances: MonthlyCourseEnrollmentModel[] = [];
+  public monthlyAttendances: MonthlyDataModel[] = [];
   public chartOptions: any = {
     animationEnabled: true,
     theme: "light2",
@@ -63,8 +62,8 @@ export class MonthlyCourseAttendanceComponent implements OnInit {
   }
 
   fetchMonthlyCourseAttendance(year: number): void {
-    this.chartsService.getMonthlyCourseAttendance(year).subscribe(
-      (data: MonthlyCourseEnrollmentModel[]) => {
+    this.chartsService.getMonthlyData(year).subscribe(
+      (data: MonthlyDataModel[]) => {
         this.monthlyAttendances = data;
         this.updateChart(data);
       },
@@ -74,29 +73,28 @@ export class MonthlyCourseAttendanceComponent implements OnInit {
     );
   }
 
-  updateChart(data: MonthlyCourseEnrollmentModel[]): void {
+  updateChart(data: MonthlyDataModel[]): void {
     const chartDataPointsStudentCount: { label: string, y: number }[] = [];
     const chartDataPointsCourseCount: { label: string, y: number }[] = [];
-  
+
     data.forEach(entry => {
       chartDataPointsStudentCount.push({
         label: this.getMonthName(entry.month),
-        y: entry.studentCount
+        y: entry.studentEnrollments
       });
-  
+
       chartDataPointsCourseCount.push({
         label: this.getMonthName(entry.month),
-        y: this.getUniqueCourseCount(entry.month, data)
+        y: entry.courseNames.length // Assuming `courseNames` is an array of course names
       });
     });
-  
+
     this.chartOptions.data[0].dataPoints = chartDataPointsStudentCount;
     this.chartOptions.data[1].dataPoints = chartDataPointsCourseCount;
-  
+
     const chart = new CanvasJS.Chart('chartContainer2', this.chartOptions);
     chart.render();
   }
-  
 
   getMonthName(monthNumber: number): string {
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -104,17 +102,7 @@ export class MonthlyCourseAttendanceComponent implements OnInit {
     return monthNames[monthNumber - 1];
   }
 
-  getUniqueCourseCount(month: number, data: MonthlyCourseEnrollmentModel[]): number {
-    const courses = new Set<string>();
-    data.forEach(entry => {
-      if (entry.month === month) {
-        courses.add(entry.courseName);
-      }
-    });
-    return courses.size;
-  }
-
-  getCoursesInMonth(month: number, data: MonthlyCourseEnrollmentModel[]): MonthlyCourseEnrollmentModel[] {
+  getCoursesInMonth(month: number, data: MonthlyDataModel[]): MonthlyDataModel[] {
     return data.filter(entry => entry.month === month);
   }
 }

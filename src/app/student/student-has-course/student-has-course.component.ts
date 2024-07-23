@@ -16,9 +16,16 @@ export class StudentHasCourseComponent implements OnInit{
   pageIndex = 0;
   pagedCards: StdentCourseModel[] = [];
   staffId: string = sessionStorage.getItem('userId') || '';
+  isAdmin: boolean = false;
+  isInstructor: boolean = false;
+  isStudent: boolean = false;
+  role=sessionStorage.getItem('role');
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
+    this.isAdmin = this.role === 'Admin';
+    this.isInstructor = this.role === 'Instructor';
+    this.isStudent = this.role === 'Student';
     this.getCourses();
     
   }

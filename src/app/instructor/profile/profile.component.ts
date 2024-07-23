@@ -20,9 +20,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
   editedEducation: Education = {} as Education;
   currentEditIndex: number | null = null;
   refreshInterval: any;
-  id:string ='';
+  id: string = '';
+  showToast: boolean = false;
+  toastMessage: string = '';
+  toastType: string = ''; 
 
-  constructor(private instructorService: ProfileService, private http: HttpClient, private loadingService: LoadingService) {}
+  constructor(
+    private instructorService: ProfileService, 
+    private http: HttpClient, 
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
     this.instructorProfile();
@@ -32,6 +39,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.getEducation();
     }, 10000); // Adjust the interval as needed
   } 
+
   ngOnDestroy(): void {
     if (this.refreshInterval) {
       clearInterval(this.refreshInterval);
@@ -46,23 +54,33 @@ export class ProfileComponent implements OnInit, OnDestroy {
       error: (e) => console.error(e),
     });
   }
-  getEducationById(id:string): void {
+
+  getEducationById(id: string): void {
     this.instructorService.getEducationById(id).subscribe({
       next: (data) => {
         this.editedEducation = data;
         this.openModal('editEducationModal');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this.showToastMessage('Error fetching education details', 'error');
+      }
     });
   }
-  deleteEducationById(id:string): void {
+
+  deleteEducationById(id: string): void {
     this.instructorService.deleteEducation(id).subscribe({
       next: () => {
+        this.showToastMessage('Education deleted successfully', 'success');
         this.getEducation(); // Refresh education list after deletion
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this.showToastMessage('Error deleting education', 'error');
+      }
     });
   }
+
   getEducation(): void {
     this.instructorService.getEducations(this.dbId).subscribe({
       next: (data) => {
@@ -97,16 +115,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
   addEducation(): void {
     if (!this.newEducation) {
       console.error('No Education data provided');
+      this.showToastMessage('No Education data provided', 'error');
       return;
     }
     this.instructorService.addEducation(this.dbId, this.newEducation).subscribe({
       next: (data) => {
-        console.log(data);
+        console.log('Education added successfully:', data);
+        this.showToastMessage('Education added successfully', 'success');
         this.getEducation(); // Refresh education list
+        this.closeModal('addEducationModal');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error('Error adding education:', e);
+        this.showToastMessage('Error adding education', 'error');
+      }
     });
-    this.closeModal('addEducationModal');
   }
 
   editEducation(education: Education): void {
@@ -118,32 +141,42 @@ export class ProfileComponent implements OnInit, OnDestroy {
   saveEditedEducation(): void {
     if (!this.editedEducation) {
       console.error('No Education selected for editing');
+      this.showToastMessage('No Education selected for editing', 'error');
       return;
     }
     this.instructorService.updateEducation(this.editedEducation.id, this.editedEducation).subscribe({
       next: (data) => {
-        console.log(data);
+        console.log('Education updated successfully:', data);
+        this.showToastMessage('Education updated successfully', 'success');
         this.getEducation(); // Refresh education list
+        this.closeModal('editEducationModal');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error('Error updating education:', e);
+        this.showToastMessage('Error updating education', 'error');
+      }
     });
-    this.closeModal('editEducationModal');
-  }
+  }  
 
   updateProfileInfo(): void {
     if (!this.instructorData) {
-      console.error('No employer selected');
+      console.error('No instructor data provided');
+      this.showToastMessage('No instructor data provided', 'error');
       return;
     }
     this.instructorService.updateInstructorInfo(this.userId, this.instructorData).subscribe({
       next: (data) => {
-        console.log(data);
+        console.log('Profile updated successfully:', data);
+        this.showToastMessage('Profile updated successfully', 'success');
+        this.closeModal('updateProfileInfoModal');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error('Error updating profile:', e);
+        this.showToastMessage('Error updating profile', 'error');
+      }
     });
-    this.closeModal('updateProfileInfoModal');
   }
-
+  
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input && input.files && input.files.length > 0) {
@@ -152,15 +185,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.selectedFile = null;
     }
   }
+  
   updateProfilePhoto(): void {
     if (!this.selectedFile) {
-      alert('Please select a file first.');
+      this.showToastMessage('Please select a file first.', 'error');
       return;
     }
   
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
     if (!validImageTypes.includes(this.selectedFile.type)) {
-      alert('Invalid file format. Please upload an image file.');
+      this.showToastMessage('Invalid file format. Please upload an image file.', 'error');
       return;
     }
   
@@ -174,6 +208,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe(
         (response) => {
           console.log('File uploaded successfully', response);
+          this.showToastMessage('Profile photo updated successfully', 'success');
           this.loadingService.hide(); // Hide loader on success
           this.instructorProfile(); // Refresh profile data
         },
@@ -181,15 +216,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.loadingService.hide(); // Hide loader on error
           console.error('Error uploading file', error);
           if (error.status === 400) {
-            alert('Invalid file format. Please upload an image file.');
+            this.showToastMessage('Invalid file format. Please upload an image file.', 'error');
           } else if (error.status === 500) {
-            alert('An error occurred on the server. Please try again later.');
+            this.showToastMessage('An error occurred on the server. Please try again later.', 'error');
           } else {
-            alert('An unexpected error occurred. Please try again.');
+            this.showToastMessage('An unexpected error occurred. Please try again.', 'error');
           }
         }
       );
     this.closeModal('updateProfilePhotoModal');
   }
   
+  showToastMessage(message: string, type: string): void {
+    this.toastMessage = message;
+    this.toastType = type;
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+    }, 3000);
+  }
 }

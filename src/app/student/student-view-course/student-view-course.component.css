@@ -1,124 +1,275 @@
 .course-container {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .course-header {
-    margin-bottom: 20px;
-  }
-  
-  .course-header h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-  }
-  
-  .subtitle, .languages {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .languages a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .languages a:hover {
-    text-decoration: underline;
-  }
-  
-  .course-body {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .instructor-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .instructor-info img.meta-logo {
-    width: 300px; /* Increased width for better visibility */
-    height: auto;
-    margin-right: 10px;
-  }
-  
-  .enroll-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  .enroll-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .enrolled-count {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .course-details {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .course-details div {
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  
-  .rating {
-    display: flex;
-    align-items: center;
-  }
-  
-  .rating-value {
-    font-size: 20px;
-    font-weight: bold;
-    margin-right: 5px;
-  }
-  
-  .rating-stars {
-    color: #f5c518;
-    margin-right: 5px;
-  }
-  
-  .rating-reviews, .rating-likes {
-    color: #666;
-    margin-right: 10px;
-  }
-  
-  .view-modules {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 14px;
-  }
-  
-  .view-modules:hover {
-    text-decoration: underline;
-  }
-  .popular-course-header {
-    font-family: 'Arial', sans-serif;
-    font-size: 28px;
-    font-weight: bold;
-    color: #3b82f6; /* Adjust the color to match your theme */
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-bottom: 2px solid #3b82f6;
-    border-top: 2px solid #3b82f6;
-  }
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-header {
+  margin-bottom: 20px;
+}
+
+.course-header h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.subtitle, .languages {
+  font-size: 14px;
+  color: #666;
+}
+
+.languages a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.languages a:hover {
+  text-decoration: underline;
+}
+
+.course-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.instructor-info {
+  display: flex;
+  align-items: center;
+}
+
+.instructor-info img.meta-logo {
+  width: 300px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.enroll-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.enroll-button:hover {
+  background-color: #0056b3;
+}
+
+.course-details-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 20px;
+}
+
+.course-details-vertical .btn-primary {
+  margin-bottom: 20px;
+}
+
+.course-details-vertical .detail-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.course-details-vertical .detail-item mat-icon {
+  margin-right: 10px;
+  color: #007bff;
+}
+
+.course-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.course-details div {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+}
+
+.rating-value {
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.rating-stars {
+  color: #f5c518;
+  margin-right: 5px;
+}
+
+.rating-reviews, .rating-likes {
+  color: #666;
+  margin-right: 10px;
+}
+
+.view-modules {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.view-modules:hover {
+  text-decoration: underline;
+}
+
+.popular-course-header {
+  font-family: 'Arial', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #3b82f6;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 2px solid #3b82f6;
+  border-top: 2px solid #3b82f6;
+} 
+
+.video-container {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  border-radius: 12px 12px 8px 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 45%;
+  height: 30%;
+  display: block;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Centered Enroll Button */
+.enroll-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.enroll-section .btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.enroll-section .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Instructor Modal Styles */
+.modal-instructor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.instructor-modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.instructor-photo {
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 3px solid #007bff;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.info-row mat-icon {
+  margin-right: 10px;
+  color: #007bff;
+}
+
+.info-row p {
+  margin: 0;
+  font-size: 1.1em;
+}
+.btn-primary {
+  background-color: #007bff; /* Primary blue color */
+  color: #fff; /* White text */
+  border: none; /* Remove border */
+  padding: 0.5rem 1rem; /* Adjust padding */
+  font-size: 1rem; /* Font size */
+  border-radius: 0.25rem; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.btn-primary:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.5); /* Add a custom focus shadow */
+}
+
+.btn-primary:disabled, .btn-disabled {
+  background-color: #6c757d; /* Grey color for disabled state */
+  cursor: not-allowed; /* Change cursor to indicate disabled */
+  opacity: 0.65; /* Slightly transparent */
+  transform: none; /* Remove zoom effect */
+}
+

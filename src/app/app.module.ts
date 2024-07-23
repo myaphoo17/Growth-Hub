@@ -7,17 +7,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // Angular Material Modules
-import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 // App Components
 import { AppComponent } from './app.component';
 import { AdmHomeComponent } from './admin/adm-home/adm-home.component';
@@ -51,7 +52,6 @@ import { ForgotPasswordComponent } from './security/forgot-password/forgot-passw
 import { LoginComponent } from './security/login/login.component';
 import { NgChartsModule } from 'ng2-charts';
 import { FilterDataPipe } from './admin/employer-list/filter-employer-data';
-import { MessageComponent } from './admin/message/message.component';
 import { EmployeeUploadComponent } from './admin/employee-upload/employee-upload.component';
 import { ConfirmationDialogComponent } from './instructor/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -76,7 +76,6 @@ import { StudentMessagingComponent } from './student/student-messaging/student-m
 import { StudentMsgSidebarComponent } from './student/student-messaging/student-msg-sidebar/student-msg-sidebar.component';
 import { StudentSettingsComponent } from './student/student-settings/student-settings.component';
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
-import { StudentViewCourseComponent } from './student/student-view-course/student-view-course.component';
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
@@ -87,11 +86,13 @@ import { ExamViewAdminComponent } from './admin/exam-view-admin/exam-view-admin.
 import { ChangePasswordComponent } from './security/change-password/change-password.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { AnswerKeyInstructorComponent } from './instructor/answer-key-instructor/answer-key-instructor.component';
-import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
-import { ChataccListComponent } from './chat/component/chatacc-list/chatacc-list.component';
-import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
 import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
 import { AnalysisComponent } from './charts/analysis/analysis.component';
+import { ChatUserPageComponent } from './chat/chat-user-page/chat-user-page.component';
+import { StudentViewCourseComponent } from './student/student-view-course/student-view-course.component';
+import { ProfileViewComponent } from './views/profile-view/profile-view.component';
+import { MycourseViewComponent } from './views/mycourse-view/mycourse-view.component';
+import { EnrollViewComponent } from './views/enroll-view/enroll-view.component';
 
 
 
@@ -161,7 +162,6 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
     
     //other
     FilterDataPipe,
-    MessageComponent,
     ConfirmationDialogComponent,
     LoadingComponent,
     UpdateDetailCourseComponent,
@@ -176,10 +176,11 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
     ExamDetailComponent,
     AnswerKeyInstructorComponent,
     ChatUserPageComponent,
-    ChataccListComponent,
-    MessageHomeComponent,
     MonthlyCourseAttendanceComponent,
-    AnalysisComponent
+    AnalysisComponent,
+    ProfileViewComponent,
+    MycourseViewComponent,
+    EnrollViewComponent
     
   ],
   imports: [
@@ -203,8 +204,11 @@ import { AnalysisComponent } from './charts/analysis/analysis.component';
     MatListModule,
     NgChartsModule,
     MatDialogModule,
-    BreadcrumbComponent
-
+    BreadcrumbComponent,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatSnackBarModule,
+    
   ],
   providers: [
     provideClientHydration(),

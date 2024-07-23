@@ -1,0 +1,36 @@
+<div class="profile-container mt-3">
+  <div class="personal-details card">
+    <img src="{{instructorData.profilePhotoUrl}}" alt="Profile Picture" class="profile-picture">
+    <h2>{{instructorData.name}}</h2>
+    <button class="btn bg-blue-900" (click)="shareProfileLink()">Share profile link</button>
+  </div>
+
+  <div class="additional-info card">
+    <h3>Education</h3>
+    <ng-container *ngFor="let edu of educations">
+      <div class="education-entry">
+        <div class="education-details">
+          <p><mat-icon>school</mat-icon>{{ edu.degree }} at {{ edu.institution }}</p>
+          <p>{{ edu.startDate }} - {{ edu.graduationDate }}</p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="additional-info card">
+    <h3>Other info</h3>
+    <p><mat-icon aria-hidden="false" aria-label="staff id icon" class="text-sm">person_apron</mat-icon>{{ instructorData.staffId }}</p>
+    <p><mat-icon aria-hidden="false" aria-label="email icon" class="text-sm">mail</mat-icon>{{ instructorData.email }}</p>
+    <p><mat-icon aria-hidden="false" aria-label="department icon" class="text-sm">badge</mat-icon>{{ instructorData.department }}</p>
+    <p><mat-icon aria-hidden="false" aria-label="door log number icon" class="text-sm">vpn_key</mat-icon>{{ instructorData.doorLogNo }}</p>
+    <p><mat-icon aria-hidden="false" aria-label="role icon" class="text-sm">work</mat-icon>{{ instructorData.role }}</p>
+  </div>
+</div>
+
+<div *ngIf="instructorData.role == 'Instructor'">
+  <h2 class="popular-course-header">My Creation Courses</h2>
+  <app-mycourse-view></app-mycourse-view>
+</div>
+
+<h2 class="popular-course-header">Enroll Courses</h2>
+<app-enroll-view></app-enroll-view>

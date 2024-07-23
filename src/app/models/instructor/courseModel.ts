@@ -1,4 +1,4 @@
-import { CategoriesDTO } from "./CategoriesDTO ";
+import { CategoriesDTO } from "./categoriesDTO";
 import { UploadFiles } from "./UploadFiles";
 import { Employer } from "./employer";
 

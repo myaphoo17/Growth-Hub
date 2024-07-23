@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MessageHomeComponent } from './message-home.component';
+import { EnrollViewComponent } from './enroll-view.component';
 
-describe('MessageHomeComponent', () => {
-  let component: MessageHomeComponent;
-  let fixture: ComponentFixture<MessageHomeComponent>;
+describe('EnrollViewComponent', () => {
+  let component: EnrollViewComponent;
+  let fixture: ComponentFixture<EnrollViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MessageHomeComponent]
+      declarations: [EnrollViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MessageHomeComponent);
+    fixture = TestBed.createComponent(EnrollViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

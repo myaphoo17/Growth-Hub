@@ -24,7 +24,6 @@ import { AdmHomeComponent } from './admin/adm-home/adm-home.component';
 import { FactCheckComponent } from './admin/fact-check/fact-check.component';
 import { ReportComponent } from './admin/report/report.component';
 import { GraphComponent } from './admin/graph/graph.component';
-import { MessageComponent } from './admin/message/message.component';
 import { AdminGuard } from './security/guard/AdminGuard';
 import { InstructorGuard } from './security/guard/InstructorGuard';
 import { EmployeeUploadComponent } from './admin/employee-upload/employee-upload.component';
@@ -42,10 +41,13 @@ import { StudentHasCourseComponent } from './student/student-has-course/student-
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
 import { StudentMessagingComponent } from './student/student-messaging/student-messaging.component';
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
-import { MessageHomeComponent } from './chat/component/message-home/message-home.component';
-import { ChatUserPageComponent } from './chat/component/chat-user-page/chat-user-page.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { ChangePasswordComponent } from './security/change-password/change-password.component';
+import { StudentViewCourseComponent } from './student/student-view-course/student-view-course.component';
+import { CoursesComponent } from './components/courses/courses.component';
+import { ChatUserPageComponent } from './chat/chat-user-page/chat-user-page.component';
+import { ProfileViewComponent } from './views/profile-view/profile-view.component';
+import { StudentGuard } from './security/guard/StudentGuard';
 
 
 
@@ -67,9 +69,12 @@ const routes: Routes = [
         { path: '', redirectTo: 'overview', pathMatch: 'full' },
       ] 
     },
+    { path: 'profile-view/:staffId', component: ProfileViewComponent},
+      { path: 'courses', component: CoursesComponent},
+      { path: 'mycourses', component: StudentHasCourseComponent},
+      { path: 'course-details/:courseId',component:StudentViewCourseComponent },
+      { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
-      { path: 'chat-home', component: MessageHomeComponent },
-      { path: 'message', component:  MessageComponent, data: { breadcrumb: 'Message' } },
       { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' } },
       { path: '', redirectTo: 'adm-home', pathMatch: 'full' },
     ],
@@ -90,8 +95,11 @@ const routes: Routes = [
         { path: 'unapprove-course', component: UnapproveCoursesComponent, data: { breadcrumb: 'Unapproved Courses' } },
         { path: '', redirectTo: 'course-creation', pathMatch: 'full' },
       ]},
+      { path: 'profile-view/:staffId', component: ProfileViewComponent},
+      { path: 'mycourses', component: StudentHasCourseComponent},
+      { path: 'course-details/:courseId',component:StudentViewCourseComponent },
+      { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
-      { path: 'chat-home', component: MessageHomeComponent },
       { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent, data: { breadcrumb: 'Update Course' } },
       { path: 'exam-detail', component: ExamDetailComponent },
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },
@@ -100,21 +108,22 @@ const routes: Routes = [
 
   // Student Routes
   {
-    path: "student", component: StudentComponent,
+    path: "student", component: StudentComponent, canActivate: [StudentGuard],
     children: [
+      { path: 'profile-view/:staffId', component: ProfileViewComponent},
       { path: 'stu-home', component: StudentHomeComponent},
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
-      { path: 'chat-home', component: MessageHomeComponent },
+      { path: 'course-details/:courseId',component:StudentViewCourseComponent },
       { path: 'settings', component: StudentSettingsComponent},
-      { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'stu-profile', component: StudentProfileComponent },
       { path: 'help-center', component: StudentHelpCenterComponent},
-      // { path: 'courseDetails', component: StudentHasCourseDetailsComponent},
+      { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'studentMessaging', component: StudentMessagingComponent},
     ],
   },
 
+ 
   // Security Routes
 
   { path: 'forget_pass', component: ForgotPasswordComponent},
