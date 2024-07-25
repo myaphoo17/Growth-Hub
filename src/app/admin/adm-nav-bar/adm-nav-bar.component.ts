@@ -111,11 +111,13 @@ export class AdmNavBarComponent implements OnInit {
       }
     );
   }
+  
   navigateToProfileViewPage(staffId:string) {
     this.router.navigate(['/admin/profile-view', this.encodeId(staffId)]).then(()=>{
       location.reload()
     });
   }
+
   showNotification() {
     this.notificationService.showPostAndUserDetails(this.loginUser).subscribe((response) => {
       this.notifications = response.body;

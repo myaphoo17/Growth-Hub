@@ -7,6 +7,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import * as Papa from 'papaparse';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-inst-accounts',
@@ -25,6 +26,10 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   searchTerm: string = '';
   pageSize = 8;
   pageIndex = 0;
+  showReport = false;  // New property to toggle report visibility
+  allSelected = false; // New property to track select all state
+  currentStep = 1;
+  updateOpen = false;
 
   columns = [
     { key: 'profilePhotoUrl', label: 'Profile' },
@@ -32,17 +37,12 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     { key: 'staffId', label: 'Staff ID' },
     { key: 'status', label: 'Status' },
     { key: 'role', label: 'Role' },
-    // Add more columns as needed
+    { key: 'team', label: 'Team' },
+    { key: 'division', label: 'Division' },
+    { key: 'department', label: 'Department' },
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  // columns = [
-  //   { key: 'profilePhotoUrl', label: 'Profile' },
-  //   { key: 'name', label: 'Name' },
-  //   { key: 'staffId', label: 'Staff ID' },
-  //   { key: 'role', label: 'Role' }
-  // ];
 
   visibleColumns: { [key: string]: boolean } = {};
   checkboxState: { [key: string]: boolean } = {};
@@ -50,11 +50,13 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   constructor(
     private employerService: EmployerServiceService,
     private router: Router,
-    private route: ActivatedRoute
+   
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     this.columns.forEach(column => {
       this.visibleColumns[column.key] = true;
-      this.checkboxState[column.key] = false;
+      this.checkboxState[column.key] = true;
     });
   }
 
@@ -62,6 +64,13 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     this.staffId = this.route.snapshot.params['staffId'];
     this.getEmployers();
     this.initializeColumnVisibility();
+  }
+  nextStep() {
+    this.currentStep++;
+  }
+
+  prevStep() {
+    this.currentStep--;
   }
 
   ngAfterViewInit(): void {
@@ -74,17 +83,16 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     this.updatePagedCards();
   }
 
-  updatePagedCards(): void {
-    this.pagedCards = this.employers.slice(
-      this.pageIndex * this.pageSize,
-      (this.pageIndex + 1) * this.pageSize
-    );
+  toggleSelectAll(event: any): void {
+    const isChecked = event.target.checked;
+    this.allSelected = isChecked;
+    this.columns.forEach(column => {
+      this.checkboxState[column.key] = isChecked;
+    });
+    this.updateVisibleColumns();
   }
 
-
-  toggleColumnVisibility(column: string, event: any): void {
-    this.checkboxState[column] = event.target.checked;
-
+  updateVisibleColumns(): void {
     const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
 
     if (anyCheckboxChecked) {
@@ -99,11 +107,63 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  updatePagedCards(): void {
+    this.pagedCards = this.employers.slice(
+      this.pageIndex * this.pageSize,
+      (this.pageIndex + 1) * this.pageSize
+    );
+  }
+
+  toggleColumnVisibility(column: string, event: any): void {
+    this.checkboxState[column] = event.target.checked;
+    this.updateVisibleColumns();
+  }
 
   openModal(employer: Employer): void {
     this.selectedEmployer = employer;
     this.modalOpen = true;
   }
+ closeUpdateModal(): void {
+    this.updateOpen = false;
+  }
+
+  updateEmployer(sr: number): void {
+    if (!this.selectedEmployer) {
+      this.snackBar.open('No employer selected', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom'
+      });
+      console.error('No employer selected');
+      return;
+    }
+
+    // Perform update operation
+    this.employerService.updateEmployer(sr, this.selectedEmployer).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.snackBar.open('Employer updated successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+        this.closeUpdateModal();
+      },
+      error: (e) => {
+        console.error(e);
+        this.snackBar.open('Failed to update employer', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+      },
+    });
+  }
+
+
 
   openProfileModal(staffId: string): void {
     console.log(`Opening profile modal for staffId: ${staffId}`);
@@ -133,7 +193,6 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
   closePermissionModal(): void {
     this.permissionModelOpen = false;
   }
-
   updateEmployerRole(staffId: string): void {
     if (!this.selectedEmployer) {
       console.error('No employer selected');
@@ -142,12 +201,34 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     this.employerService.updateEmployerRole(staffId, this.selectedEmployer).subscribe({
       next: (data) => {
         console.log(data);
+        this.snackBar.open('Employer role updated successfully!', 'Close', {
+          duration: 3000, // Duration in milliseconds
+          verticalPosition: 'bottom', // 'top' or 'bottom'
+          horizontalPosition: 'right', // 'start', 'center', 'end', 'left', 'right'
+          panelClass: ['success-snackbar'] // Optional, for custom styling
+        });
+        this.closeModal();
+      },
+      error: (e) => {
+        console.error(e);
+        this.snackBar.open('Failed to update employer role.', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'right',
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+  openUpdateModal(staffId: string): void {
+    this.employerService.getEmployerByStaffId(staffId).subscribe({
+      next: (data) => {
+        this.selectedEmployer = data;
+        this.updateOpen = true;
       },
       error: (e) => console.error(e),
     });
-    this.closeModal();
   }
-
   updatePermissionEmployer(staffId: string): void {
     if (!this.selectedEmployer) {
       console.error('No employer selected');
@@ -156,11 +237,26 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     this.employerService.changeEmployerPermission(staffId, this.selectedEmployer).subscribe({
       next: (data) => {
         console.log(data);
+        this.snackBar.open('Permission updated successfully!', 'Close', {
+          duration: 3000, // Duration in milliseconds
+          verticalPosition: 'bottom', // 'top' or 'bottom'
+          horizontalPosition: 'right', // 'start', 'center', 'end', 'left', 'right'
+          panelClass: ['success-snackbar'] // Optional, for custom styling
+        });
+        this.closePermissionModal();
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this.snackBar.open('Failed to update permission.', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'right',
+          panelClass: ['error-snackbar']
+        });
+      },
     });
-    this.closePermissionModal();
   }
+  
 
   private getEmployers(): void {
     this.employerService.getEmployerList().subscribe({
@@ -183,7 +279,6 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  
   shouldDisplayColumn(column: string): boolean {
     const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
     return anyCheckboxChecked ? this.visibleColumns[column] : true;
@@ -225,27 +320,30 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
       this.downloadCSV(this.selectedColumns, this.selectedData);
     }
   }
-
-  downloadPDF(columns: any[], data: any[]) {
+  downloadPDF(columns: any[], data: any[]): void {
     const doc = new jsPDF();
     const headers = columns.map(col => col.label);
     const rows = data.map(item => columns.map(col => item[col.key]));
-
+  
     autoTable(doc, {
       head: [headers],
-      body: rows
+      body: rows,
     });
-
+  
     doc.save('table.pdf');
+    this.showToast('PDF downloaded successfully!', 'success');
   }
+  
 
-  downloadExcel(columns: any[], data: any[]) {
+  downloadExcel(columns: any[], data: any[]): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     XLSX.writeFile(workbook, 'table.xlsx');
+    this.showToast('Excel file downloaded successfully!', 'success');
   }
+  
 
-  downloadCSV(columns: any[], data: any[]) {
+  downloadCSV(columns: any[], data: any[]): void {
     const csv = Papa.unparse(data);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
@@ -256,5 +354,19 @@ export class InstAccountsComponent implements OnInit, AfterViewInit {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    this.showToast('CSV file downloaded successfully!', 'success');
+  }
+  
+
+  toggleReport(): void {
+    this.showReport = !this.showReport;
+  }
+  private showToast(message: string, type: 'success' | 'error'): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,  // Adjust duration as needed
+      panelClass: type === 'success' ? 'toast-success' : 'toast-error',
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom'
+    });
   }
 }

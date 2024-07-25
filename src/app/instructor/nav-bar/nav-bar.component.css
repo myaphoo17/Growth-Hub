@@ -1,71 +1,43 @@
-.search-container {
-    display: flex; /* Arrange elements horizontally */
-    background-color: #f5f5f5; /* Light gray background */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Slightly rounded corners */
-    padding: 5px 10px; /* Padding for spacing */
-  }
-  
-  .search-container input {
-    border: none; /* No border within the input field */
-    outline: none; /* No outline on focus */
-    padding: 5px; /* Padding for spacing */
-    font-size: 16px; /* Font size for readability */
-    color: black; /* Text color for good contrast */
-    flex-grow: 1; /* Expands to fill available space */
-  }
-  
-  .search-container mat-icon {
-    color: #888; /* Gray icon color */
-    margin-right: 5px; /* Spacing between icon and input */
-    font-size: 28px; /* Slightly larger icon size */
-  }
-  
-  .mat-toolbar-row {
-    flex-wrap: nowrap; /* Prevent wrapping */
-  }
-  
-  .mat-toolbar-row .flex {
-    flex: 1;
-  }
-  
-  .mat-toolbar-row .search-container {
-    flex-grow: 1;
-  }
-  
-  .mat-toolbar-row .search-container input {
-    max-width: none;
-    flex-grow: 1;
-    margin-right: 8px;
-  }
-  
-  @media (max-width: 768px) {
-    .mat-toolbar-row .search-container {
-      margin-bottom: 8px;
-      width: 100%;
-    }
-    
-    .mat-toolbar-row .flex {
-      justify-content: center;
-    }
-  }
-  
-  .breadcrumb-container {
-    background-color: #f9f9f9;
-    padding: 10px;
-  }
-  
-  .breadcrumb-container xng-breadcrumb {
-    display: flex;
-    align-items: center;
-  }
-  
-  .breadcrumb-container xng-breadcrumb a {
+.nav-link {
+    color: black;
     text-decoration: none;
-    color: #007bff;
-  }
-  
-  .breadcrumb-container xng-breadcrumb span {
-    margin: 0 5px;
-  }
-  
+    padding: 0 8px;
+    font-size: 14px;
+    line-height: 40px;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: blue;
+}
+
+.categories-menu {
+    position: absolute;
+    top: 40px; /* Adjust this based on your layout */
+    left: 0;
+    z-index: 1000; /* Ensure the menu appears above other content */
+}
+.search-container {
+  position: relative;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}

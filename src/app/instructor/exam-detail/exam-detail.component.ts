@@ -5,6 +5,8 @@ import { FormService } from '../../services/instructor/form.service';
 import { ExamModel } from '../../models/instructor/exam.model';
 import { QuestionModel } from '../../models/instructor/question.model';
 import { OptionModel } from '../../models/instructor/option.model';
+import { Base64 } from 'js-base64';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-exam-detail',
@@ -15,6 +17,9 @@ export class ExamDetailComponent implements OnInit {
   formTitle: string = '';
   formDescription: string = '';
   courseId!: number;
+  courseIdencode!: string; 
+ courseIdencode2!: string;
+
   exam: ExamModel | null = null;
   showAnswerKeyModal: boolean = false;
   selectedQuestionIndex: number = -1;
@@ -24,12 +29,15 @@ export class ExamDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private formService: FormService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.courseId = +params['courseId']; // Parse courseId as number
+      this.courseIdencode = params['courseId']; // Directly assign as string
+      this.courseIdencode2 = this.courseIdencode ? Base64.decode(this.courseIdencode) : '';
+      this.courseId = Number(this.courseIdencode2); // Convert to number
       this.fetchExam();
     });
   }
@@ -48,6 +56,8 @@ export class ExamDetailComponent implements OnInit {
     );
   }
 
+ 
+
   saveExam(): void {
     if (this.exam) {
       this.exam.title = this.formTitle;
@@ -55,11 +65,23 @@ export class ExamDetailComponent implements OnInit {
       this.formService.updateExam(this.courseId, this.exam).subscribe(
         (data: ExamModel) => {
           console.log('Exam updated or inserted successfully', data);
-          this.snackBar.open('Exam updated successfully', 'Close', { duration: 3000 });
+          
+          this.snackBar.open('Exam updated successfully', 'Close', {
+            duration: 3000,
+            panelClass: ['error-snackbar'],
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom'
+          });
+          this.location.back(); // Navigate back to the previous page
         },
         error => {
           console.error('Error saving exam', error);
-          this.snackBar.open('Failed to update exam', 'Close', { duration: 3000 });
+          this.snackBar.open('Failed to update exam', 'Close', { 
+            duration: 3000, 
+            panelClass: ['custom-snackbar', 'error-snackbar'],
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom'
+          });
         }
       );
     }
@@ -159,5 +181,8 @@ export class ExamDetailComponent implements OnInit {
 
   trackByOptionFn(index: number, item: any): number {
     return index;
+  }
+  goBack(): void {
+    window.history.back();
   }
 }

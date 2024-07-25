@@ -88,11 +88,16 @@ import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.compon
 import { AnswerKeyInstructorComponent } from './instructor/answer-key-instructor/answer-key-instructor.component';
 import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
 import { AnalysisComponent } from './charts/analysis/analysis.component';
+
 import { ChatUserPageComponent } from './chat/chat-user-page/chat-user-page.component';
 import { StudentViewCourseComponent } from './student/student-view-course/student-view-course.component';
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
 import { MycourseViewComponent } from './views/mycourse-view/mycourse-view.component';
 import { EnrollViewComponent } from './views/enroll-view/enroll-view.component';
+import { StudentCardDetailComponent } from './student/student-card-detail/student-card-detail.component';
+import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
+import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
+import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
 
 
 
@@ -159,7 +164,7 @@ import { EnrollViewComponent } from './views/enroll-view/enroll-view.component';
     StudentHasCourseDetailsComponent,
     CoursesComponent,
     StudentHasCourseComponent,
-    
+    StudentExamComponent,
     //other
     FilterDataPipe,
     ConfirmationDialogComponent,
@@ -180,8 +185,11 @@ import { EnrollViewComponent } from './views/enroll-view/enroll-view.component';
     AnalysisComponent,
     ProfileViewComponent,
     MycourseViewComponent,
-    EnrollViewComponent
-    
+    EnrollViewComponent,
+    GradeModalComponent,
+    GradeDetailComponent,
+    IntAssignmentComponent,
+    StudentCardDetailComponent,    
   ],
   imports: [
     

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Employer } from '../../models/admin/employer';
@@ -8,6 +8,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import * as Papa from 'papaparse';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-stu-accounts',
@@ -29,24 +30,48 @@ export class StuAccountsComponent implements OnInit{
   pageSize = 8;
   pageIndex = 0;
   refreshInterval: any;
-
+  showReport = false;  // New property to toggle report visibility
+  allSelected = false; // New property to track select all state
+  currentStep = 1;
+  
   columns = [
     { key: 'profilePhotoUrl', label: 'Profile' },
     { key: 'name', label: 'Name' },
     { key: 'staffId', label: 'Staff ID' },
     { key: 'status', label: 'Status' },
     { key: 'role', label: 'Role' },
+    { key: 'team', label: 'Team' },
+    { key: 'division', label: 'Division' },
+    { key: 'department', label: 'Department' },
     // Add more columns as needed
   ];
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  visibleColumns: { [key: string]: boolean } = {};
+  checkboxState: { [key: string]: boolean } = {};
+
   constructor(
     private employerService: EmployerServiceService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
+  ) {
+    this.columns.forEach(column => {
+      this.visibleColumns[column.key] = true;
+      this.checkboxState[column.key] = true;
+    });
+  }
+  nextStep() {
+    this.currentStep++;
+  }
+
+  prevStep() {
+    this.currentStep--;
+  }
+
+
   ngOnInit(): void {
     this.staffId = this.route.snapshot.params['staffId'];
     this.getEmployers();
@@ -61,8 +86,38 @@ export class StuAccountsComponent implements OnInit{
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.updatePagedCards();
+  }
+
+  toggleSelectAll(event: any): void {
+    const isChecked = event.target.checked;
+    this.allSelected = isChecked;
+    this.columns.forEach(column => {
+      this.checkboxState[column.key] = isChecked;
+    });
+    this.updateVisibleColumns();
+  }
+
+  updateVisibleColumns(): void {
+    const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
+
+    if (anyCheckboxChecked) {
+      this.columns.forEach(col => {
+        this.visibleColumns[col.key] = this.checkboxState[col.key];
+      });
+    } else {
+      // If no checkbox is checked, show all columns
+      this.columns.forEach(col => {
+        this.visibleColumns[col.key] = true;
+      });
+    }
+  }
+ 
+  
+  toggleColumnVisibility(column: string, event: any): void {
+    this.checkboxState[column] = event.target.checked;
+    this.updateVisibleColumns();
   }
 
   handlePageEvent(event: PageEvent): void {
@@ -104,18 +159,40 @@ export class StuAccountsComponent implements OnInit{
   }
   updateEmployer(sr: number): void {
     if (!this.selectedEmployer) {
+      this.snackBar.open('No employer selected', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom'
+      });
       console.error('No employer selected');
       return;
     }
+
+    // Perform update operation
     this.employerService.updateEmployer(sr, this.selectedEmployer).subscribe({
       next: (data) => {
         console.log(data);
+        this.snackBar.open('Employer updated successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+        this.closeUpdateModal();
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this.snackBar.open('Failed to update employer', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+      },
     });
-    this.closeUpdateModal();
-
   }
+
 
   openPermissionModal(employer: Employer): void {
     this.selectedEmployer = employer;
@@ -185,25 +262,26 @@ export class StuAccountsComponent implements OnInit{
     });
   }
 
-  visibleColumns: { [key: string]: boolean } = {};
-  checkboxState: { [key: string]: boolean } = {};
 
-  toggleColumnVisibility(column: string, event: any): void {
-    this.checkboxState[column] = event.target.checked;
 
-    const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
 
-    if (anyCheckboxChecked) {
-      this.columns.forEach(col => {
-        this.visibleColumns[col.key] = this.checkboxState[col.key];
-      });
-    } else {
-      // If no checkbox is checked, show all columns
-      this.columns.forEach(col => {
-        this.visibleColumns[col.key] = true;
-      });
-    }
-  }
+
+  // toggleColumnVisibility(column: string, event: any): void {
+  //   this.checkboxState[column] = event.target.checked;
+
+  //   const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);
+
+  //   if (anyCheckboxChecked) {
+  //     this.columns.forEach(col => {
+  //       this.visibleColumns[col.key] = this.checkboxState[col.key];
+  //     });
+  //   } else {
+  //     // If no checkbox is checked, show all columns
+  //     this.columns.forEach(col => {
+  //       this.visibleColumns[col.key] = true;
+  //     });
+  //   }
+  // }
 
   shouldDisplayColumn(column: string): boolean {
     const anyCheckboxChecked = Object.values(this.checkboxState).some(value => value);

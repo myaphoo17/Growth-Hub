@@ -9,6 +9,9 @@ import { NotificationService } from '../../chat/service/notification.service';
 import { UserResponse } from '../../chat/model/UserResponse';
 import { Base64 } from 'js-base64';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl } from '@angular/forms';
+import { Category } from '../../models/category.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-student-nav',
@@ -37,6 +40,16 @@ export class StudentNavComponent implements OnInit {
   role=sessionStorage.getItem('role');
   searchTerm:string='';
 
+
+  searchControl = new FormControl();
+  categories: Category[] = [];
+  filteredCategory: Category[] = [];
+  stringCourseId!:string;
+  query: string = '';
+  searchResults: any[] = [];
+  showDropdown: boolean = false;
+
+
   constructor(
     private studentService: StudentprofileService, 
     private cdr: ChangeDetectorRef,
@@ -45,7 +58,8 @@ export class StudentNavComponent implements OnInit {
     private userServ: UserService,
     private webSocketService: WebSocketService,
     private notificationService: NotificationService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private http: HttpClient
   ) {
     this.loginUser = sessionStorage.getItem('userId') || '';
   }
@@ -74,6 +88,31 @@ export class StudentNavComponent implements OnInit {
         this.showNotification();
       });
     }, 900);
+  }
+
+  searchCourses() {
+    if (this.query.trim().length === 0) {
+      this.showDropdown = false;
+      return;
+    }
+
+    this.http.get<any[]>(`http://localhost:8080/courses/search?title=${this.query}`).subscribe((data) => {
+      this.searchResults = data;
+      this.showDropdown = true;
+      this.cdr.detectChanges(); // Ensure change detection runs
+    });
+  }
+  navigateToProfileViewPage(staffId:string) {
+    this.router.navigate(['/student/profile-view', this.encodeId(staffId)]).then(()=>{
+      location.reload()
+    });
+  }
+
+  navigateToCourseDetails(courseId: number, courseTitle: string) {
+    this.stringCourseId=courseId.toString();
+    this.query = courseTitle;
+    this.router.navigate(['/student/course-details', this.encodeId(this.stringCourseId)], { queryParams: { searchQuery: this.query } });
+    this.showDropdown = false;
   }
 
   get filteredEmployers(): Employer[] {
@@ -199,9 +238,6 @@ export class StudentNavComponent implements OnInit {
     if (staffId != null) {
       this.router.navigate(['student/privateChat', this.encodeId(staffId)]);
       this.funcRead(idRecepeintto, idUserFrom, type, idPost);
-      setTimeout(() => {
-        location.reload();
-      }, 50);
     }
   }
 

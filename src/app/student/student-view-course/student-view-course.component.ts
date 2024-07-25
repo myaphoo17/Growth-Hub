@@ -50,7 +50,7 @@ export class StudentViewCourseComponent implements OnInit {
   }
 
   checkForExam(courseId: number): void {
-    this.studentExamService.getExamByCourseId(courseId).subscribe(
+    this.studentExamService.getExamDetailsByCourseId(courseId).subscribe(
       data => {
         this.examDetails = data;
         this.hasExam = true; // Set to true if data is not null or undefined

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../models/courses';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { UploadFiles } from '../../models/instructor/UploadFiles';
 import { CourseModel } from '../../models/instructor/courseModel';
@@ -34,7 +34,8 @@ export class CoursesComponent implements OnInit {
     private coursesService: CoursesService,
     private studentService: StudentprofileService,
     private instructorSer:ProfileService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     
   }
@@ -43,6 +44,10 @@ export class CoursesComponent implements OnInit {
     this.isAdmin = this.role === 'Admin';
     this.isInstructor = this.role === 'Instructor';
     this.isStudent = this.role === 'Student';
+    this.route.paramMap.subscribe(params => {
+      const categoryId = params.get('categoryId');
+      this.fetchCourses(categoryId ? categoryId.toString() : undefined);
+    });
     this.fetchCourses();
   }
   getCoursesById(courseId: string, callback: () => void): void {
@@ -62,9 +67,15 @@ export class CoursesComponent implements OnInit {
     });
 }
 
-  fetchCourses() {
+  fetchCourses(categoryId?: string) {
     this.coursesService.getAllCourses().subscribe(
       (data: CourseModel[]) => {
+        if (categoryId !== undefined) {
+          this.courses = data.filter(course => Number(course.categoriesDTO.id) === Number(categoryId));
+        } else {
+          this.courses = data;
+        }
+        this.loading = false;
         this.courses = data;
         this.loading = false;
         this.checkEnrollments();
@@ -76,6 +87,7 @@ export class CoursesComponent implements OnInit {
       }
     );
   }
+
   checkEnrollments() {
     this.courses.forEach(course => {
       this.checkEmployee(course.id);

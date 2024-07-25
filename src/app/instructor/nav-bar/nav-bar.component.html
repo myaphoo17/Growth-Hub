@@ -1,35 +1,48 @@
-<mat-toolbar color="brown" class="bg-blue-500 h-12">
+<mat-toolbar color="brown" class="bg-blue-500 h-20 justify-center">
   <mat-toolbar-row class="flex items-center justify-between h-full">
     <div class="flex items-center"> <!-- Removed 'space-x-2' class -->
-      <a class="navbar-brand" href="https://www.diracetechnology.com" style="margin-right: 20px;"> <!-- Added margin-right -->
-        <img src="https://www.diracetechnology.com/wp-content/themes/dat/assets/images/DAT Logo.png" alt="DAT Logo" class="logo w-25 h-12">
-      </a>
+      
+      <div class="flex items-center"> <!-- Removed 'space-x-2' class -->
+        <mat-icon class="text-blue-900 text-5xl " style="width: 60px;  height: 50px;">cast_for_education</mat-icon>
+        
+        <div class="text-blue-900 text-2xl mt-3 font-semibold">Growth Hub</div>
+      </div>
+
       <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
-      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="/catagories">
-        Catagories
-      </a>
+      <a class="nav-link" [matMenuTriggerFor]="categoriesMenu">Categories</a>
+    <mat-menu #categoriesMenu="matMenu" class="categories-menu">
+      <button mat-menu-item *ngFor="let category of categories" (click)="onCategorySelect(category.id)">
+        {{ category.name }}
+      </button>
+    </mat-menu>
       <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
     </div>
 
     <nav class="flex space-x-2 items-center"> <!-- Added 'items-center' class to align items vertically -->
       
-      <div class="search-container flex items-center bg-white rounded-full px-1">
-        <mat-icon class="text-gray-500">search</mat-icon>
-        <input type="text" placeholder="Search..." [(ngModel)]="searchText" (input)="filterCards()" class="rounded-full border-none outline-none px-2 py-1 text-sm" />
+      <div class="search-container flex items-center rounded-lg bg-gray-200 px-2 py-1 border border-blue-900">
+        <input [(ngModel)]="query" (input)="searchCourses()" type="text" placeholder="Search..." class="border-none outline-none bg-transparent text-sm px-2" />
+        <mat-icon class="text-blue-900">search</mat-icon>
+        <div *ngIf="showDropdown && searchResults.length > 0" class="search-dropdown">
+          <div *ngFor="let course of searchResults" class="dropdown-item" (click)="navigateToCourseDetails(course.id, course.title)">
+            {{ course.title }}
+          </div>
+        </div>
       </div>
-      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="int-home">Home</a>
-      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="mycourses">My Course</a>
-      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="creation-home">
+      
+      <a mat-button class="text-white text-sm  px-2" routerLink="int-home">Home</a>
+      <a mat-button class="text-white text-sm  px-2" routerLink="mycourses">My Course</a>
+      <a mat-button class="text-white text-sm  px-2" routerLink="creation-home">
         <mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">add_box</mat-icon>
-        Post
+        Create
       </a>
 
-      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" (click)="dropDownMenueChat()" data-dropdown-toggle="dropdownChat">
+      <a mat-button class="text-white text-sm  px-2" (click)="dropDownMenueChat()" data-dropdown-toggle="dropdownChat">
         <mat-icon aria-hidden="false" aria-label="chat icon" class="text-sm">message</mat-icon>
         Chat
       </a> 
     
-      <button (click)="dropDownMenueNotif()" id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="inline-flex bg items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button"> 
+      <button (click)="dropDownMenueNotif()" id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="inline-flex bg items-center text-sm font-medium text-center text-black-500 hover:text-gray-500 focus:outline-none dark:hover:text-gray dark:text-black-400"  type="button"> 
         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
             <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z"/>
         </svg>
@@ -38,19 +51,19 @@
         </div>
       </button>
 
-      <a mat-button class="text-white text-sm hover:bg-blue-700 px-2" routerLink="profile">
+      <a mat-button class="text-white text-sm  px-2" routerLink="profile">
         <mat-icon aria-hidden="false" aria-label="Profile icon" class="text-sm">account_circle</mat-icon>
         Profile
       </a>
       <div class="relative">
-        <button class="text-black text-sm hover:bg-blue-700 px-2 py-1 rounded-md" [matMenuTriggerFor]="dropdown">
+        <button class="text-black text-sm  px-2 py-1 rounded-md" [matMenuTriggerFor]="dropdown">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
         <mat-menu #dropdown="matMenu">
-          <button mat-menu-item routerLink="about" class="text-sm text-white hover:bg-blue-700">About</button>
-          <button mat-menu-item routerLink="contact" class="text-sm text-white hover:bg-blue-700">Contact</button>
+          <button mat-menu-item routerLink="about" class="text-sm text-white ">About</button>
+          <button mat-menu-item routerLink="contact" class="text-sm text-white ">Contact</button>
           <button mat-menu-item (click)="logout()">Logout</button>
         </mat-menu>
       </div>
@@ -72,7 +85,7 @@
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
           <li *ngFor="let user of filteredEmployers" class="flex items-center py-2 space-x-2">
             <div *ngIf="user.staffId !== check" class="flex items-center w-full">
-              <img class="w-6 h-6 rounded-full" [src]="user.profilePhotoUrl" alt="{{user.name}} profile photo">
+              <img class="w-6 h-6 rounded-full" [src]="user.profilePhotoUrl" (click)="navigateToProfileViewPage(user.staffId)" alt="{{user.name}} profile photo">
               <div class="flex-1 min-w-0 ml-2">
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-white">{{user.name}}</p>
                 <p class="text-xs text-gray-500 truncate dark:text-gray-400">{{user.email}}</p>
@@ -93,7 +106,6 @@
   </div>
 </div>
 
-
 <div class=" absolute right-3 z-20" [ngClass]="{'hidden': isHiddenNotif,'': !isHiddenNotif}">
   <div id="dropdownNotification" class="z-20  w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
       <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
@@ -102,7 +114,7 @@
       <div class="divide-y overflow-y-scroll min-h-[106px] max-w-[384px] min-w-[308px] max-h-[344px] divide-gray-100 dark:divide-gray-700">
         <a *ngFor="let notif of notifications" (click)="navigateToProfilePage(notif.userFrom.staffId,notif.idPost,notif.recipient.sr,notif.userFrom.sr,notif.notificationType)"  class="cursor-pointer flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
           <div class="flex-shrink-0">
-                  <img class="rounded-full w-11 h-11" [src]="notif.userFrom.profilePhotoUrl" alt="Jese image">
+                  <img class="rounded-full w-11 h-11" [src]="notif.userFrom.profilePhotoUrl" (click)="navigateToProfileViewPage(notif.userFrom.staffId)" alt="Jese image">
                   <div  *ngIf="isMessage(notif.notificationType)" class="relative flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
                       <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                           <path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z"/>
@@ -114,6 +126,11 @@
                           <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
                       </svg>
                   </div>
+                  <div *ngIf="isEnroll(notif.notificationType)" class="relative flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-black border border-white rounded-full dark:border-gray-800">
+                    <svg  class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                        <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
+                    </svg>
+                </div>
               </div>
               <div *ngIf="isMessage(notif.notificationType)" class="w-full pl-3">
                   <div *ngIf="isRead(notif.isRead)" class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">New message from <span class="font-semibold text-gray-900 dark:text-white">{{notif.userFrom.name}}</span></div>
@@ -130,68 +147,7 @@
                 <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 "><span class="font-bold">{{notif.userFrom.name}}</span> enrolled your course.</div>
                 <div class="text-xs text-blue-600 dark:text-blue-500">{{timeGenerator(notif.createdAt)}}</div>
             </div>
-             
           </a>
       </div>
   </div>
 </div>
-
-
-
-
-
-
-
-<!-- 
-
-<div class="navbar fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-5 bg-gray-100 shadow-md">
-  <div class="flex items-center ">
-    <mat-icon class="text-blue-900 text-5xl " style="width: 60px;  height: 50px;">cast_for_education</mat-icon>
-  
-    <div class="text-blue-900 text-2xl mt-3 font-semibold">Growth Hub</div>
-  </div>
-  
-
-  <div class="flex items-center space-x-5">
-    <div class="search-container flex items-center rounded-lg bg-gray-200 px-4 py-2 border border-blue-900">
-      <input type="text" placeholder="Search..." class="border-none outline-none bg-transparent text-md px-2" />
-      <mat-icon class="text-blue-900">search</mat-icon>
-    </div>
-  </div>
-  <div class="flex items-center space-x-6">
-
-  <a routerLink="stu-home" class="bg-blue-900 text-white hover:bg-amber-300 hover:font-semibold hover:text-black transition duration-300 text-md font-medium px-3 py-2 rounded-sm">Home</a>
-
-  <a routerLink="int-home"  class="bg-blue-900 text-white hover:bg-amber-300 hover:font-semibold hover:text-black transition duration-300 text-md font-medium px-3 py-2 rounded-md">Home</a>
->>>>>>> be4bba8f7288737adc78227b514809512f374ab5
-  <a class=" flex bg-blue-900 text-white hover:bg-amber-300 hover:font-semibold hover:text-black transition duration-300 text-md font-medium px-3 py-2 rounded-sm" routerLink="creation-home">
-    <mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">add_box</mat-icon>
-    Post
-  </a>
-
- 
-
-  <a class=" flex bg-blue-900 text-white hover:bg-amber-300 hover:font-semibold hover:text-black transition duration-300 text-md font-medium px-3 py-2 rounded-sm" routerLink="profile">
-
-  <a class=" flex bg-blue-900 text-white hover:bg-amber-300 hover:font-semibold hover:text-black transition duration-300 text-md font-medium px-3 py-2 rounded-md" routerLink="profile">
-
-    <mat-icon aria-hidden="false" aria-label="Profile icon" class="text-sm">account_circle</mat-icon>
-    Profile
-  </a>
-  <div class="relative">
-    <button class="text-black text-sm hover:bg-blue-700 px-2 py-1 rounded-md" [matMenuTriggerFor]="dropdown">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-      </svg>
-    </button>
-    <mat-menu #dropdown="matMenu">
-      <button mat-menu-item routerLink="about" class="bg-blue-900 text-white hover:bg-amber-300 hover:font-semibold hover:text-black transition duration-300 text-md font-medium px-3 py-2 rounded-sm">About</button>
-      <button mat-menu-item routerLink="contact" class="bg-blue-900 text-white hover:bg-amber-300 hover:font-semibold hover:text-black transition duration-300 text-md font-medium px-3 py-2 rounded-sm">Contact</button>
-      <button mat-menu-item routerLink="logout">Logout</button>
-
-    </mat-menu>
-  </div>
-</div>
-
- -->
-

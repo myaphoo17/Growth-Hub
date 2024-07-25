@@ -1,25 +1,25 @@
 <div class="container mx-auto p-6">
-    <!-- Courses Section -->
-    <section>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div class="card-wrapper" *ngFor="let course of courses">
-          <div class="card bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
-            <div class="p-4">
-              <h2 class="text-lg font-semibold mb-2">{{ course.title }}</h2>
-              <p class="text-gray-700">{{ course.description }}</p>
-              <p class="text-gray-700">Duration: {{ course.duration }}</p>
-              <video [src]="getVideoFiles(course.uploadFiles)[0].url" controls [ngStyle]="{ 'border-radius': '8px' }"></video>
-              <div class="flex justify-between mt-4">
-                <a class="text-blue-500 text-xs inline-block" [routerLink]="[isAdmin ? '/admin/course-details' : (isInstructor ? '/instructor/course-details' : '/student/course-details'), encodeId(course.id)]">View Details</a>
-                <button class="btn-primary"
-                *ngIf="enrollStatus[course.id] === false && enrollInst[course.id] === false"
-                  (click)="enrollCourse(staffId, course.id)">
-                  Enroll
-                </button>
-              </div>
+  <!-- Courses Section -->
+  <section>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="card-wrapper" *ngFor="let course of courses">
+        <div class="card bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+          <div class="p-4">
+            <h2 class="text-lg font-semibold mb-2">{{ course.title }}</h2>
+            <p class="text-gray-700">{{ course.description }}</p>
+            <p class="text-gray-700">Duration: {{ course.duration }}</p>
+            <video [src]="getVideoFiles(course.uploadFiles)[0].url" controls [ngStyle]="{ 'border-radius': '8px' }"></video>
+            <div class="flex justify-between mt-4">
+              <a class="text-blue-500 text-xs inline-block" [routerLink]="[isAdmin ? '/admin/course-details' : (isInstructor ? '/instructor/course-details' : '/student/course-details'), encodeId(course.id)]">View Details</a>
+              <button class="btn-primary"
+              *ngIf="enrollStatus[course.id] === false && enrollInst[course.id] === false"
+                (click)="enrollCourse(staffId, course.id)">
+                Enroll
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+</div>

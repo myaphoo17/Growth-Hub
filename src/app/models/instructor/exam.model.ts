@@ -7,4 +7,5 @@ export interface ExamModel {
   questions: QuestionModel[];
   createdDate: Date;
   updatedDate: Date;
+  totalPoints:number;
 }

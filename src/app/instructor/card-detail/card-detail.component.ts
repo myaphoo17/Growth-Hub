@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { CoursesService } from '../../services/courses.service';
+import { Course } from '../../models/courses';
+import { ActivatedRoute } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-card-detail',
@@ -6,6 +11,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card-detail.component.css']
 })
 export class CardDetailComponent implements OnInit {
+
+  courses: Course[]=[];
   showInstructorModal = false;
   showModulesModal = false;
   modules = [
@@ -41,9 +48,16 @@ export class CardDetailComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private courseService: CoursesService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.courseService.getAllCourses().subscribe(courses => {
+      // this.courses = courses;
+    });
+  }
   toggleInstructorModal() {
     this.showInstructorModal = !this.showInstructorModal;
   }
@@ -51,4 +65,5 @@ export class CardDetailComponent implements OnInit {
   toggleModulesModal() {
     this.showModulesModal = !this.showModulesModal;
   }
+  
 }

@@ -46,6 +46,7 @@ export class StudentprofileService {
 getEnrollCourses(staffId: string): Observable<StdentCourseModel[]> {
   return this.httpClient.get<StdentCourseModel[]>(`${this.baseURL}/enrollCourses/${staffId}`);
 }
+
 getEnrollCoursesview(staffId: string): Observable<CourseModel[]> {
   return this.httpClient.get<CourseModel[]>(`${this.baseURL}/enrollCourses/${staffId}`);
 }
@@ -59,6 +60,5 @@ checkEmployeeExists(courseId: string,staffId:string): Observable<boolean> {
 getEnrollmentCount(courseId: string): Observable<number> {
   return this.httpClient.get<number>(`${this.baseURL}/course_count/${courseId}`);
 }
-
 
 }

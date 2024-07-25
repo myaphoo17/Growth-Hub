@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { CourseModel } from '../../models/instructor/courseModel'; // Ensure the import path is correct
 import { ProfileService } from '../../services/instructor/profile.service';
 import { UploadFiles } from '../../models/instructor/UploadFiles';
 import { Base64 } from 'js-base64';
+import { StudentExamService } from '../../services/student/studentexam.service';
+import { ExamModel } from '../../models/instructor/exam.model';
 
 @Component({
   selector: 'app-unapprove-courses',
@@ -16,14 +18,31 @@ export class UnapproveCoursesComponent implements OnInit {
   pageIndex = 0;
   pagedCards: CourseModel[] = [];
   employerSr!:string;
+  // hasExam: boolean = false;
+  examDetails: ExamModel | null = null;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
     this.getCourses();
+    
   }
 
-  constructor(private instructorService: ProfileService) {}
+  constructor(private instructorService: ProfileService,private cdr: ChangeDetectorRef,private studentExamService: StudentExamService) {}
 
+  // checkForExam(courseId: number): void {
+  //   this.studentExamService.getHasExamByCourseId(courseId).subscribe(
+  //     exists => {
+  //       this.hasExam = exists; // Set to true if the exam exists, otherwise false
+  //       this.cdr.detectChanges(); // Manually trigger change detection
+  //     },
+  //     error => {
+  //       console.error('Error checking for exam:', error);
+  //       this.hasExam = false; // Set to false if an error occurs
+  //       this.cdr.detectChanges(); // Manually trigger change detection
+  //     }
+  //   );
+  // }
+  
   showDetails(course:CourseModel) {
     course.showDetail = true;
   }
@@ -44,6 +63,10 @@ export class UnapproveCoursesComponent implements OnInit {
       next: (data) => {
         this.courses = data;
         this.courses.forEach(course => {
+
+          const courseId = Number(course.id);
+          // this.checkForExam(courseId);
+
           course.uploadFiles = course.uploadFiles || []; // Initialize files if undefined
           course.categoriesDTO = course.categoriesDTO || { name: '' }; // Initialize category if undefined
           course.employeeDTO = course.employeeDTO || { sr: '' }; 

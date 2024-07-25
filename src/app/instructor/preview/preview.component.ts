@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormService } from '../../services/instructor/form.service';
 import { ExamModel } from '../../models/instructor/exam.model';
+import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-preview',
@@ -14,7 +16,7 @@ export class PreviewComponent implements OnInit {
   questions: any[] = [];
   courseId: number = 0;
 
-  constructor(private formService: FormService, private router: Router, private route: ActivatedRoute) {
+  constructor(private formService: FormService,private snackBar: MatSnackBar,private location: Location, private router: Router, private route: ActivatedRoute) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       formTitle: string,
@@ -70,8 +72,18 @@ export class PreviewComponent implements OnInit {
     this.formService.addExam(exam, this.courseId).subscribe(response => {
       console.log('Exam added successfully', response);
       this.router.navigate(['/success', { id: response.id }]); // Navigate to success page with generated exam ID
+     
     }, error => {
       console.error('Error adding exam', error);
     });
+    this.snackBar.open('Exam add successfully', 'Close', {
+      duration: 3000,
+      panelClass: ['error-snackbar'],
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom'
+    });
+    // Navigate to creation-home/unapprove-course route with a unique query parameter
+  this.router.navigate(['instructor/creation-home/unapprove-course'], { queryParams: { refresh: new Date().getTime() } });
+
   }
 }

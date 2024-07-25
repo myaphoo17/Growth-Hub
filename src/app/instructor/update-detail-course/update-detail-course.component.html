@@ -26,12 +26,16 @@
         <h2>{{ videos[currentVideoIndex].title }}</h2>
         <ul>
           <li>
-            <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle">assignment</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle" (click)="navigateToAssignment()">assignment</mat-icon>
             <span class="inline-block align-middle">Assignment</span>
           </li>
           <li>
             <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle" (click)="navigateToExamDetail()">task</mat-icon>
             <span class="inline-block align-middle">Exam</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle" (click)="navigateToGrade()">grade</mat-icon>
+            <span class="inline-block align-middle">Grade</span>
           </li>
           <li>
             <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle">military_tech</mat-icon>

@@ -60,11 +60,21 @@ export class UpdateDetailCourseComponent implements OnInit {
       error: (e) => console.error(e),
     });
   }
-
+  encodeId(id: string): string {
+    return Base64.encode(id);
+  }
   navigateToExamDetail(): void {
-    this.router.navigate(['/instructor/exam-detail'], { queryParams: { courseId: this.id } });
+    this.router.navigate(['/instructor/exam-detail'], { queryParams: { courseId: this.encodeId(this.id) } });
   }
 
+  navigateToGrade(): void {
+    this.router.navigate(['/instructor/grade-detail'], { queryParams: { courseId: this.encodeId(this.id) } });
+  }
+
+  navigateToAssignment(): void {
+    this.router.navigate(['/instructor/int-assignment'], { queryParams: { courseId: this.id } });
+  }
+  
   toggleInstructorModal(): void {
     this.showInstructorModal = !this.showInstructorModal;
   }

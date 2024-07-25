@@ -12,11 +12,16 @@
         <a [routerLink]="['/instructor/profile/updatecourse', encodeId(card.id)]">
           <button mat-button color="primary" role="button">View Course</button>
         </a>
-        <a [routerLink]="['/instructor/questions']" [queryParams]="{courseId: card.id}">
-          <button mat-button color="primary" role="button">Create Exam</button>
-        </a>
-        
+        <div class="detail-item" *ngIf="card.hasExam === true">
+          <button mat-button color="primary" role="button">Has Exam</button>
+        </div>
+        <div class="detail-item" *ngIf="card.hasExam   === false">
+          <a [routerLink]="['/instructor/questions']" [queryParams]="{courseId: card.id}">
+            <button mat-button color="primary" role="button">Create Exam</button>
+          </a>
+        </div>
       </mat-card-actions>
+      
     </mat-card>
     <div class="card-details" *ngIf="card.showDetail" [ngClass]="{'left': i % 4 !== 0, 'right': i % 4 === 0}">
       <h3>{{ card.title }}</h3>

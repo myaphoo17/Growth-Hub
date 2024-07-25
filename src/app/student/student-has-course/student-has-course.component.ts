@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CourseModel } from '../../models/instructor/courseModel';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
 import { Base64 } from 'js-base64';
 import { UploadFiles } from '../../models/instructor/UploadFiles';
 import { StdentCourseModel } from '../../models/student/StudentCourseModel';
+import { ActivatedRoute , Router } from '@angular/router';
 @Component({
   selector: 'app-student-has-course',
   templateUrl: './student-has-course.component.html',
@@ -12,8 +12,13 @@ import { StdentCourseModel } from '../../models/student/StudentCourseModel';
 })
 export class StudentHasCourseComponent implements OnInit{
   courses: StdentCourseModel[] = [];
+
+  id!: string;
   pageSize = 8;
   pageIndex = 0;
+
+ 
+  
   pagedCards: StdentCourseModel[] = [];
   staffId: string = sessionStorage.getItem('userId') || '';
   isAdmin: boolean = false;
@@ -30,7 +35,7 @@ export class StudentHasCourseComponent implements OnInit{
     
   }
 
-  constructor(private studentService: StudentprofileService) {}
+  constructor(private studentService: StudentprofileService , private route: ActivatedRoute, private router: Router) {}
 
   showDetails(course:StdentCourseModel) {
     course.showDetail = true;
@@ -40,9 +45,7 @@ export class StudentHasCourseComponent implements OnInit{
     course.showDetail = false;
   }
 
-  updatePagedCards() {
-    this.pagedCards = this.courses.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
-  }
+
   encodeId(id: string): string {
     return Base64.encode(id);
   }
@@ -51,20 +54,39 @@ export class StudentHasCourseComponent implements OnInit{
       next: (data) => {
         this.courses = data;
         this.courses.forEach(course => {
-          course.uploadFilesDTO = course.uploadFilesDTO || []; // Initialize files if undefined
-          course.categoriesDTO = course.categoriesDTO || { name: '' }; // Initialize category if undefined
+          course.uploadFilesDTO = course.uploadFilesDTO || []; 
+          course.categoriesDTO = course.categoriesDTO || { name: '' }; 
         });
-        this.updatePagedCards();
       },
       error: (e) => console.error(e),
     });
   }
 
-  handlePageEvent(event: PageEvent) {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.updatePagedCards();
+  // navigateToStudentExam(courseId: string): void {
+  //   this.router.navigate(['/student/student-exam'], { queryParams: { courseId: this.encodeId(courseId) } });
+  // }
+
+  navigateToStudentExam(courseId: string): void {
+    let route: string;
+    switch (this.role) {
+      case 'Student':
+        route = '/student/student-exam';
+        break;
+      case 'Instructor':
+        route = '/instructor/student-exam';
+        break;
+      case 'Admin':
+        route = '/admin/student-exam';
+        break;
+      default:
+        console.error('Invalid user role');
+        return;
+    }
+    this.router.navigate([route], { queryParams: { courseId: this.encodeId(courseId), staffId: this.encodeId(this.staffId) } });
   }
+  
+
+
   getFileType(url: string): string {
     const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
     if (url) {

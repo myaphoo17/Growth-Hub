@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { UserResponse } from '../../chat/model/UserResponse';
 import { AuthServiceService } from '../../security/services/auth-service.service';
 import { Router } from '@angular/router';
@@ -8,6 +8,10 @@ import { NotificationService } from '../../chat/service/notification.service';
 import { Base64 } from 'js-base64';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Employer } from '../../models/admin/employer';
+import { FormControl } from '@angular/forms';
+import { Category } from '../../models/category.model';
+import { CoursesService } from '../../services/courses.service';
+import { HttpClient } from '@angular/common/http';
 
 interface Card {
   title: string;
@@ -45,18 +49,35 @@ export class IntstructorNavBarComponent implements OnInit {
   isStudent: boolean = false;
   role=sessionStorage.getItem('role');
   searchTerm:string='';
+
+  searchControl = new FormControl();
+  categories: Category[] = [];
+  filteredCategory: Category[] = [];
+  stringCourseId!:string;
+  isDropdownVisible = false;
+  showNotifications = false;
+  showForum = false;
+
+  query: string = '';
+  searchResults: any[] = [];
+  showDropdown: boolean = false;
+
   constructor(
     private authenticationService: AuthServiceService,
     private router: Router,
     private userServ: UserService,
     private webSocketService: WebSocketService,
     private notificationService: NotificationService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private coursesService: CoursesService,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {
     this.loginUser = sessionStorage.getItem('userId') || '';
   }
 
   ngOnInit() {
+    this.fetchCategories();
     this.isAdmin = this.role === 'Admin';
     this.isInstructor = this.role === 'Instructor';
     this.isStudent = this.role === 'Student';
@@ -77,6 +98,13 @@ export class IntstructorNavBarComponent implements OnInit {
       });
     }, 900);
   }
+  navigateToProfileViewPage(staffId:string) {
+    this.router.navigate(['/instructor/profile-view', this.encodeId(staffId)]).then(()=>{
+      location.reload()
+    });
+  }
+
+  
   get filteredEmployers(): Employer[] {
     return this.employers.filter(user =>
       (user.name && user.name.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
@@ -94,6 +122,41 @@ export class IntstructorNavBarComponent implements OnInit {
 
   encodeId(id: string): string {
     return Base64.encode(id);
+  }
+  fetchCategories(): void {
+    this.coursesService.getCategories().subscribe(
+      (data) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+
+
+  onCategorySelect(categoryId: number) {
+    this.router.navigate(['instructor/int-home',  categoryId]);
+  }
+
+  searchCourses() {
+    if (this.query.trim().length === 0) {
+      this.showDropdown = false;
+      return;
+    }
+
+    this.http.get<any[]>(`http://localhost:8080/courses/search?title=${this.query}`).subscribe((data) => {
+      this.searchResults = data;
+      this.showDropdown = true;
+      this.cdr.detectChanges(); // Ensure change detection runs
+    });
+  }
+
+  navigateToCourseDetails(courseId: number, courseTitle: string) {
+    this.stringCourseId=courseId.toString();
+    this.query = courseTitle;
+    this.router.navigate(['/instructor/course-details', this.encodeId(this.stringCourseId)], { queryParams: { searchQuery: this.query } });
+    this.showDropdown = false;
   }
 
   getUserDetails() {
@@ -181,17 +244,11 @@ export class IntstructorNavBarComponent implements OnInit {
     if (staffId != null) {
       if(type=="ENROLL"){
         this.router.navigate(['instructor/course-details', this.encodeId(idPost.toString())]);
-              this.funcRead(idRecepeintto,idUserFrom,type,idPost);
-              setTimeout(() => {
-                location.reload()
-              }, 50);
-              return;
+        this.funcRead(idRecepeintto,idUserFrom,type,idPost);
         }
       this.router.navigate(['instructor/privateChat', this.encodeId(staffId)]);
       this.funcRead(idRecepeintto, idUserFrom, type, idPost);
-      setTimeout(() => {
-        location.reload();
-      }, 50);
+     
     }
   }
 

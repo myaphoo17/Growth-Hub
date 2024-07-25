@@ -189,6 +189,6 @@ export class CourseCreationComponent implements OnInit {
 
   redirectToCreationPage() {
     this.showSuccessModal = false;
-    this.router.navigate(['/instructor/creation-home']);
+    this.router.navigate(['/instructor/creation-home/unapprove-course']);
   }
 }
