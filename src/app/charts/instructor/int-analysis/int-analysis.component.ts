@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ChartsServices } from '../../services/charts/charts.service';
-import { MonthlyDataModel } from '../../models/charts/MonthlyDataModel';
+import { ChartsServices } from '../../../services/charts/charts.service';
+import { MonthlyDataModel } from '../../../models/charts/MonthlyDataModel';
 
 declare var CanvasJS: any;
 
@@ -10,27 +10,35 @@ interface DataPoint {
 }
 
 @Component({
-  selector: 'app-analysis',
-  templateUrl: './analysis.component.html',
-  styleUrls: ['./analysis.component.css']
+  selector: 'app-int-analysis',
+  templateUrl: './int-analysis.component.html',
+  styleUrls: ['./int-analysis.component.css']
 })
-export class AnalysisComponent implements OnInit, AfterViewInit {
+export class IntAnalysisComponent implements OnInit, AfterViewInit {
   chartOptions: any;
+  staffId!: number;
 
   constructor(private dataService: ChartsServices) {}
 
   ngOnInit(): void {
-    this.fetchMonthlyData(new Date().getFullYear());
+    const staffIdString = sessionStorage.getItem('dbId');
+    if (staffIdString !== null) {
+      this.staffId = parseInt(staffIdString, 10);
+    } else {
+      console.error('Staff ID is not available in session storage');
+      return;
+    }
+    this.fetchMonthlyData(this.staffId, new Date().getFullYear());
   }
 
   ngAfterViewInit(): void {
     this.renderChart();
   }
 
-  fetchMonthlyData(year: number): void {
-    this.dataService.getMonthlyData(year).subscribe(
+  fetchMonthlyData(staffId: number, year: number): void {
+    this.dataService.getMonthlyDatabyId(staffId, year).subscribe(
       (data: MonthlyDataModel[]) => {
-        console.log('Fetched Monthly Data:', data); // Debugging line to check fetched data
+        console.log('Fetched Monthly Data:', data); // Check data here
         this.updateChart(data);
       },
       error => {
@@ -40,8 +48,8 @@ export class AnalysisComponent implements OnInit, AfterViewInit {
   }
 
   updateChart(data: MonthlyDataModel[]): void {
-    console.log('Monthly Data:', data); // Debugging line to check mapped data
-    const months = Array.from({ length: 12 }, (_, i) => i + 1); // Ensure all 12 months are included
+    console.log('Monthly Data:', data); // Check processed data here
+    const months = Array.from({ length: 12 }, (_, i) => i + 1);
     const enrollmentDataPoints: DataPoint[] = [];
     const creationDataPoints: DataPoint[] = [];
     const totalExamsDataPoints: DataPoint[] = [];
@@ -51,43 +59,31 @@ export class AnalysisComponent implements OnInit, AfterViewInit {
     months.forEach(month => {
       const monthData = data.find(entry => entry.month === month) || { studentEnrollments: 0, coursesCreated: 0, totalExams: 0, passedExams: 0, failedExams: 0 };
 
-      const enrollments = monthData.studentEnrollments;
-      const creations = monthData.coursesCreated;
-      const totalExams = monthData.totalExams;
-      const passedExams = monthData.passedExams;
-      const failedExams = monthData.failedExams;
-
       enrollmentDataPoints.push({
         label: this.getMonthName(month),
-        y: enrollments
+        y: monthData.studentEnrollments
       });
 
       creationDataPoints.push({
         label: this.getMonthName(month),
-        y: creations
+        y: monthData.coursesCreated
       });
 
       totalExamsDataPoints.push({
         label: this.getMonthName(month),
-        y: totalExams
+        y: monthData.totalExams
       });
 
       passedExamsDataPoints.push({
         label: this.getMonthName(month),
-        y: passedExams
+        y: monthData.passedExams
       });
 
       failedExamsDataPoints.push({
         label: this.getMonthName(month),
-        y: failedExams
+        y: monthData.failedExams
       });
     });
-
-    console.log('Enrollment Data Points:', enrollmentDataPoints); // Debugging line to check enrollment data points
-    console.log('Creation Data Points:', creationDataPoints); // Debugging line to check creation data points
-    console.log('Total Exams Data Points:', totalExamsDataPoints); // Debugging line to check total exams data points
-    console.log('Passed Exams Data Points:', passedExamsDataPoints); // Debugging line to check passed exams data points
-    console.log('Failed Exams Data Points:', failedExamsDataPoints); // Debugging line to check failed exams data points
 
     this.chartOptions = {
       theme: "light2",
@@ -98,7 +94,7 @@ export class AnalysisComponent implements OnInit, AfterViewInit {
       },
       axisX: {
         title: "Months",
-        interval: 1 // Ensure all months are displayed
+        interval: 1
       },
       axisY: {
         title: "Count",

@@ -54,6 +54,7 @@ import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.com
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
 import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
 import { StudentCardDetailComponent } from './student/student-card-detail/student-card-detail.component';
+import { IntGraphComponent } from './instructor/int-graph/int-graph.component';
 
 
 
@@ -93,7 +94,7 @@ const routes: Routes = [
     children: [
       { path: 'int-home', component: InstructorHomeComponent, data: { breadcrumb: 'Home' } },
       { path: 'int-home/card_detail/:id', component: CardDetailComponent, data: { breadcrumb: 'Card Detail' } },
-      { path: 'int-home/:categoryId', component: InstructorHomeComponent, data: { breadcrumb: 'Courses Component'} },
+      { path: 'int-home/:categoryName', component: InstructorHomeComponent, data: { breadcrumb: 'Courses Component'} },
       { path: 'profile/mycourse_detail', component: MycourseDetailComponent, data: { breadcrumb: 'My Course Detail' } },
       { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' } },
       { path: 'preview', component: PreviewComponent, data: { breadcrumb: 'Preview' } },
@@ -103,6 +104,7 @@ const routes: Routes = [
         { path: 'unapprove-course', component: UnapproveCoursesComponent, data: { breadcrumb: 'Unapproved Courses' } },
         { path: '', redirectTo: 'course-creation', pathMatch: 'full' },
       ]},
+      { path: 'int-graph', component: IntGraphComponent},
       { path: 'profile-view/:staffId', component: ProfileViewComponent},
       { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'course-details/:courseId',component:StudentViewCourseComponent },

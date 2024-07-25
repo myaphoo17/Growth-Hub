@@ -98,6 +98,10 @@ import { StudentCardDetailComponent } from './student/student-card-detail/studen
 import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
 import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
 import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
+import { IntAnalysisComponent } from './charts/instructor/int-analysis/int-analysis.component';
+import { IntSimpleChartComponent } from './charts/instructor/int-simple-chart/int-simple-chart.component';
+import { IntMonthlyCourseAttendanceComponent } from './charts/instructor/int-monthly-course-attendance/int-monthly-course-attendance.component';
+import { IntGraphComponent } from './instructor/int-graph/int-graph.component';
 
 
 
@@ -189,7 +193,11 @@ import { GradeModalComponent } from './instructor/grade-modal/grade-modal.compon
     GradeModalComponent,
     GradeDetailComponent,
     IntAssignmentComponent,
-    StudentCardDetailComponent,    
+    StudentCardDetailComponent,
+    IntAnalysisComponent,
+    IntSimpleChartComponent,
+    IntMonthlyCourseAttendanceComponent,
+    IntGraphComponent,    
   ],
   imports: [
     

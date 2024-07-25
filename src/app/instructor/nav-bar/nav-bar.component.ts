@@ -57,8 +57,8 @@ export class IntstructorNavBarComponent implements OnInit {
   isDropdownVisible = false;
   showNotifications = false;
   showForum = false;
-
-  query: string = '';
+  selectedCategoryName: string | null = null;
+    query: string = '';
   searchResults: any[] = [];
   showDropdown: boolean = false;
 
@@ -123,20 +123,22 @@ export class IntstructorNavBarComponent implements OnInit {
   encodeId(id: string): string {
     return Base64.encode(id);
   }
+  
   fetchCategories(): void {
     this.coursesService.getCategories().subscribe(
-      (data) => {
-        this.categories = data;
+      (data: Category[]) => {
+        const categoryMap = new Map<string, Category>();
+        data.forEach(item => categoryMap.set(item.name, item));
+        this.categories = Array.from(categoryMap.values());
       },
       (error) => {
         console.error('Error fetching categories:', error);
       }
     );
   }
-
-
-  onCategorySelect(categoryId: number) {
-    this.router.navigate(['instructor/int-home',  categoryId]);
+  onCategorySelect(categoryName: string): void {
+    this.selectedCategoryName = categoryName;
+    this.router.navigate(['instructor/int-home',  categoryName]);
   }
 
   searchCourses() {

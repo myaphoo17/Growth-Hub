@@ -43,17 +43,27 @@ export class FactCheckComponent implements OnInit{
     this.instructorService.getUnApprovedCourseList().subscribe({
       next: (data) => {
         this.courses = data;
+  
+        // Initialize fields if undefined
         this.courses.forEach(course => {
           course.uploadFiles = course.uploadFiles || []; // Initialize files if undefined
           course.categoriesDTO = course.categoriesDTO || { name: '' }; // Initialize category if undefined
-          course.employeeDTO = course.employeeDTO || { sr: '' };
+          course.employeeDTO = course.employeeDTO || { sr: '' }; // Initialize employeeDTO if undefined
         });
+  
+        // Sort courses by date or timestamp, most recent first
+        this.courses.sort((a, b) => {
+          const dateA = new Date(a.date); // Replace 'date' with your property name
+          const dateB = new Date(b.date); // Replace 'date' with your property name
+          return dateB.getTime() - dateA.getTime();
+        });
+  
         this.updatePagedCards();
       },
       error: (e) => console.error(e),
     });
   }
-
+  
 
   handlePageEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;
