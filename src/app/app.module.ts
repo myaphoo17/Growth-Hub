@@ -79,7 +79,7 @@ import { StudentProfileComponent } from './student/student-profile/student-profi
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
-import { RouteReferComponent } from './components/route-refer/route-refer.component';
+
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
 import { CourseAttendanceComponent } from './course-attendance/course-attendance.component';
 import { ExamViewAdminComponent } from './admin/exam-view-admin/exam-view-admin.component';
@@ -174,7 +174,7 @@ import { GradeModalComponent } from './instructor/grade-modal/grade-modal.compon
     IntSideBarComponent,
     UnapproveCoursesComponent,
     CreationHomeComponent,
-    RouteReferComponent,
+    
     StudentExamComponent,
     CourseAttendanceComponent,
     ChangePasswordComponent,
