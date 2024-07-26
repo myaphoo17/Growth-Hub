@@ -47,7 +47,6 @@ import { RecommentCardComponent } from './instructor/recomment-card/recomment-ca
 import { AdminComponent } from './layout/admin/admin.component';
 import { InstructorComponent } from './layout/instructor/instructor.component';
 import { StudentComponent } from './layout/student/student.component';
-import { SampleChartComponent } from './charts/sample-chart/sample-chart.component';
 import { ForgotPasswordComponent } from './security/forgot-password/forgot-password.component';
 import { LoginComponent } from './security/login/login.component';
 import { NgChartsModule } from 'ng2-charts';
@@ -86,8 +85,7 @@ import { ExamViewAdminComponent } from './admin/exam-view-admin/exam-view-admin.
 import { ChangePasswordComponent } from './security/change-password/change-password.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { AnswerKeyInstructorComponent } from './instructor/answer-key-instructor/answer-key-instructor.component';
-import { MonthlyCourseAttendanceComponent } from './charts/monthly-course-attendance/monthly-course-attendance.component';
-import { AnalysisComponent } from './charts/analysis/analysis.component';
+import { AnalysisComponent } from './charts/admin/analysis/analysis.component';
 
 import { ChatUserPageComponent } from './chat/chat-user-page/chat-user-page.component';
 import { StudentViewCourseComponent } from './student/student-view-course/student-view-course.component';
@@ -102,6 +100,8 @@ import { IntAnalysisComponent } from './charts/instructor/int-analysis/int-analy
 import { IntSimpleChartComponent } from './charts/instructor/int-simple-chart/int-simple-chart.component';
 import { IntMonthlyCourseAttendanceComponent } from './charts/instructor/int-monthly-course-attendance/int-monthly-course-attendance.component';
 import { IntGraphComponent } from './instructor/int-graph/int-graph.component';
+import { MonthlyCourseAttendanceComponent } from './charts/admin/monthly-course-attendance/monthly-course-attendance.component';
+import { SampleChartComponent } from './charts/admin/sample-chart/sample-chart.component';
 
 
 

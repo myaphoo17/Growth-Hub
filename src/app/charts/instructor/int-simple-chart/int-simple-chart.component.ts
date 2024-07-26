@@ -65,7 +65,7 @@ export class IntSimpleChartComponent implements OnInit {
 
   fetchMonthlyCourseAttendance(year: number): void {
     if (this.staffId) {
-      this.chartsService.getMonthlyDatabyId(year, this.staffId).subscribe(
+      this.chartsService.getMonthlyDatabyId(this.staffId,year).subscribe(
         (data: MonthlyDataModel[]) => {
           this.monthlyAttendances = data;
           this.updateChart(data);
