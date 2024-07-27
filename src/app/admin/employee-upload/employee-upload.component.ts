@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-employee-upload',
@@ -21,7 +22,12 @@ export class EmployeeUploadComponent {
 
   uploadFile() {
     if (!this.selectedFile) {
-      alert('Please select a file first.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please select a file first.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
       return;
     }
 
@@ -31,9 +37,13 @@ export class EmployeeUploadComponent {
     this.http.post('http://localhost:8080/admin/employerupload', formData)
       .subscribe(
         response => {
+          Swal.fire({
+            title: 'Success!',
+            text: 'File uploaded successfully',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
           console.log('File uploaded successfully', response);
-          alert('File uploaded successfully');
-          this.router.navigate(['/success-page']);  // Navigate to a success page or desired route
         },
         (error: HttpErrorResponse) => {
           console.error('Error uploading file', error);
@@ -44,11 +54,26 @@ export class EmployeeUploadComponent {
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 400) {
-      alert('Invalid file format. Please upload an Excel file.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'Invalid file format. Please upload an Excel file.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     } else if (error.status === 500) {
-      alert('An error occurred on the server. Please try again later.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred on the server. Please try again later.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     } else {
-      alert('An unexpected error occurred. Please try again.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'An unexpected error occurred. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   }
 }

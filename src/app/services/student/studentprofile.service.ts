@@ -10,6 +10,8 @@ import { CourseModel } from '../../models/instructor/courseModel';
 })
 export class StudentprofileService {
   private baseURL = 'http://localhost:8080/student';
+  private apiUrl = 'http://localhost:8080/unenrollCourse'; // Adjust the URL as needed
+
 
   constructor(private httpClient: HttpClient) {}
 
@@ -27,6 +29,12 @@ export class StudentprofileService {
 
   getEducations(dbId: string): Observable<Education[]> {
     return this.httpClient.get<Education[]>(`${this.baseURL}/getEducations/${dbId}`);
+  }
+
+
+  unenrollCourse(staffId: string, courseId: number): Observable<any> {
+    const url = `${this.apiUrl}/${staffId}/${courseId}`;
+    return this.httpClient.post(url, {});
   }
 
   updateEducation(id: string, education: Education): Observable<Object> {

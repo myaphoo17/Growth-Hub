@@ -186,13 +186,11 @@ h3 {
   font-family: 'Arial', sans-serif;
   font-size: 28px;
   font-weight: bold;
-  color: #3b82f6; /* Adjust the color to match your theme */
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px;
-  border-bottom: 2px solid #3b82f6;
-  border-top: 2px solid #3b82f6;
+ 
 }
 
 

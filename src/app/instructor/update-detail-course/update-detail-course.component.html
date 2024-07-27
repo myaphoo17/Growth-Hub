@@ -38,7 +38,11 @@
             <span class="inline-block align-middle">Grade</span>
           </li>
           <li>
-            <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle">military_tech</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle" (click)="navigateToAddCertificate()">military_tech</mat-icon>
+            <span class="inline-block align-middle">Add Certificate Frame</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle"(click)="navigateToCertificate()">military_tech</mat-icon>
             <span class="inline-block align-middle">Certificate</span>
           </li>
           <!-- <li>

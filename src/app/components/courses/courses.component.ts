@@ -9,6 +9,7 @@ import { CourseModel } from '../../models/instructor/courseModel';
 import { WebSocketService } from '../../chat/service/web-socket.service';
 import { Employer } from '../../models/admin/employer';
 import { ProfileService } from '../../services/instructor/profile.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-courses',
@@ -28,7 +29,7 @@ export class CoursesComponent implements OnInit {
   course: CourseModel = {} as CourseModel;
   instructorInformation: Employer = {} as Employer;
   instructorStaffId!: string;
-
+  
   constructor(
     private webSocketService: WebSocketService,
     private coursesService: CoursesService,
@@ -36,6 +37,7 @@ export class CoursesComponent implements OnInit {
     private instructorSer:ProfileService,
     private router: Router,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     
   }
@@ -45,11 +47,12 @@ export class CoursesComponent implements OnInit {
     this.isInstructor = this.role === 'Instructor';
     this.isStudent = this.role === 'Student';
     this.route.paramMap.subscribe(params => {
-      const categoryId = params.get('categoryId');
-      this.fetchCourses(categoryId ? categoryId.toString() : undefined);
+      const categoryName = params.get('categoryName') || '';
+      this.fetchCourses(categoryName);
     });
     this.fetchCourses();
   }
+
   getCoursesById(courseId: string, callback: () => void): void {
     this.studentService.getCourseDetailsById(courseId).subscribe({
       next: (data) => {
@@ -67,26 +70,32 @@ export class CoursesComponent implements OnInit {
     });
 }
 
-  fetchCourses(categoryId?: string) {
-    this.coursesService.getAllCourses().subscribe(
-      (data: CourseModel[]) => {
-        if (categoryId !== undefined) {
-          this.courses = data.filter(course => Number(course.categoriesDTO.id) === Number(categoryId));
-        } else {
-          this.courses = data;
-        }
-        this.loading = false;
+fetchCourses(categoryName?: string) {
+  this.coursesService.getAllCourses().subscribe(
+    (data: CourseModel[]) => {
+      if (categoryName) {
+        this.courses = data.filter(course => course.categoriesDTO.name === categoryName);
+      } else {
         this.courses = data;
-        this.loading = false;
-        this.checkEnrollments();
-      },
-      (error: any) => {
-        this.error = 'Error fetching courses';
-        this.loading = false;
-        console.error(this.error, error);
       }
-    );
-  }
+
+      // Sort courses by date or timestamp, most recent first
+      this.courses.sort((a, b) => {
+        const dateA = new Date(a.date); // Replace 'date' with your property name
+        const dateB = new Date(b.date); // Replace 'date' with your property name
+        return dateB.getTime() - dateA.getTime();
+      });
+
+      this.loading = false;
+      this.checkEnrollments();
+    },
+    (error: any) => {
+      this.error = 'Error fetching courses';
+      this.loading = false;
+      console.error(this.error, error);
+    }
+  );
+}
 
   checkEnrollments() {
     this.courses.forEach(course => {
@@ -133,13 +142,21 @@ export class CoursesComponent implements OnInit {
           console.log("Instructor staff id: " + this.instructorStaffId);
           this.webSocketService.sendMessageNotif(this.instructorStaffId, 'enroll course');
           this.router.navigate([navigatePath]);
+  
+          // Display success message using MatSnackBar
+          this.snackBar.open('Enrollment successful!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
         });
       },
       error => {
         console.error('Enrollment failed', error);
       }
     );
-}
+  }
+  
 getFileType(url: string): string {
   const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
   if (url) {

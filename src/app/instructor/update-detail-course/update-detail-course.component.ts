@@ -71,6 +71,14 @@ export class UpdateDetailCourseComponent implements OnInit {
     this.router.navigate(['/instructor/grade-detail'], { queryParams: { courseId: this.encodeId(this.id) } });
   }
 
+  navigateToAddCertificate(): void {
+    this.router.navigate(['/instructor/create-certificate'], { queryParams: { courseId: this.encodeId(this.id) } });
+  }
+
+  navigateToCertificate(): void {
+    this.router.navigate(['/instructor/all-certificates'], { queryParams: { courseId: this.encodeId(this.id) } });
+  }
+
   navigateToAssignment(): void {
     this.router.navigate(['/instructor/int-assignment'], { queryParams: { courseId: this.id } });
   }

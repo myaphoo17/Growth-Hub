@@ -1,128 +1,62 @@
-<!-- 
-<div class="main-container">
-  <div class="modal-content" *ngIf="!examSubmitted">
-    <div class="form-preview-card">
-      <div class="color-bar"></div>
-      <div class="form-header">
-        <div *ngIf="exam">
-          <h2>{{ exam.title }} <span class="points">Total Points: {{ totalPoints }}</span></h2>
-          <p>{{ exam.description }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="questions-preview">
-      <div *ngFor="let question of exam?.questions; let i = index" class="question-card">
-        <div class="question-title">{{ i + 1 }}. {{ question.title }} 
-          <span class="points">Points: {{ question.totalPoints }}</span>
-        </div>
-        <div *ngFor="let option of question.options">
-          <input type="checkbox" [name]="'question_' + question.id" [value]="option.id" (change)="selectAnswer(question.id, option.id, $event)">
-          {{ option.multiple }}
-        </div>
-      </div>
-    </div>
-
-    <div class="button-group">
-      <button (click)="submitExam()">Submit Exam</button>
-    </div>
-  </div>
-
-  <div class="modal-content" *ngIf="examSubmitted">
-    <div class="form-preview-card">
-      <div class="color-bar"></div>
-      <div class="form-header">
-        <div *ngIf="exam">
-          <h2>{{ exam.title }} <span class="points">Total Points: {{ calculatedTotalPoints }}/{{ totalPoints }}</span></h2>
-          <p>{{ exam.description }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="questions-preview">
-      <div *ngFor="let question of exam?.questions; let i = index" class="question-card">
-        <div class="question-title">{{ i + 1 }}. {{ question.title }} 
-          <span class="points">Points: {{ calculatedPoints[question.id] }}/{{ question.totalPoints }}</span>
-        </div>
-        <div *ngFor="let option of question.options" [ngClass]="{'correct-answer': option.isCorrect, 'incorrect-answer': !option.isCorrect && studentAnswers[question.id]?.includes(option.id)}">
-          <input type="checkbox" [checked]="studentAnswers[question.id]?.includes(option.id)" disabled>
-          {{ option.multiple }}
-          <span *ngIf="studentAnswers[question.id]?.includes(option.id) && option.isCorrect" class="correct">Correct</span>
-          <span *ngIf="studentAnswers[question.id]?.includes(option.id) && !option.isCorrect" class="incorrect">Incorrect</span>
-        </div>
-        <div *ngIf="showCorrectAnswer(question)">
-          <div class="correct-answer-display">
-            Correct answer:
-            <span *ngFor="let option of question.options">
-              <span *ngIf="option.isCorrect" class="correct">{{ option.multiple }}</span>
-            </span>
+<div class="modal fixed z-10 inset-0 overflow-y-auto pt-10">
+  <div class="main-container select-none">
+    <div *ngIf="!examSubmitted" class="modal-content border border-1 border-blue-900  rounded-lg shadow-lg p-6 w-1/2 mx-auto relative">
+      <div class="form-preview-card bg-white border border-gray-300 rounded-lg p-6 mt-10 mb-5 relative">
+        <div class="color-bar bg-blue-900 h-2 absolute inset-x-0 top-0 rounded-t-lg"></div>
+        <div class="form-header mb-6">
+          <div *ngIf="exam">
+            <h2 class="text-2xl font-bold">{{ exam.title }} <span class="points float-right font-normal text-base text-gray-700">Total Points: {{ totalPoints }}</span></h2>
+            <p class="text-gray-700">{{ exam.description }}</p>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div> -->
 
-
-<div class="main-container">
-  <div class="modal-content" *ngIf="!examSubmitted">
-    <div class="form-preview-card">
-      <div class="color-bar"></div>
-      <div class="form-header">
-        <div *ngIf="exam">
-          <h2>{{ exam.title }} <span class="points">Total Points: {{ totalPoints }}</span></h2>
-          <p>{{ exam.description }}</p>
+      <div class="questions-preview flex flex-col">
+        <div *ngFor="let question of exam?.questions; let i = index" class="question-card border border-blue-300 rounded-lg p-6 mb-5">
+          <div class="question-title text-lg font-semibold">{{ i + 1 }}. {{ question.title }} 
+            <span class="points float-right font-normal text-base text-gray-700">Points: {{ question.totalPoints }}</span>
+          </div>
+          <div *ngFor="let option of question.options" class="mt-2">
+            <input type="checkbox" [name]="'question_' + question.id" [value]="option.id" (change)="selectAnswer(question.id, option.id, $event)" class="mr-2 text-md">
+            {{ option.multiple }}
+          </div>
         </div>
+      </div>
+
+      <div class="button-group flex justify-between mt-6">
+        <button (click)="confirmSubmit()" class="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-700">Submit Exam</button>
       </div>
     </div>
 
-    <div class="questions-preview">
-      <div *ngFor="let question of exam?.questions; let i = index" class="question-card">
-        <div class="question-title">{{ i + 1 }}. {{ question.title }} 
-          <span class="points">Points: {{ question.totalPoints }}</span>
-        </div>
-        <div *ngFor="let option of question.options">
-          <input type="checkbox" [name]="'question_' + question.id" [value]="option.id" (change)="selectAnswer(question.id, option.id, $event)">
-          {{ option.multiple }}
-        </div>
-      </div>
-    </div>
-
-    <div class="button-group">
-      <button (click)="submitExam()">Submit Exam</button>
-    </div>
-  </div>
-
-  <div class="modal-content" *ngIf="examSubmitted">
-    <div class="form-preview-card">
-      <div class="color-bar"></div>
-      <div class="form-header">
-        <div *ngIf="exam">
-          <h2>{{ exam.title }} <span class="points">Total Points: {{ calculatedTotalPoints }}/{{ totalPoints }}</span></h2>
-          <p>{{ exam.description }}</p>
-          <p>Total Points Earned: {{ calculatedTotalPoints }}</p>
-          <p>Status: {{ passStatus }}</p>
-          <p *ngIf="passStatus === 'Pass'">Grade: {{ grade }}</p>
+    <div *ngIf="examSubmitted" class="modal-content bg-white rounded-lg shadow-lg p-6 w-1/2 mx-auto relative">
+      <div class="form-preview-card bg-white border border-gray-300 rounded-lg p-6 mt-10 mb-5 relative">
+        <div class="color-bar bg-blue-900 h-2 absolute inset-x-0 top-0 rounded-t-lg"></div>
+        <div class="form-header mb-6">
+          <div *ngIf="exam">
+            <h2 class="text-2xl font-bold">{{ exam.title }} <span class="points float-right font-normal text-base text-gray-700">Total Points: {{ calculatedTotalPoints }}/{{ totalPoints }}</span></h2>
+            <p class="text-gray-700">{{ exam.description }}</p>
+            <p class="text-gray-700">Total Points Earned: {{ calculatedTotalPoints }}</p>
+            <p class="text-gray-700">Status: {{ passStatus }}</p>
+            <p *ngIf="passStatus === 'Pass'" class="text-gray-700">Grade: {{ grade }}</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="questions-preview">
-      <div *ngFor="let question of exam?.questions; let i = index" class="question-card">
-        <div class="question-title">{{ i + 1 }}. {{ question.title }} 
-          <span class="points">Points: {{ calculatedPoints[question.id] }}/{{ question.totalPoints }}</span>
-        </div>
-        <div *ngFor="let option of question.options" [ngClass]="{'correct-answer': option.isCorrect, 'incorrect-answer': !option.isCorrect && studentAnswers[question.id]?.includes(option.id)}">
-          <input type="checkbox" [checked]="studentAnswers[question.id]?.includes(option.id)" disabled>
-          {{ option.multiple }}
-          <span *ngIf="studentAnswers[question.id]?.includes(option.id) && option.isCorrect" class="correct">Correct</span>
-          <span *ngIf="studentAnswers[question.id]?.includes(option.id) && !option.isCorrect" class="incorrect">Incorrect</span>
-        </div>
-        <div *ngIf="showCorrectAnswer(question)">
-          <div class="correct-answer-display">
+      <div class="questions-preview flex flex-col">
+        <div *ngFor="let question of exam?.questions; let i = index" class="question-card bg-gray-100 border border-gray-300 rounded-lg p-6 mb-5">
+          <div class="question-title text-lg font-semibold">{{ i + 1 }}. {{ question.title }} 
+            <span class="points float-right font-normal text-base text-gray-700">Points: {{ calculatedPoints[question.id] }}/{{ question.totalPoints }}</span>
+          </div>
+          <div *ngFor="let option of question.options" [ngClass]="{'correct-answer bg-green-100': option.isCorrect, 'incorrect-answer bg-red-100': !option.isCorrect && studentAnswers[question.id]?.includes(option.id)}" class="mt-2">
+            <input type="checkbox" [checked]="studentAnswers[question.id]?.includes(option.id)" disabled class="mr-2 text-md">
+            {{ option.multiple }}
+            <span *ngIf="studentAnswers[question.id]?.includes(option.id) && option.isCorrect" class="correct text-md text-green-600 font-bold">Correct</span>
+            <span *ngIf="studentAnswers[question.id]?.includes(option.id) && !option.isCorrect" class="incorrect text-md text-red-600 font-bold">Incorrect</span>
+          </div>
+          <div *ngIf="showCorrectAnswer(question)" class="correct-answer-display mt-2">
             Correct answer:
             <span *ngFor="let option of question.options">
-              <span *ngIf="option.isCorrect" class="correct">{{ option.multiple }}</span>
+              <span *ngIf="option.isCorrect" class="correct text-green-600 font-bold">{{ option.multiple }}</span>
             </span>
           </div>
         </div>

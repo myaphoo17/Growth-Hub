@@ -13,4 +13,5 @@ export interface CourseModel{
     employeeDTO:Employer;
     showDetail:boolean;
     hasExam:boolean;
+    lastVideoDate?: Date | string;
 }

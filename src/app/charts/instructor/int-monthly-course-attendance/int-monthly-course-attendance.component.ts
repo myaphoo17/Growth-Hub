@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartsServices } from '../../services/charts/charts.service';
-import { MonthlyDataModel } from '../../models/charts/MonthlyDataModel';
-
+import { MonthlyDataModel } from '../../../models/charts/MonthlyDataModel';
+import { ChartsServices } from '../../../services/charts/charts.service';
 declare var CanvasJS: any;
 
 @Component({
-  selector: 'app-monthly-course-attendance',
-  templateUrl: './monthly-course-attendance.component.html',
-  styleUrls: ['./monthly-course-attendance.component.css']
+  selector: 'app-int-monthly-course-attendance',
+  templateUrl: './int-monthly-course-attendance.component.html',
+  styleUrl: './int-monthly-course-attendance.component.css'
 })
-export class MonthlyCourseAttendanceComponent implements OnInit {
+export class IntMonthlyCourseAttendanceComponent implements OnInit {
   public years: number[] = [];
+  private staffId!: number;
   public monthlyAttendances: MonthlyDataModel[] = [];
   public chartOptions: any = {
     animationEnabled: true,
@@ -41,13 +41,27 @@ export class MonthlyCourseAttendanceComponent implements OnInit {
       dataPoints: []
     }]
   };
+ 
 
   constructor(private chartsService: ChartsServices) {}
-
   ngOnInit(): void {
     this.initializeYears();
-    this.fetchMonthlyCourseAttendance(new Date().getFullYear());
+    const staffIdString = sessionStorage.getItem('dbId');
+    
+    if (staffIdString !== null) {
+      this.staffId = parseInt(staffIdString, 10);
+      
+      if (this.staffId) {
+        // Fetch monthly course attendance for the current year
+        this.fetchMonthlyCourseAttendance(new Date().getFullYear());
+      } else {
+        console.error('Staff ID is not valid.');
+      }
+    } else {
+      console.error('Staff ID is not available in session storage');
+    }
   }
+  
 
   initializeYears(): void {
     const currentYear = new Date().getFullYear();
@@ -58,51 +72,56 @@ export class MonthlyCourseAttendanceComponent implements OnInit {
 
   onYearChange(event: any): void {
     const selectedYear = event.target.value;
-    this.fetchMonthlyCourseAttendance(selectedYear);
+    if (this.staffId) {
+      this.fetchMonthlyCourseAttendance(selectedYear);
+    }
   }
 
   fetchMonthlyCourseAttendance(year: number): void {
-    this.chartsService.getMonthlyData(year).subscribe(
-      (data: MonthlyDataModel[]) => {
-        this.monthlyAttendances = data;
-        this.updateChart(data);
-      },
-      error => {
-        console.error('Error fetching monthly course attendance:', error);
-      }
-    );
+    if (this.staffId) {
+      this.chartsService.getMonthlyDatabyId(this.staffId, year).subscribe(
+        (data: MonthlyDataModel[]) => {
+          console.log('Fetched data:', data); // Check if data is received
+          this.monthlyAttendances = data;
+          this.updateChart(data);
+        },
+        error => {
+          console.error('Error fetching monthly course attendance:', error);
+        }
+      );
+    } else {
+      console.error('Staff ID is not available.');
+    }
   }
+  
 
   updateChart(data: MonthlyDataModel[]): void {
     const chartDataPointsStudentCount: { label: string, y: number }[] = [];
     const chartDataPointsCourseCount: { label: string, y: number }[] = [];
-
+  
     data.forEach(entry => {
       chartDataPointsStudentCount.push({
         label: this.getMonthName(entry.month),
         y: entry.studentEnrollments
       });
-
+  
       chartDataPointsCourseCount.push({
         label: this.getMonthName(entry.month),
-        y: entry.courseNames.length // Assuming `courseNames` is an array of course names
+        y: entry.courseNames.length
       });
     });
-
+  
     this.chartOptions.data[0].dataPoints = chartDataPointsStudentCount;
     this.chartOptions.data[1].dataPoints = chartDataPointsCourseCount;
-
+  
+    // Re-create the chart after updating data
     const chart = new CanvasJS.Chart('chartContainer2', this.chartOptions);
     chart.render();
   }
-
+  
   getMonthName(monthNumber: number): string {
     const monthNames = ["January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December"];
     return monthNames[monthNumber - 1];
-  }
-
-  getCoursesInMonth(month: number, data: MonthlyDataModel[]): MonthlyDataModel[] {
-    return data.filter(entry => entry.month === month);
   }
 }

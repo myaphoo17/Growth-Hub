@@ -1,6 +1,10 @@
-<div class="flex h-screen h-screen">
-  <app-int-side-bar class="custom-sidebar"></app-int-side-bar>
-  <div class="flex-grow custom-content">
-    <router-outlet></router-outlet>
+<div class="flex bg-gray-200">
+  <!-- Sidebar and Main Content -->
+  <div class="flex flex-grow">
+    <app-int-side-bar></app-int-side-bar>
+    <div class="flex-grow ml-64 mt-2 p-7">
+      <router-outlet></router-outlet>
+    </div>
   </div>
+
 </div>

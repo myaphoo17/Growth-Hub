@@ -54,23 +54,25 @@ import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.com
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
 import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
 import { StudentCardDetailComponent } from './student/student-card-detail/student-card-detail.component';
-
+import { IntGraphComponent } from './instructor/int-graph/int-graph.component';
+import { CreateCertificateComponent } from './instructor/create-certificate/create-certificate.component';
+import { AllCertificatesComponent } from './instructor/all-certificates/all-certificates.component';
 
 
 
 const routes: Routes = [
   // Admin Routes
-  { path: "admin", component: AdminComponent, canActivate: [AdminGuard], data: { breadcrumb: 'Admin' },
+  { path: "admin", component: AdminComponent, canActivate: [AdminGuard],
     children: [
-      { path: 'adm-home', component: AdmHomeComponent, data: { breadcrumb: 'Home' }, children:[
-        { path: 'overview', component: DashboardComponent, data: { breadcrumb: 'Overview' } }, 
-        { path: 'inst-accounts', component: InstAccountsComponent, data: { breadcrumb: 'Institution Accounts' } },
-        { path: 'stu-accounts', component: StuAccountsComponent, data: { breadcrumb: 'Student Accounts' } },
-        { path: 'fact-check', component: FactCheckComponent, data: { breadcrumb: 'Fact Check' } },
-        { path: 'report', component: ReportComponent, data: { breadcrumb: 'Report' } },
-        { path: 'employee-data', component: EmployeeUploadComponent, data: { breadcrumb: 'Employee Data' } },
-        { path: 'fact-check/fact-check-detail/:id', component: FactDetailComponent, data: { breadcrumb: 'Fact Detail' } },
-        { path: 'graph', component: GraphComponent, data: { breadcrumb: 'Graph' } },
+      { path: 'adm-home', component: AdmHomeComponent, children:[
+        { path: 'overview', component: DashboardComponent}, 
+        { path: 'inst-accounts', component: InstAccountsComponent},
+        { path: 'stu-accounts', component: StuAccountsComponent},
+        { path: 'fact-check', component: FactCheckComponent},
+        { path: 'report', component: ReportComponent },
+        { path: 'employee-data', component: EmployeeUploadComponent },
+        { path: 'fact-check/fact-check-detail/:id', component: FactDetailComponent },
+        { path: 'graph', component: GraphComponent},
         { path: 'exam-view-admin', component: ExamDetailComponent },
         { path: '', redirectTo: 'overview', pathMatch: 'full' },
       ] 
@@ -82,7 +84,7 @@ const routes: Routes = [
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
       { path: 'student-exam', component: StudentExamComponent},
-      { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' } },
+      { path: 'profile', component: ProfileComponent },
       { path: '', redirectTo: 'adm-home', pathMatch: 'full' },
     ],
   },
@@ -91,24 +93,30 @@ const routes: Routes = [
   {
     path: "instructor", component: InstructorComponent, canActivate: [InstructorGuard],
     children: [
-      { path: 'int-home', component: InstructorHomeComponent, data: { breadcrumb: 'Home' } },
-      { path: 'int-home/card_detail/:id', component: CardDetailComponent, data: { breadcrumb: 'Card Detail' } },
-      { path: 'int-home/:categoryId', component: InstructorHomeComponent, data: { breadcrumb: 'Courses Component'} },
-      { path: 'profile/mycourse_detail', component: MycourseDetailComponent, data: { breadcrumb: 'My Course Detail' } },
-      { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' } },
-      { path: 'preview', component: PreviewComponent, data: { breadcrumb: 'Preview' } },
-      { path: 'questions', component: FormCreatorComponent, data: { breadcrumb: 'Questions' } },
-      { path: 'creation-home', component: CreationHomeComponent, data: { breadcrumb: 'Creation Home' }, children: [
-        { path: 'course-creation', component: CourseCreationComponent, data: { breadcrumb: 'Course Creation' } },
-        { path: 'unapprove-course', component: UnapproveCoursesComponent, data: { breadcrumb: 'Unapproved Courses' } },
+      { path: 'int-home', component: InstructorHomeComponent },
+      { path: 'int-home/card_detail/:id', component: CardDetailComponent},
+      { path: 'int-home/:categoryName', component: InstructorHomeComponent},
+      { path: 'profile/mycourse_detail', component: MycourseDetailComponent},
+      { path: 'profile', component: ProfileComponent},
+      { path: 'preview', component: PreviewComponent},
+      { path: 'questions', component: FormCreatorComponent },
+      { path: 'create-certificate', component: CreateCertificateComponent},
+      { path: 'all-certificates', component: AllCertificatesComponent},
+
+      { path: 'creation-home', component: CreationHomeComponent, children: [
+        { path: 'course-creation', component: CourseCreationComponent},
+        { path: 'unapprove-course', component: UnapproveCoursesComponent},
+        { path: 'create-certificate', component: CreateCertificateComponent},
+        
         { path: '', redirectTo: 'course-creation', pathMatch: 'full' },
       ]},
+      { path: 'int-graph', component: IntGraphComponent},
       { path: 'profile-view/:staffId', component: ProfileViewComponent},
       { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'course-details/:courseId',component:StudentViewCourseComponent },
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
-      { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent, data: { breadcrumb: 'Update Course' } },
+      { path: 'profile/updatecourse/:id', component: UpdateDetailCourseComponent},
       { path: 'exam-detail', component: ExamDetailComponent },
       { path: 'grade', component: GradeModalComponent },
       { path: 'grade-detail', component: GradeDetailComponent },
@@ -124,8 +132,8 @@ const routes: Routes = [
     children: [
       { path: 'profile-view/:staffId', component: ProfileViewComponent},
       { path: 'stu-home', component: StudentHomeComponent},
-      { path: 'stu-home/card_detail/:id', component: StudentCardDetailComponent, data: { breadcrumb: 'Card Detail' } },
-      { path: 'stu-home/:categoryId', component: StudentHomeComponent, data: { breadcrumb: 'Courses Component'} },
+      { path: 'stu-home/card_detail/:id', component: StudentCardDetailComponent},
+      { path: 'stu-home/:categoryId', component: StudentHomeComponent},
       { path: 'privateChat/:staffId',component:ChatUserPageComponent },
       { path: 'course-details/:courseId',component:StudentViewCourseComponent },
       { path: 'settings', component: StudentSettingsComponent},
@@ -145,8 +153,8 @@ const routes: Routes = [
   { path: 'forget_pass', component: ForgotPasswordComponent},
   { path: 'login', component: LoginComponent},
 
-  { path: 'forget_pass', component: ForgotPasswordComponent, data: { breadcrumb: 'Forgot Password' } },
-  { path: 'change_pass', component: ChangePasswordComponent, data: { breadcrumb: 'Change Password' } },
+  { path: 'forget_pass', component: ForgotPasswordComponent},
+  { path: 'change_pass', component: ChangePasswordComponent},
   { path: 'login', component: LoginComponent, data: { breadcrumb: 'Login' } },
 
 

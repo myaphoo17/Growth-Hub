@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartsServices } from '../../services/charts/charts.service';
-import { MonthlyCourseEnrollmentModel } from '../../models/charts/MonthlyCourseEnrollmentModel';
-import { MonthlyDataModel } from '../../models/charts/MonthlyDataModel';
+import { MonthlyDataModel } from '../../../models/charts/MonthlyDataModel';
+import { ChartsServices } from '../../../services/charts/charts.service';
 
 declare var CanvasJS: any;
 

@@ -10,67 +10,69 @@ import { ExamModel } from '../../models/instructor/exam.model';
 @Component({
   selector: 'app-unapprove-courses',
   templateUrl: './unapprove-courses.component.html',
-  styleUrl: './unapprove-courses.component.css'
+  styleUrls: ['./unapprove-courses.component.css']
 })
 export class UnapproveCoursesComponent implements OnInit {
   courses: CourseModel[] = [];
   pageSize = 8;
   pageIndex = 0;
   pagedCards: CourseModel[] = [];
-  employerSr!:string;
-  // hasExam: boolean = false;
+  employerSr!: string;
   examDetails: ExamModel | null = null;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  constructor(
+    private instructorService: ProfileService,
+    private cdr: ChangeDetectorRef,
+    private studentExamService: StudentExamService
+  ) {}
+
   ngOnInit() {
     this.getCourses();
-    
   }
 
-  constructor(private instructorService: ProfileService,private cdr: ChangeDetectorRef,private studentExamService: StudentExamService) {}
-
-  // checkForExam(courseId: number): void {
-  //   this.studentExamService.getHasExamByCourseId(courseId).subscribe(
-  //     exists => {
-  //       this.hasExam = exists; // Set to true if the exam exists, otherwise false
-  //       this.cdr.detectChanges(); // Manually trigger change detection
-  //     },
-  //     error => {
-  //       console.error('Error checking for exam:', error);
-  //       this.hasExam = false; // Set to false if an error occurs
-  //       this.cdr.detectChanges(); // Manually trigger change detection
-  //     }
-  //   );
-  // }
-  
-  showDetails(course:CourseModel) {
+  showDetails(course: CourseModel) {
     course.showDetail = true;
   }
 
-  hideDetails(course:CourseModel) {
+  hideDetails(course: CourseModel) {
     course.showDetail = false;
   }
 
   updatePagedCards() {
     this.pagedCards = this.courses.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
+    if (this.paginator) {
+      this.paginator.pageIndex = this.pageIndex;
+      this.paginator.pageSize = this.pageSize;
+    }
   }
+
   encodeId(id: string): string {
     return Base64.encode(id);
   }
+
   private getCourses(): void {
-    this.employerSr=sessionStorage.getItem('dbId') || '';
+    this.employerSr = sessionStorage.getItem('dbId') || '';
+
     this.instructorService.getUnApprovedCourseListByEmployerId(this.employerSr).subscribe({
       next: (data) => {
         this.courses = data;
+
+        // Initialize fields if undefined
         this.courses.forEach(course => {
-
-          const courseId = Number(course.id);
-          // this.checkForExam(courseId);
-
-          course.uploadFiles = course.uploadFiles || []; // Initialize files if undefined
-          course.categoriesDTO = course.categoriesDTO || { name: '' }; // Initialize category if undefined
-          course.employeeDTO = course.employeeDTO || { sr: '' }; 
+          course.uploadFiles = course.uploadFiles || [];
+          course.categoriesDTO = course.categoriesDTO || { name: '' };
+          course.employeeDTO = course.employeeDTO || { sr: '' };
         });
+
+        // Ensure 'date' is a valid property in your CourseModel
+        // Sort courses by date or timestamp, most recent first
+        this.courses.sort((a, b) => {
+          const dateA = new Date(a.date); // Replace 'date' with your property name
+          const dateB = new Date(b.date); // Replace 'date' with your property name
+          return dateB.getTime() - dateA.getTime();
+        });
+
         this.updatePagedCards();
       },
       error: (e) => console.error(e),
@@ -82,6 +84,7 @@ export class UnapproveCoursesComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.updatePagedCards();
   }
+
   getFileType(url: string): string {
     const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
     if (url) {
@@ -94,11 +97,12 @@ export class UnapproveCoursesComponent implements OnInit {
     }
     return 'other';
   }
+
   getVideoFiles(files: UploadFiles[]): UploadFiles[] {
     return files.filter(file => file.url.endsWith('.mp4') || file.url.endsWith('.webm') || file.url.endsWith('.ogg')); // Add other video formats as needed
   }
+
   getDocumentFiles(files: UploadFiles[]): UploadFiles[] {
     return files.filter(file => this.getFileType(file.url) === 'document');
   }
 }
-

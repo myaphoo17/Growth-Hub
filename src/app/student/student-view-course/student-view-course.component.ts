@@ -8,6 +8,8 @@ import { StudentprofileService } from '../../services/student/studentprofile.ser
 import { UploadFiles } from '../../models/instructor/UploadFiles';
 import { ProfileService } from '../../services/instructor/profile.service';
 import { StudentExamService } from '../../services/student/studentexam.service';
+import { WebSocketService } from '../../chat/service/web-socket.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-student-view-course',
@@ -28,8 +30,15 @@ export class StudentViewCourseComponent implements OnInit {
   courseId!: string;
   hasExam: boolean = false;
   examDetails: any;
+  isAdmin: boolean = false;
+  isInstructor: boolean = false;
+  isStudent: boolean = false;
+  role=sessionStorage.getItem('role');
+  instructorStaffId!: string;
 
   constructor(
+    private snackBar: MatSnackBar,
+    private webSocketService: WebSocketService,
     private route: ActivatedRoute,
     private studentService: StudentprofileService,
     private cdr: ChangeDetectorRef,
@@ -40,6 +49,9 @@ export class StudentViewCourseComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isAdmin = this.role === 'Admin';
+    this.isInstructor = this.role === 'Instructor';
+    this.isStudent = this.role === 'Student';
     this.route.paramMap.subscribe(params => {
       const encodedId = params.get('courseId');
       this.id = encodedId ? Base64.decode(encodedId) : '';
@@ -106,8 +118,25 @@ export class StudentViewCourseComponent implements OnInit {
   enrollCourse(staffId: string, courseId: string): void {
     this.studentService.enrollCourse(staffId, courseId).subscribe(
       response => {
+        this.getCoursesById(courseId); // Remove the second argument
         console.log('Enrollment successful', response);
-        this.router.navigate(['/student/mycourses']);
+        let navigatePath = '';
+        if (this.isAdmin) {
+          navigatePath = '/admin/mycourses';
+        } else if (this.isInstructor) {
+          navigatePath = '/instructor/mycourses';
+        } else if (this.isStudent) {
+          navigatePath = '/student/mycourses';
+        }
+        this.webSocketService.sendMessageNotif(this.instructorStaffId, 'enroll course');
+        this.router.navigate([navigatePath]);
+
+        // Display success message using MatSnackBar
+        this.snackBar.open('Enrollment successful!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom'
+        });
       },
       error => {
         console.error('Enrollment failed', error);
@@ -115,6 +144,7 @@ export class StudentViewCourseComponent implements OnInit {
     );
   }
 
+ 
   toggleInstructorModal(): void {
     this.showInstructorModal = true;
     this.employerService.getEmployerByDbId(this.instructorId).subscribe({

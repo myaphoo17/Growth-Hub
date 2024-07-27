@@ -131,4 +131,9 @@ export class StudentHasCourseDetailsComponent implements OnInit {
     }
     return 'document';
   }
+  confirmDownload(event: MouseEvent) {
+    if (!confirm('Do you want to download the file?')) {
+      event.preventDefault(); // Prevent default action (download) if not confirmed
+    }
+  }
 }

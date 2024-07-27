@@ -1,27 +1,28 @@
 <app-loading></app-loading>
 
-<div class="course-creation-content bg-white p-10 rounded-lg shadow-lg max-w-4xl mt-9 mx-auto">
+<div class="bg-white p-8 rounded-lg w-full border  shadow-lg ">
   <!-- Stepper -->
-  <div class="flex justify-between mb-10">
+  <div class="flex justify-between mb-8">
     <div class="flex items-center space-x-2">
-      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-500]="currentStep >= 1" [class.bg-gray-400]="currentStep < 1">
+      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-900]="currentStep >= 1" [class.bg-gray-400]="currentStep < 1">
         1
       </div>
-      <span [class.text-blue-500]="currentStep >= 1" [class.text-gray-500]="currentStep < 1">Categories</span>
+      <span [class.text-blue-900]="currentStep >= 1" [class.text-gray-500]="currentStep < 1">Categories</span>
     </div>
     <div class="flex items-center space-x-2">
-      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-500]="currentStep >= 2" [class.bg-gray-400]="currentStep < 2">
+      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-900]="currentStep >= 2" [class.bg-gray-400]="currentStep < 2">
         2
       </div>
-      <span [class.text-blue-500]="currentStep >= 2" [class.text-gray-500]="currentStep < 2">Course Details</span>
+      <span [class.text-blue-900]="currentStep >= 2" [class.text-gray-500]="currentStep < 2">Course Details</span>
     </div>
-    <div class="flex items-center space-x-2">
-      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-500]="currentStep >= 3" [class.bg-gray-400]="currentStep < 3">
+    <div class="flex items-center space-x-2 mr-2">
+      <div class="h-10 w-10 flex items-center justify-center rounded-full text-white" [class.bg-blue-900]="currentStep >= 3" [class.bg-gray-400]="currentStep < 3">
         3
       </div>
-      <span [class.text-blue-500]="currentStep >= 3" [class.text-gray-500]="currentStep < 3">Add Lectures</span>
+      <span [class.text-blue-900]="currentStep >= 3" [class.text-gray-500]="currentStep < 3">Add Lectures</span>
     </div>
-  </div>
+  </div> 
+
 
   <form (ngSubmit)="saveCourse()" class="space-y-8">
     <div *ngIf="currentStep === 1">
@@ -44,7 +45,7 @@
         </mat-autocomplete>
       </mat-form-field>
       
-      <button type="button" (click)="nextStep()" class="btn btn-outline mt-3 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+      <button type="button" (click)="nextStep()" class="btn btn-outline mt-3 bg-blue-900 text-white py-2 px-4 rounded-md hover:bg-blue-600">
         Next
       </button>
     </div>
@@ -57,7 +58,7 @@
       <h2 class="text-xl font-bold mb-6">Step 2: Course Title & Description</h2>
       <div class="mb-6">
         <label for="title" class="block text-sm text-gray-700">Course Title:</label>
-        <input type="text" id="title" [(ngModel)]="newObject.courseTitle" name="title" class="nputbox mt-2 w-full border  border-gray-500 rounded-md shadow-sm p-2 text-sm  outline-none" required>
+        <input type="text" id="title" [(ngModel)]="newObject.courseTitle" name="title" class="inputbox mt-2 w-full border  border-gray-500 rounded-md shadow-sm p-2 text-sm  outline-none" required>
       </div>
       <div class="mb-6">
         <label for="description" class="block text-sm text-gray-700">Description:</label>
@@ -65,11 +66,11 @@
       </div>
       <div class="mb-6">
         <label for="duration" class="block text-sm text-gray-700">Duration:</label>
-        <input type="text" id="duration" [(ngModel)]="newObject.courseDuration" name="duration" class="inputbox mt-2 w-full border border-gray-500 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+        <input type="text" id="duration" [(ngModel)]="newObject.courseDuration" name="duration" class="inputbox mt-2 w-full border border-gray-500 rounded-md shadow-sm p-2 text-sm outline-none focus:border-2 focus:border-gray-500" required>
       </div>
       <div class="flex space-x-4">
         <button type="button" (click)="prevStep()" class="btn btn-outline bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Previous</button>
-        <button type="button" (click)="nextStep()" class="btn btn-outline bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="!newObject.courseTitle || !newObject.courseDescription || !newObject.courseDuration">Next</button>
+        <button type="button" (click)="nextStep()" class="btn btn-outline bg-blue-900 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="!newObject.courseTitle || !newObject.courseDescription || !newObject.courseDuration">Next</button>
       </div>
     </div>
 
@@ -78,39 +79,39 @@
   <h2 class="text-xl font-bold mb-6">Step 3: Add Lectures</h2>
 
 <!-- Single lecture input section to be displayed once -->
-<div class="lecture mb-6 p-6 border border-gray-200 rounded-lg">
+<div class="lecture mb-6 p-6 border border-blue-900 rounded-lg">
   <div class="space-y-4">
     <div>
       <label class="block text-sm text-gray-700">Title:</label>
       <input type="text" [(ngModel)]="newLectureTitle" placeholder="This is Trailer Video" name="new-video-title" 
-             class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required readonly>
+             class="inputbox mt-2 w-full border border-gray-300 outline-none rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required readonly>
     </div>
     
     <div>
       <label class="block text-sm text-gray-700">File:</label>
-      <input type="file" (change)="onFileChange($event, -1)" placeholder="Trailer Video" name="new-video-file" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+      <input type="file" (change)="onFileChange($event, -1)" placeholder="Trailer Video" name="new-video-file" class="inputbox outline-none mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
     </div>
     You can insert trailer video and add lecture video.
   </div>
 </div>
 
-  <div *ngFor="let lecture of lectures; let i = index" class="lecture mb-6 p-6 border border-gray-200 rounded-lg">
+  <div *ngFor="let lecture of lectures; let i = index" class="lecture mb-6 p-6 border border-blue-900 rounded-lg">
     <div class="space-y-4">
       <div>
         <label class="block text-sm text-gray-700">Lecture Title:</label>
-        <input type="text" [(ngModel)]="lecture.title" placeholder="Lecture Title" name="video-title-{{i}}" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+        <input type="text" [(ngModel)]="lecture.title" placeholder="Lecture Title" name="video-title-{{i}}" class="inputbox outline-none mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
       </div>
       <div>
         <label class="block text-sm text-gray-700">Lecture File:</label>
-        <input type="file" (change)="onFileChange($event, i)" placeholder="Video File" name="video-file-{{i}}" class="inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
+        <input type="file" (change)="onFileChange($event, i)" placeholder="Video File" name="video-file-{{i}}" class="outline-none inputbox mt-2 w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-2 focus:border-gray-500" required>
       </div>
       <button type="button" (click)="removeLecture(i)" class="btn btn-outline bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Remove</button>
     </div>
   </div>
   <div class="flex space-ax-4">
-    <button type="button" (click)="prevStep()" class="btn btn-outline bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Previous</button>
-    <button type="button" (click)="addLecture()" class="btn btn-outline bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-500">Add Lecture</button>
-    <button type="submit" class="btn btn-outline bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" [disabled]="lectures.length === 0">Save Course</button>
+    <button type="button" (click)="prevStep()" class="btn btn-outline mx-4 bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Previous</button>
+    <button type="button" (click)="addLecture()" class="btn btn-outline mx-4 bg-blue-900 text-white py-2 px-4 rounded-md hover:bg-blue-700">Add Lecture</button>
+    <button type="submit" class="btn btn-outline bg-yellow-500 text-white mx-4 py-2 px-4 rounded-md hover:bg-orange-500" [disabled]="lectures.length === 0">Save Course</button>
   </div>
 </div>
   </form>
@@ -127,3 +128,4 @@
     <button class="close-btn bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" (click)="redirectToCreationPage()">OK</button>
   </div>
 </div>
+

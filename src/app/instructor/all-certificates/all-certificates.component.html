@@ -1,0 +1,45 @@
+<!-- <div class="certificate-container flex flex-wrap gap-2 justify-center">
+  <div 
+    class="certificate-card flex flex-col items-center gap-2 mt-2 relative" 
+    *ngFor="let certificate of certificates; let i = index"
+    [ngClass]="{'selected': certificate.selected}">
+    <div class="certificate-image-container flex justify-center relative">
+      <img 
+        *ngIf="imageUrls[certificate.id]" 
+        [src]="imageUrls[certificate.id]" 
+        alt="Certificate Image" 
+        width="200" 
+        height="100"
+        (click)="onCertificateClick(certificate)">
+      <div *ngIf="certificate.selected" class="overlay"></div>
+    </div>
+    <div class="certificate-checkbox flex items-center mt-2">
+      
+    </div>
+  </div>
+</div> -->
+
+<!-- all-certificates.component.html -->
+<div class="certificate-container flex flex-wrap gap-2 justify-center">
+    <div 
+      class="certificate-card flex flex-col items-center gap-2 mt-2 relative" 
+      *ngFor="let certificate of certificates; let i = index"
+      [ngClass]="{'selected': certificate.selected}">
+      <div class="certificate-image-container flex justify-center relative">
+        <img 
+          *ngIf="imageUrls[certificate.id]" 
+          [src]="imageUrls[certificate.id]" 
+          alt="Certificate Image" 
+          width="200" 
+          height="100"
+          (click)="onCertificateClick(certificate)">
+        <div *ngIf="certificate.selected" class="overlay"></div>
+      </div>
+      <div class="certificate-checkbox flex items-center mt-2"></div>
+      <div *ngIf="certificate.selected" class="button-group mt-2 flex gap-2">
+        <button class="save-button" (click)="onSave(certificate)">Save</button>
+        <button class="cancel-button" (click)="onCancel(certificate)">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
