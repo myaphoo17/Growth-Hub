@@ -10,7 +10,7 @@ import { CourseModel } from '../../models/instructor/courseModel';
 })
 export class StudentprofileService {
   private baseURL = 'http://localhost:8080/student';
-  private apiUrl = 'http://localhost:8080/unenrollCourse'; // Adjust the URL as needed
+  private apiUrl = 'http://localhost:8080/student/unenrollCourse'; // Adjust the URL as needed
 
 
   constructor(private httpClient: HttpClient) {}
@@ -54,6 +54,7 @@ export class StudentprofileService {
 getEnrollCourses(staffId: string): Observable<StdentCourseModel[]> {
   return this.httpClient.get<StdentCourseModel[]>(`${this.baseURL}/enrollCourses/${staffId}`);
 }
+
 
 getEnrollCoursesview(staffId: string): Observable<CourseModel[]> {
   return this.httpClient.get<CourseModel[]>(`${this.baseURL}/enrollCourses/${staffId}`);

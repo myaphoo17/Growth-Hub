@@ -67,12 +67,9 @@ import { PreviewComponent } from './instructor/preview/preview.component';
 import { FormCreatorComponent } from './instructor/form-creator/form-creator.component';
 
 //student
-import { StudentCourseDetailsSideBarComponent } from './student/student-course-details-side-bar/student-course-details-side-bar.component';
 import { StudentHasCourseComponent } from './student/student-has-course/student-has-course.component';
 import { StudentNavComponent } from './student/student-nav/student-nav.component';
 import { StudentHomeComponent } from './student/student-home/student-home.component';
-import { StudentMessagingComponent } from './student/student-messaging/student-messaging.component';
-import { StudentMsgSidebarComponent } from './student/student-messaging/student-msg-sidebar/student-msg-sidebar.component';
 import { StudentSettingsComponent } from './student/student-settings/student-settings.component';
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
@@ -159,11 +156,9 @@ import { CreateCertificateComponent } from './instructor/create-certificate/crea
     LoginComponent,
     //Student 
     StudentComponent,
-    StudentCourseDetailsSideBarComponent,
+
     StudentNavComponent,
     StudentHomeComponent,
-    StudentMessagingComponent,
-    StudentMsgSidebarComponent,
     StudentSettingsComponent,
     StudentProfileComponent,
     StudentViewCourseComponent,

@@ -39,7 +39,6 @@ import { StudentHelpCenterComponent } from './student/student-help-center/studen
 import { StudentSettingsComponent } from './student/student-settings/student-settings.component';
 import { StudentHasCourseComponent } from './student/student-has-course/student-has-course.component';
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
-import { StudentMessagingComponent } from './student/student-messaging/student-messaging.component';
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
 import { ExamDetailComponent } from './instructor/exam-detail/exam-detail.component';
 import { ChangePasswordComponent } from './security/change-password/change-password.component';
@@ -143,7 +142,6 @@ const routes: Routes = [
       { path: 'student-exam', component: StudentExamComponent},
       // { path: 'courseDetails', component: StudentHasCourseDetailsComponent},
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
-      { path: 'studentMessaging', component: StudentMessagingComponent},
     ],
   },
 

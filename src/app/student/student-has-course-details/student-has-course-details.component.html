@@ -1,81 +1,106 @@
 <app-loading></app-loading>
-<div class="flex h-screen overflow-hidden">
-
-  <div class="w-60 mt-5 p-5 bg-gray-100 shadow-lg flex flex-col h-full transition-all duration-300">
+<div class="flex h-screen overflow-hidden  bg-gray-550">
+  <!-- Sidebar for Course Material -->
+  <!-- <div class="w-60 p-5 bg-gray-800 justify-content-center shadow-lg flex flex-col h-full transition-all duration-300">
     <div class="flex flex-col items-start">
-      <h3></h3>
-
-  
-    <div>
-      <h3 class="font-bold text-lg mb-4">Course Material</h3>
+      <h3 class="font-bold text-lg mb-4 text-white">Course Material</h3>
       <div>
-        <div class="small-video w-full mb-6" *ngFor="let video of videos; let i = index"
-      >
-          <div class="mt-3 mb-3 ml-1 text-xl font-medium">
+        <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg " *ngFor="let video of videos; let i = index" (click)="selectVideo(i)">
+          <div class=" font-medium text-white">
             {{ video.title }}
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-  <div class="overflow-y-auto flex flex-col items-center p-4 w-full">
-    <div class="w-full max-w-4xl">
-      <div class="grid grid-cols-1 gap-6 small-videos-container">
-        <div class="small-video w-full mb-6" *ngFor="let video of videos; let i = index"
-             [class.selected]="currentVideoIndex === i"
-             (click)="selectVideo(i)">
-             
-          <div class="mt-3 mb-3 ml-1 text-xl font-medium">
-          {{ video.title }} 
-          </div>v       
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-
-          <!-- <ng-container [ngSwitch]="getFileType(video.url)">
-            <ng-container *ngSwitchCase="'video'">
-              <div class="relative">
-                <video controls class="w-full rounded-lg shadow-lg object-cover">
-                  <source [src]="video.url" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </ng-container> -->
-
-            <ng-container *ngSwitchDefault>
-              <div class="relative">
-                <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="w-full h-48 rounded-lg shadow-lg object-cover">
-                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center">
-                  {{ video.title }}
-                </div>
-              </div>
-            </ng-container>
-             <!-- Downloadable Files -->
-        <ng-container *ngSwitchCase="'pdf'">
-          <a [href]="video.url" download="filename.pdf" (click)="confirmDownload($event)">
-            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PDF Thumbnail">
-          </a>
-        </ng-container>
-        <ng-container *ngSwitchCase="'pptx'">
-          <a [href]="video.url" download="filename.pptx" (click)="confirmDownload($event)">
-            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PPTX Thumbnail">
-          </a>
-        </ng-container>
-        <ng-container *ngSwitchCase="'xlsx'">
-          <a [href]="video.url" download="filename.xlsx" (click)="confirmDownload($event)">
-            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="XLSX Thumbnail">
-          </a>
-        </ng-container>
-        <ng-container *ngSwitchCase="'docx'">
-          <a [href]="video.url" download="filename.docx" (click)="confirmDownload($event)">
-            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="DOCX Thumbnail">
-          </a>
-        </ng-container>
-
-          
-          
+  </div> -->
+  <div class=" fixed w-60 p-5 bg-gray-800 justify-content-center shadow-lg flex flex-col h-full transition-all duration-300">
+    <div class="flex flex-col items-start">
+      <h3 class="font-bold text-lg mb-4 text-white">Course Material</h3>
+      <div>
+        <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg" *ngFor="let video of videos; let i = index" (click)="selectVideo(i)">
+          <div class="font-medium text-white">
+            {{ video.title }}
+          </div>
         </div>
       </div>
+    
+      <div>
+        <!-- <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg">
+          <div class="font-medium text-white">
+quiz          </div>
+        </div>
+      </div> -->
+      <h3 class="font-bold text-lg mb-4 text-white mt-6">Assignment</h3>
+      <div>
+        <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg">
+          <div class="font-medium text-white">
+Quiz</div>
+        </div>
+      </div>
+      <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg">
+        <div class="font-medium text-white">
+Exam</div>
+      </div>
+    </div>
+      <div>
+        <div class="small-video w-full mb-4 p-2 border rounded-lg">
+          <div class="font-medium text-white">
+         Grade
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content area for Video display -->
+  <div class="overflow-y-auto ml-64 flex flex-col items-center p-4 w-full">
+    <div class="w-full max-w-2xl">
+      <div class="small-video-container mb-6 p-4 border rounded-lg bg-white shadow-md">
+        <div class="text-xl font-semibold text-gray-900 mb-4">
+          {{ currentVideo?.title }}
+        </div>
+        
+        <ng-container [ngSwitch]="getFileType(currentVideo?.url)">
+          <ng-container *ngSwitchCase="'video'">
+            <div class="relative">
+              <video controls class="w-full rounded-lg shadow-lg selected-video">
+                <source [src]="currentVideo?.url" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <div class="relative">
+              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="w-full h-48 rounded-lg shadow-lg object-cover">
+              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center">
+                {{ currentVideo?.title }}
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'pdf'">
+            <a [href]="currentVideo?.url" download="filename.pdf" (click)="confirmDownload($event)">
+              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PDF Thumbnail">
+            </a>
+          </ng-container>
+          <ng-container *ngSwitchCase="'pptx'">
+            <a [href]="currentVideo?.url" download="filename.pptx" (click)="confirmDownload($event)">
+              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PPTX Thumbnail">
+            </a>
+          </ng-container>
+          <ng-container *ngSwitchCase="'xlsx'">
+            <a [href]="currentVideo?.url" download="filename.xlsx" (click)="confirmDownload($event)">
+              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="XLSX Thumbnail">
+            </a>
+          </ng-container>
+          <ng-container *ngSwitchCase="'docx'">
+            <a [href]="currentVideo?.url" download="filename.docx" (click)="confirmDownload($event)">
+              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="DOCX Thumbnail">
+            </a>
+          </ng-container>
+        </ng-container>
+      </div>   
     </div>
   </div>
 </div>
