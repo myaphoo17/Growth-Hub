@@ -71,7 +71,7 @@ export class StudentExamComponent implements OnInit {
     });
   
    
-    this.attachEventListeners();
+    // this.attachEventListeners();
   }
   
 
@@ -99,49 +99,50 @@ export class StudentExamComponent implements OnInit {
         console.error('Error fetching exam:', error);
       }
     );
-  }
-  attachEventListeners() {
-    document.addEventListener('contextmenu', this.handleContextMenu.bind(this));
-    document.addEventListener('copy', this.handleCopy.bind(this));
-    document.addEventListener('paste', this.handlePaste.bind(this));
-    document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
-    window.addEventListener('blur', this.handleBlur.bind(this));
-  }
+  // }
+  // attachEventListeners() {
+  //   document.addEventListener('contextmenu', this.handleContextMenu.bind(this));
+  //   document.addEventListener('copy', this.handleCopy.bind(this));
+  //   document.addEventListener('paste', this.handlePaste.bind(this));
+  //   document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+  //   window.addEventListener('blur', this.handleBlur.bind(this));
+  // }
   
-  handleContextMenu(event: Event) {
-    event.preventDefault();
-    this.snackBar.open('Copy  Detected', 'Close', { duration: 3000 });
-  }
+  // handleContextMenu(event: Event) {
+  //   event.preventDefault();
+  //   this.snackBar.open('Copy  Detected', 'Close', { duration: 3000 });
+  // }
   
-  handleCopy(event: ClipboardEvent) {
-    event.preventDefault();
-    this.snackBar.open('Copy Detected', 'Close', { duration: 3000 });
-  }
+  // handleCopy(event: ClipboardEvent) {
+  //   event.preventDefault();
+  //   this.snackBar.open('Copy Detected', 'Close', { duration: 3000 });
+  // }
   
-  handlePaste(event: ClipboardEvent) {
-    event.preventDefault();
-    this.snackBar.open('Paste Detected', 'Close', { duration: 3000 });
-  }
+  // handlePaste(event: ClipboardEvent) {
+  //   event.preventDefault();
+  //   this.snackBar.open('Paste Detected', 'Close', { duration: 3000 });
+  // }
   
-  handleVisibilityChange() {
-    if (document.hidden) {
-      this.snackBar.open('Please avoid opening new tabs.', 'Close', { duration: 3000 });
-    }
-  }
+  // handleVisibilityChange() {
+  //   if (document.hidden) {
+  //     this.snackBar.open('Please avoid opening new tabs.', 'Close', { duration: 3000 });
+  //   }
+  // }
   
-  handleBlur() {
-    this.snackBar.open('Please avoid opening new tabs.', 'Close', { duration: 3000 });
+  // handleBlur() {
+  //   this.snackBar.open('Please avoid opening new tabs.', 'Close', { duration: 3000 });
+  // }
   }
-  
-  fetchGrades() {
-    this.gradeService.getGradesByCourseId(this.courseId).subscribe(
-      (response: any) => {
-        this.grades = response;
-      },
+   fetchGrades() {
+  this.gradeService.getGradesByCourseId(this.courseId).subscribe(
+       (response: any) => {
+         this.grades = response;
+       },
       (error: any) => {
-        console.error('Error fetching grades:', error);
-      }
-    );
+         console.error('Error fetching grades:', error);
+       }
+     );
+ 
   }
 
   calculateTotalPoints() {
