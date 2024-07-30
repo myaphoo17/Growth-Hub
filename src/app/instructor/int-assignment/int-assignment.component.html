@@ -1,18 +1,83 @@
-<div class="flex">
-    <div>
-      <h2>Create Assignment</h2>
-      <form [formGroup]="assignmentForm" (ngSubmit)="createAssignment()">
-        <label for="title">Title</label>
-        <input type="text" id="title" formControlName="title" required>
-        <br>
-        <label for="description">Description</label>
-        <textarea id="description" formControlName="description" required></textarea>
-        <br>
-        <label fr="dueDate">Due Date</label>
-        <input type="date" id="dueDate" formControlName="dueDate" required>
-        <br>
-        <button type="submit" class="btn btn-outline bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Create</button>
-      </form>
+<div class="flex justify-end p-3">
+  <!-- Assignment Cards -->
+  <div class="flex flex-col space-y-4 w-2/3 mr-4">
+    <div *ngIf="assignments.length === 0" class="p-4 bg-white rounded-lg shadow-md">
+      <p>No assignments found for this course.</p>
+    </div>
+    <div *ngFor="let assignment of assignments" class="relative p-4 bg-white rounded-lg shadow-md">
+      <h3 class="text-xl font-semibold">{{ assignment.title }}</h3>
+      <p>{{ assignment.description }}</p>
+      <small class="text-gray-500">Due: {{ assignment.dueDate | date }}</small>
+
+      <!-- Vertical Three-Dot Menu -->
+<div class="absolute top-3 right-3 cursor-pointer" 
+(click)="toggleMenu(assignment.id)" 
+[ngClass]="{'bg-gray-300': openMenuId === assignment.id}">
+<div class="w-1 h-1 bg-gray-600 rounded-full mb-0.5 transition-all duration-300" 
+  [ngClass]="{'bg-gray-800': openMenuId === assignment.id}"></div>
+<div class="w-1 h-1 bg-gray-600 rounded-full mb-0.5 transition-all duration-300" 
+  [ngClass]="{'bg-gray-800': openMenuId === assignment.id}"></div>
+<div class="w-1 h-1 bg-gray-600 rounded-full mb-0.5 transition-all duration-300" 
+  [ngClass]="{'bg-gray-800': openMenuId === assignment.id}"></div>
+</div>
+
+
+      <!-- Dropdown Menu -->
+      <div *ngIf="isMenuOpen(assignment.id)" class="absolute top-12 right-3 bg-white shadow-lg rounded-lg">
+        <button (click)="editAssignment(assignment)" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</button>
+        <button (click)="deleteAssignment(assignment)" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Delete</button>
+      </div>
     </div>
   </div>
-  
+
+  <!-- Create Assignment Form -->
+  <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-2xl m-4">
+    <h2 class="text-2xl font-semibold mb-4">Create Assignment</h2>
+    <form [formGroup]="assignmentForm" (ngSubmit)="createAssignment()">
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700">Title</label>
+        <input type="text" id="title" formControlName="title" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+      </div>
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea id="description" formControlName="description" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md"></textarea>
+      </div>
+      <div class="mb-4">
+        <label for="dueDate" class="block text-gray-700">Due Date</label>
+        <input type="date" id="dueDate" formControlName="dueDate" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+      </div>
+      <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Create</button>
+    </form>
+  </div>
+</div>
+
+<!-- <div class="flex justify-end p-3">
+  <div class="flex flex-col space-y-4 w-2/3 mr-4">
+    <div *ngIf="assignments.length === 0" class="p-4 bg-white rounded-lg shadow-md">
+      <p>No assignments found for this course.</p>
+    </div>
+    <div *ngFor="let assignment of assignments" class="p-4 bg-white rounded-lg shadow-md">
+      <h3 class="text-xl font-semibold">{{ assignment.title }}</h3>
+      <p>{{ assignment.description }}</p>
+      <small class="text-gray-500">Due: {{ assignment.dueDate | date }}</small>
+    </div>
+  </div>
+  <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-2xl m-4">
+    <h2 class="text-2xl font-semibold mb-4">Create Assignment</h2>
+    <form [formGroup]="assignmentForm" (ngSubmit)="createAssignment()">
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700">Title</label>
+        <input type="text" id="title" formControlName="title" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+      </div>
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea id="description" formControlName="description" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md"></textarea>
+      </div>
+      <div class="mb-4">
+        <label for="dueDate" class="block text-gray-700">Due Date</label>
+        <input type="date" id="dueDate" formControlName="dueDate" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+      </div>
+      <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Create</button>
+    </form>
+  </div>
+</div>  -->

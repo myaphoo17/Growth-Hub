@@ -9,6 +9,8 @@ import { Assignment } from '../models/assignment.model';
 })
 export class AssignmentService {
   private baseUrl = 'http://localhost:8080/api/instructor-assignments';
+  private apiUrl = 'http://localhost:8080/api/student-assignments';
+
 
   constructor(private http: HttpClient) {}
 
@@ -16,7 +18,9 @@ export class AssignmentService {
     const staffId = this.getLoggedInUserStaffId();
     const payload = {
       ...assignment,
-      assignmentCreatorId: staffId 
+      assignmentCreatorId: staffId,
+      courseId: assignment.courseId // Ensure courseId is included
+ 
     };
 
     return this.http.post<Assignment>(`${this.baseUrl}/create`, payload)
@@ -35,17 +39,33 @@ export class AssignmentService {
     }
     return throwError('Something bad happened; please try again later.');
   }
-
-  uploadAssignment(id: number, fileType: string, file: File): Observable<Assignment> {
+  uploadAssignment(instructorAssignmentId: number, studentStaffId: string, fileType: string, file: File): Observable<any> {
     const formData = new FormData();
+    formData.append('instructorAssignmentId', instructorAssignmentId.toString());
+    formData.append('studentStaffId', studentStaffId);
     formData.append('fileType', fileType);
     formData.append('file', file);
-
-    return this.http.post<Assignment>(`${this.baseUrl}/upload/${id}`, formData)
+  
+    return this.http.post<any>(`${this.apiUrl}/upload`, formData)
       .pipe(
         catchError(this.handleError)
       );
   }
+  
+
+  // uploadAssignment(instructorAssignmentId: number, studentStaffId: string, fileType: string, file: File): Observable<any> {
+  //   const formData = new FormData();
+  //   formData.append('instructorAssignmentId', instructorAssignmentId.toString());
+  //   formData.append('studentStaffId', studentStaffId);
+  //   formData.append('fileType', fileType);
+  //   formData.append('file', file);
+
+  //   return this.http.post<any>(`${this.apiUrl}/upload`, formData)
+  //     .pipe(
+  //       catchError(this.handleError)
+  //     );
+  // }
+ 
 
   getAssignments(): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(this.baseUrl)
@@ -53,8 +73,18 @@ export class AssignmentService {
         catchError(this.handleError)
       );
   }
+  
+  getAssignmentsByCourseId(courseId: string): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${this.baseUrl}/course/${courseId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
+
+  
   getLoggedInUserStaffId(): string {
     return sessionStorage.getItem('userId') || '';
   }
+
 }

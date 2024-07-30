@@ -79,6 +79,22 @@ export class StudentHasCourseComponent implements OnInit {
     this.router.navigate([route], { queryParams: { courseId: this.encodeId(courseId), staffId: this.encodeId(this.staffId) } });
   }
 
+  navigateToAssignment(courseId: string): void {
+    let route: string;
+    switch (this.role) {
+      case 'Student':
+        route = '/student/all-assignments';
+        break;
+      case 'Instructor':
+        route = '/instructor/all-assignments';
+        break;
+      default:
+        console.error('Invalid user role');
+        return;
+    }
+    this.router.navigate([route], { queryParams: { courseId: this.encodeId(courseId), staffId: this.encodeId(this.staffId) } });
+  }
+  
   getFileType(url: string): string {
     const videoExtensions = ['.mp4', '.avi', '.mkv', '.webm', '.ogg'];
     if (url) {

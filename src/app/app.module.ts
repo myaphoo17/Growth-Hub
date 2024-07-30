@@ -89,7 +89,7 @@ import { ProfileViewComponent } from './views/profile-view/profile-view.componen
 import { MycourseViewComponent } from './views/mycourse-view/mycourse-view.component';
 import { EnrollViewComponent } from './views/enroll-view/enroll-view.component';
 import { StudentCardDetailComponent } from './student/student-card-detail/student-card-detail.component';
-import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
+
 import { GradeDetailComponent } from './instructor/grade-detail/grade-detail.component';
 import { GradeModalComponent } from './instructor/grade-modal/grade-modal.component';
 import { IntAnalysisComponent } from './charts/instructor/int-analysis/int-analysis.component';
@@ -102,6 +102,10 @@ import { AllCertificatesComponent } from './instructor/all-certificates/all-cert
 import { CreateCertificateComponent } from './instructor/create-certificate/create-certificate.component';
 import { VideoChatComponent } from './video-chat/video-chat.component';
 import { StudentCertificateComponent } from './student/student-certificate/student-certificate.component';
+import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
+import { StudentAssignmentComponent } from './student/student-assignment/student-assignment.component';
+import { AllAssignmentsComponent } from './all-assignments/all-assignments.component';
+
 
 
 
@@ -198,7 +202,9 @@ import { StudentCertificateComponent } from './student/student-certificate/stude
     IntGraphComponent,
     AllCertificatesComponent,
     CreateCertificateComponent,    
-    VideoChatComponent, StudentCertificateComponent
+    VideoChatComponent, StudentCertificateComponent,
+    StudentAssignmentComponent,
+    AllAssignmentsComponent
   ],
   imports: [
     

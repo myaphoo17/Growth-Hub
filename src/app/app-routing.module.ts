@@ -58,7 +58,8 @@ import { CreateCertificateComponent } from './instructor/create-certificate/crea
 import { AllCertificatesComponent } from './instructor/all-certificates/all-certificates.component';
 import { VideoChatComponent } from './video-chat/video-chat.component';
 import { StudentCertificateComponent } from './student/student-certificate/student-certificate.component';
-
+import { AllAssignmentsComponent } from './all-assignments/all-assignments.component';
+import { StudentAssignmentComponent } from './student/student-assignment/student-assignment.component';
 
 
 const routes: Routes = [
@@ -124,6 +125,8 @@ const routes: Routes = [
       { path: 'grade', component: GradeModalComponent },
       { path: 'grade-detail', component: GradeDetailComponent },
       { path: 'int-assignment', component: IntAssignmentComponent},
+      { path: 'all-assignments', component: AllAssignmentsComponent},
+      { path: 'student-assignment', component: StudentAssignmentComponent},
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },
       { path: 'student-exam', component: StudentExamComponent},
     ],
@@ -144,6 +147,8 @@ const routes: Routes = [
       { path: 'help-center', component: StudentHelpCenterComponent},
       { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'student-exam', component: StudentExamComponent},
+      { path: 'all-assignments', component: AllAssignmentsComponent},
+      { path: 'student-assignment', component: StudentAssignmentComponent},
       { path: 'student-certi', component: StudentCertificateComponent},
 
       { path: 'video-call/:staffId', component: VideoChatComponent},

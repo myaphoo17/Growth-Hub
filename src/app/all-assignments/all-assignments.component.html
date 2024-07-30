@@ -1,0 +1,29 @@
+<div class="flex flex-col space-y-4 w-2/3 mr-4">
+  <div *ngIf="assignments.length === 0" class="p-4 bg-white rounded-lg shadow-md">
+    <p>No assignments found for this course.</p>
+  </div>
+  <div *ngFor="let assignment of assignments" class="relative p-4 bg-white rounded-lg shadow-md cursor-pointer" 
+       (click)="assignment.id ? navigateToAssignment(assignment.id) : null">
+    <h3 class="text-xl font-semibold">{{ assignment.title }}</h3>
+    <p>{{ assignment.description }}</p>
+    <small class="text-gray-500">Due: {{ assignment.dueDate | date }}</small>
+
+    <!-- Vertical Three-Dot Menu -->
+    <div class="absolute top-3 right-3 cursor-pointer" 
+         (click)="toggleMenu(assignment.id)" 
+         [ngClass]="{'bg-gray-300': openMenuId === assignment.id}">
+      <div class="w-1 h-1 bg-gray-600 rounded-full mb-0.5 transition-all duration-300" 
+           [ngClass]="{'bg-gray-800': openMenuId === assignment.id}"></div>
+      <div class="w-1 h-1 bg-gray-600 rounded-full mb-0.5 transition-all duration-300" 
+           [ngClass]="{'bg-gray-800': openMenuId === assignment.id}"></div>
+      <div class="w-1 h-1 bg-gray-600 rounded-full mb-0.5 transition-all duration-300" 
+           [ngClass]="{'bg-gray-800': openMenuId === assignment.id}"></div>
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div *ngIf="isMenuOpen(assignment.id)" class="absolute top-12 right-3 bg-white shadow-lg rounded-lg">
+      <button (click)="editAssignment(assignment)" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Edit</button>
+      <button (click)="deleteAssignment(assignment)" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Delete</button>
+    </div>
+  </div>
+</div>

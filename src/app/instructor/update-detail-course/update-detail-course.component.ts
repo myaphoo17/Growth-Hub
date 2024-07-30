@@ -80,9 +80,9 @@ export class UpdateDetailCourseComponent implements OnInit {
   }
 
   navigateToAssignment(): void {
-    this.router.navigate(['/instructor/int-assignment'], { queryParams: { courseId: this.id } });
+    this.router.navigate(['/instructor/int-assignment'], { queryParams: { courseId: this.encodeId(this.id)  } });
   }
-  
+
   toggleInstructorModal(): void {
     this.showInstructorModal = !this.showInstructorModal;
   }
