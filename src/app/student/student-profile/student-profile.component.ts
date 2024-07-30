@@ -30,7 +30,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     this.refreshInterval = setInterval(() => {
       this.studentProfile();
       this.getEducation();
-    }, 10000); // Adjust the interval as needed
+    }, 50000); // Adjust the interval as needed
   }
 
   ngOnDestroy(): void {

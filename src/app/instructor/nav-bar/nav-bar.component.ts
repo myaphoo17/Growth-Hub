@@ -207,6 +207,9 @@ export class IntstructorNavBarComponent implements OnInit {
     this.isHiddenChat = !this.isHiddenChat;
   }
 
+
+  
+
   funcRead(staffIdUserTo: string, staffIdUserFrom: string, type: string, idPost: number) {
     this.notificationService.funcRead(staffIdUserTo, staffIdUserFrom, type, idPost).subscribe();
   }

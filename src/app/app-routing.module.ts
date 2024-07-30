@@ -56,6 +56,8 @@ import { StudentCardDetailComponent } from './student/student-card-detail/studen
 import { IntGraphComponent } from './instructor/int-graph/int-graph.component';
 import { CreateCertificateComponent } from './instructor/create-certificate/create-certificate.component';
 import { AllCertificatesComponent } from './instructor/all-certificates/all-certificates.component';
+import { VideoChatComponent } from './video-chat/video-chat.component';
+import { StudentCertificateComponent } from './student/student-certificate/student-certificate.component';
 
 
 
@@ -76,6 +78,7 @@ const routes: Routes = [
         { path: '', redirectTo: 'overview', pathMatch: 'full' },
       ] 
     },
+    { path: 'video-call/:staffId', component: VideoChatComponent},
       { path: 'profile-view/:staffId', component: ProfileViewComponent},
       { path: 'courses', component: CoursesComponent},
       { path: 'mycourses', component: StudentHasCourseComponent},
@@ -94,6 +97,7 @@ const routes: Routes = [
     children: [
       { path: 'int-home', component: InstructorHomeComponent },
       { path: 'int-home/card_detail/:id', component: CardDetailComponent},
+      { path: 'video-call/:staffId', component: VideoChatComponent},
       { path: 'int-home/:categoryName', component: InstructorHomeComponent},
       { path: 'profile/mycourse_detail', component: MycourseDetailComponent},
       { path: 'profile', component: ProfileComponent},
@@ -140,7 +144,9 @@ const routes: Routes = [
       { path: 'help-center', component: StudentHelpCenterComponent},
       { path: 'mycourses', component: StudentHasCourseComponent},
       { path: 'student-exam', component: StudentExamComponent},
-      // { path: 'courseDetails', component: StudentHasCourseDetailsComponent},
+      { path: 'student-certi', component: StudentCertificateComponent},
+
+      { path: 'video-call/:staffId', component: VideoChatComponent},
       { path: 'courseDetails/:id', component: StudentHasCourseDetailsComponent},
     ],
   },

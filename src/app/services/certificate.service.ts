@@ -73,6 +73,16 @@ export class CertificateService {
     );
   }
 
+  getCertificateByCourseIdAndStaffId(courseId: number, staffId: string): Observable<CertificateResultModel[]> {
+    return this.http.get<CertificateResultModel[]>(`${this.resultApiUrl}/summary/${courseId}/${staffId}`);
+  }
+
+  
+  getCertificateImage(certificateId: number): Observable<Blob> {
+  return this.http.get(`${this.resultApiUrl}/image/${certificateId}`,  { responseType: 'blob' });
+}
+
+
   async generateCertificateImage(templateFrameBytes: Uint8Array, studentName: string, imageType: string): Promise<Uint8Array> {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([600, 800]);

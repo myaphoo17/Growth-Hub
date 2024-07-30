@@ -1,6 +1,6 @@
 <div>
     <button (click)="onAddFrameClick()">+ Add Frame</button>
-    <input type="file" id="frameUpload" (change)="onFrameFileChange($event)" accept="image/*" hidden />
+    <input type="file" id="frameUpload" (change)="onFrameFileChange($event)"  hidden />
 
     <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
         <div *ngFor="let frame of frames; let i = index" style="position: relative;">

@@ -13,7 +13,18 @@
   display: block;
 }
 
+.nav-link {
+  color: black;
+  text-decoration: none;
+  padding: 0 8px;
+  font-size: 14px;
+  line-height: 40px;
+  position: relative;
+}
 
+.nav-link:hover {
+  color: blue;
+}
 
 .categories-menu {
   position: absolute;

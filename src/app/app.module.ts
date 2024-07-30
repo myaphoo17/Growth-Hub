@@ -74,7 +74,6 @@ import { StudentSettingsComponent } from './student/student-settings/student-set
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
 import { StudentHasCourseDetailsComponent } from './student/student-has-course-details/student-has-course-details.component';
 import { CoursesComponent } from './components/courses/courses.component';
-import { BreadcrumbComponent } from 'xng-breadcrumb';
 
 import { StudentExamComponent } from './student/student-exam/student-exam.component';
 import { CourseAttendanceComponent } from './course-attendance/course-attendance.component';
@@ -101,6 +100,8 @@ import { MonthlyCourseAttendanceComponent } from './charts/admin/monthly-course-
 import { SampleChartComponent } from './charts/admin/sample-chart/sample-chart.component';
 import { AllCertificatesComponent } from './instructor/all-certificates/all-certificates.component';
 import { CreateCertificateComponent } from './instructor/create-certificate/create-certificate.component';
+import { VideoChatComponent } from './video-chat/video-chat.component';
+import { StudentCertificateComponent } from './student/student-certificate/student-certificate.component';
 
 
 
@@ -197,7 +198,7 @@ import { CreateCertificateComponent } from './instructor/create-certificate/crea
     IntGraphComponent,
     AllCertificatesComponent,
     CreateCertificateComponent,    
-
+    VideoChatComponent, StudentCertificateComponent
   ],
   imports: [
     
@@ -220,7 +221,7 @@ import { CreateCertificateComponent } from './instructor/create-certificate/crea
     MatListModule,
     NgChartsModule,
     MatDialogModule,
-    BreadcrumbComponent,
+    
     MatAutocompleteModule,
     MatFormFieldModule,
     MatSnackBarModule,

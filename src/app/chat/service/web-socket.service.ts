@@ -56,7 +56,28 @@ export class WebSocketService {
       return () => this.stompClient?.unsubscribe(`/user/${staffId}/notif`);
     });
   }
-  
+  getSignal(staffId: string): Observable<any> {
+    return new Observable<any>((observer) => {
+      if (!this.stompClient || !this.stompClient.connected) {
+        observer.error('WebSocket is not initialized or connected in getSignal.');
+        return;
+      }
+      const subscription = this.stompClient.subscribe(`/topic/${staffId}/signal`, (response) => {
+        const receivedMessage = JSON.parse(response.body);
+        observer.next(receivedMessage);
+      });
+
+      return () => subscription.unsubscribe();
+    });
+  }
+
+  sendSignal(signal: any) {
+    if (this.stompClient && this.stompClient.connected) {
+      this.stompClient.send('/app/signal', {}, JSON.stringify(signal));
+    } else {
+      console.error('WebSocket is not initialized or connected.');
+    }
+  }
 
   onError = (error: any) => {
     console.error('WebSocket error:', error);

@@ -27,6 +27,10 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
   isSending = false;
   private subscriptions: Subscription[] = [];
   private refreshSubscription!: Subscription;
+  isAdmin: boolean = false;
+  isInstructor: boolean = false;
+  isStudent: boolean = false;
+  role=sessionStorage.getItem('role');
 
   constructor(
     private userService: UserService,
@@ -41,7 +45,13 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
     this.getUserDetails();
   }
 
+  encodeId(id: string): string {
+    return Base64.encode(id);
+  }
   ngOnInit(): void {
+    this.isAdmin = this.role === 'Admin';
+    this.isInstructor = this.role === 'Instructor';
+    this.isStudent = this.role === 'Student';
     this.route.paramMap.subscribe(params => {
       const encodedId = params.get('staffId');
       this.staffIdProfile = encodedId ? Base64.decode(encodedId) : '';
@@ -107,7 +117,8 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
             this.staffIdProfile = response.staffId;
             this.userNameProfile = response.name;
             this.profileImageProfile = response.profilePhotoUrl;
-            this.getPrivateMessages();
+
+this.getPrivateMessages();
           } else {
             console.error('Invalid response format:', response);
           }

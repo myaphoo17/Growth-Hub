@@ -68,9 +68,7 @@ export class UnapproveCoursesComponent implements OnInit {
         // Ensure 'date' is a valid property in your CourseModel
         // Sort courses by date or timestamp, most recent first
         this.courses.sort((a, b) => {
-          const dateA = new Date(a.date); // Replace 'date' with your property name
-          const dateB = new Date(b.date); // Replace 'date' with your property name
-          return dateB.getTime() - dateA.getTime();
+          return parseInt(b.id, 10) - parseInt(a.id, 10);
         });
 
         this.updatePagedCards();

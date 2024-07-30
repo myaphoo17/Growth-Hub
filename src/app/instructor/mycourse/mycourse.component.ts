@@ -50,8 +50,13 @@ export class MycourseComponent implements OnInit {
         this.courses.forEach(course => {
           course.uploadFiles = course.uploadFiles || []; // Initialize files if undefined
           course.categoriesDTO = course.categoriesDTO || { name: '' }; // Initialize category if undefined
+          course.employeeDTO = course.employeeDTO || { sr: '' };
         });
-        this.updatePagedCards();
+
+        this.courses.sort((a, b) => {
+          return parseInt(b.id, 10) - parseInt(a.id, 10);
+        });
+        this.updatePagedCards(); 
       },
       error: (e) => console.error(e),
     });

@@ -1,4 +1,4 @@
-  <mat-toolbar-row class="flex items-center justify-between h-full">
+<mat-toolbar-row class="flex items-center justify-between h-full">
     <div class="flex items-center"> 
       
       <div class="flex items-center">
@@ -30,9 +30,9 @@
         </div>
       </div>
       
-      <a mat-button class="text-white text-md bg-blue-900 px-2" routerLink="stu-home">Home</a>
-      <a mat-button class="text-white text-md bg-blue-900 px-2" routerLink="mycourses">My Course</a>
-      <a mat-button class="text-white text-md  px-2" (click)="dropDownMenueChat()" data-dropdown-toggle="dropdownChat">
+      <a mat-button class="text-white text-sm  px-2" routerLink="stu-home">Home</a>
+      <a mat-button class="text-white text-sm  px-2" routerLink="mycourses">My Course</a>
+      <a mat-button class="text-white text-sm  px-2" (click)="dropDownMenueChat()" data-dropdown-toggle="dropdownChat">
         <mat-icon aria-hidden="false" aria-label="chat icon" class="text-sm">message</mat-icon>
         Chat
       </a> 
@@ -65,9 +65,7 @@
     </nav>
   </mat-toolbar-row>
 
-
-
-  <div class="relative z-20">
+<div class="relative z-20">
     <div *ngIf="!isHiddenChat" class="absolute right-3 w-72">
       <div id="dropdownChat" class="bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700">
         <div class="px-4 py-2 font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-800 dark:text-white rounded-t-lg text-sm">
@@ -85,7 +83,7 @@
                   <p class="text-sm font-medium text-gray-900 truncate dark:text-white">{{user.name}}</p>
                   <p class="text-xs text-gray-500 truncate dark:text-gray-400">{{user.email}}</p>
                 </div>
-                <a *ngIf="isAdmin || isInstructor || isStudent"
+                <a *ngIf="isAdmin  isInstructor  isStudent"
                   [routerLink]="[isAdmin ? '/admin/privateChat' : (isInstructor ? '/instructor/privateChat' : '/student/privateChat'), encodeId(user.staffId)]"
                   class="text-blue-600 dark:text-blue-500 hover:underline ml-2">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -100,9 +98,6 @@
       </div>
     </div>
   </div>
-  
-  
-
 
 <!-- Notification Dropdown -->
 <div class=" absolute right-3 z-20" [ngClass]="{'hidden': isHiddenNotif,'': !isHiddenNotif}">
