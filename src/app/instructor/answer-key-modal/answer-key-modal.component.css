@@ -73,3 +73,9 @@
     cursor: pointer;
   }
   
+  /* Add styling to ensure the error message appears clearly */
+.error-message {
+  color: #e53e3e; /* Tailwind red-500 */
+  font-size: 0.875rem; /* Tailwind text-sm */
+  margin-top: 0.5rem; /* Tailwind mt-2 */
+}

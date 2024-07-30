@@ -1,4 +1,3 @@
-
 <div class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
   <div class="bg-white p-5 rounded-lg w-96 shadow-lg">
     <div>
@@ -9,18 +8,21 @@
       <div>
         <div *ngFor="let option of question.options; let oIndex = index" class="flex items-center mb-2">
           <input 
-            type="radio" 
-            [checked]="selectedOption === oIndex" 
-            (change)="selectedOption = oIndex" 
+            type="checkbox" 
+            [checked]="selectedOptions.includes(oIndex)" 
+            (change)="toggleOption(oIndex)" 
             class="mr-2"
           />
-          <label>{{ option }}</label>
+          <label>{{ option.text }}</label>
         </div>
       </div>
       <div class="flex items-center mt-5">
         <label for="points" class="mr-2">Points:</label>
-        <input type="number" [(ngModel)]="points" min="0" max="1" id="points" class="border border-gray-300 rounded p-2 w-20"/>
+        <input type="number" [(ngModel)]="points" min="1" max="1" id="points" class="border border-gray-300 rounded p-2 w-20"/>
       </div>
+      <!-- Inline error message -->
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
     </div>
     <div class="flex justify-end">
       <button class="bg-blue-600 text-white px-4 py-2 rounded ml-2" (click)="saveAnswerKey()">Done</button>

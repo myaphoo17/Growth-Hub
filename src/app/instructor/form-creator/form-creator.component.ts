@@ -1,3 +1,4 @@
+
 import { Component, ViewChild, AfterViewInit, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PreviewComponent } from '../preview/preview.component';
@@ -12,9 +13,11 @@ export class FormCreatorComponent implements OnInit, AfterViewInit {
   formTitle: string = '';
   formDescription: string = '';
   courseId: number = 0;
+  formTitleError: boolean = false; // For step 1
   @ViewChild(PreviewComponent) previewModal!: PreviewComponent;
   showAnswerKeyModal: boolean = false;
   selectedQuestionIndex: number = -1;
+  answerKeyError: boolean[] = [];
 
   questions: any[] = [
     {
@@ -22,7 +25,10 @@ export class FormCreatorComponent implements OnInit, AfterViewInit {
       options: [''],
       required: false,
       points: 0,
-      correctAnswer: null
+      correctAnswer: null,
+      titleError: false,
+      optionTextError: [false],
+      optionsError: false
     }
   ];
 
@@ -55,19 +61,50 @@ export class FormCreatorComponent implements OnInit, AfterViewInit {
     // Additional logic for handling view initialization
   }
 
+  validateFormTitle() {
+    this.formTitleError = !this.formTitle.trim();
+  }
+
+  validateQuestionTitle(questionIndex: number) {
+    const question = this.questions[questionIndex];
+    question.titleError = !question.title.trim();
+  }
+
   addOption(questionIndex: number) {
     if (this.questions[questionIndex].options.length < 4) {
       this.questions[questionIndex].options.push('');
+      this.questions[questionIndex].optionTextError.push(false);
+    }
+  }
+
+  removeOption(questionIndex: number, optionIndex: number) {
+    if (this.questions[questionIndex].options.length > 2) {
+      this.questions[questionIndex].options.splice(optionIndex, 1);
+      this.questions[questionIndex].optionTextError.splice(optionIndex, 1);
     }
   }
 
   addQuestion() {
+    // Check if the current question is complete before adding a new question
+    if (this.selectedQuestionIndex >= 0) {
+      const currentQuestion = this.questions[this.selectedQuestionIndex];
+      this.validateQuestionTitle(this.selectedQuestionIndex);
+      this.validateOptions(this.selectedQuestionIndex);
+
+      if (currentQuestion.titleError || currentQuestion.optionsError || currentQuestion.correctAnswer === null) {
+        return; // Do not add a new question if the current one is incomplete
+      }
+    }
+
     this.questions.push({
       title: '',
       options: [''],
       required: false,
       points: 0,
-      correctAnswer: null
+      correctAnswer: null,
+      titleError: false,
+      optionTextError: [false],
+      optionsError: false
     });
   }
 
@@ -76,12 +113,22 @@ export class FormCreatorComponent implements OnInit, AfterViewInit {
   }
 
   duplicateQuestion(index: number) {
+    // Check if the question to be duplicated is complete
+    const questionToDuplicate = this.questions[index];
+    this.validateQuestionTitle(index);
+    this.validateOptions(index);
+
+    if (questionToDuplicate.titleError || questionToDuplicate.optionsError || questionToDuplicate.correctAnswer === null) {
+      return; // Do not duplicate if the current question is incomplete
+    }
+
     this.questions.splice(index, 0, { ...this.questions[index] });
   }
 
   onContentChanged(event: any) {
     if (event && event.trim) {
       this.formTitle = event.trim();
+      this.validateFormTitle();
     }
   }
 
@@ -92,6 +139,10 @@ export class FormCreatorComponent implements OnInit, AfterViewInit {
   }
 
   openPreviewModal() {
+    this.validateAll();
+    if (this.formTitleError || this.questions.length < 10 || this.questions.some(q => q.titleError || q.optionsError)) {
+      return;
+    }
     this.router.navigate(['/instructor/preview'], {
       state: {
         formTitle: this.formTitle,
@@ -103,34 +154,56 @@ export class FormCreatorComponent implements OnInit, AfterViewInit {
   }
 
   openAnswerKeyModal(questionIndex: number) {
-    this.selectedQuestionIndex = questionIndex;
-    this.showAnswerKeyModal = true;
-  }
+    this.validateQuestionTitle(questionIndex);
+    this.validateOptions(questionIndex);
 
-  closeAnswerKeyModal() {
-    this.showAnswerKeyModal = false;
-    this.selectedQuestionIndex = -1;
-  }
-
-  saveAnswerKey(data: any) {
-    if (data && this.selectedQuestionIndex !== -1) {
-      this.questions[this.selectedQuestionIndex].points = data.points;
-      this.questions[this.selectedQuestionIndex].correctAnswer = data.selectedOption;
+    if (!this.questions[questionIndex].titleError && !this.questions[questionIndex].optionsError) {
+      this.selectedQuestionIndex = questionIndex;
+      this.showAnswerKeyModal = true;
+    } else {
+      this.answerKeyError[questionIndex] = true;
     }
-    this.closeAnswerKeyModal();
   }
 
-  onOptionChanged(event: any, qIndex: number, oIndex: number) {
-    const updatedOptions = [...this.questions[qIndex].options];
-    updatedOptions[oIndex] = event;
-    this.questions[qIndex].options = updatedOptions;
+  saveAnswerKey(event: any) {
+    const { correctAnswer, points } = event;
+    this.questions[this.selectedQuestionIndex].correctAnswer = correctAnswer;
+    this.questions[this.selectedQuestionIndex].points = points;
+    this.showAnswerKeyModal = false;
+    this.answerKeyError[this.selectedQuestionIndex] = false;
   }
 
-  trackByQuestionFn(index: number, item: any): number {
+  onOptionChanged(event: any, questionIndex: number, optionIndex: number) {
+    if (event && event.trim) {
+      this.questions[questionIndex].options[optionIndex] = event.trim();
+      this.validateOptions(questionIndex);
+    }
+  }
+
+  validateOptionText(questionIndex: number, optionIndex: number) {
+    const question = this.questions[questionIndex];
+    const optionText: string = question.options[optionIndex].trim(); // Specify optionText type as string
+    question.optionTextError[optionIndex] = !optionText;
+  }
+  
+  validateOptions(questionIndex: number) {
+    const question = this.questions[questionIndex];
+    question.optionsError = question.options.length < 2 || question.options.some((option: string) => !option.trim());
+    question.optionTextError = question.options.map((option: string) => !option.trim());
+  }
+
+  validateAll() {
+    this.validateFormTitle();
+    this.questions.forEach((question, index) => {
+      this.validateQuestionTitle(index);
+      this.validateOptions(index);
+    });
+  }
+
+  trackByOptionFn(index: number, item: string): number {
     return index;
   }
-
-  trackByOptionFn(index: number, item: any): number {
-    return index;
-  }
+  
+  
 }
+
