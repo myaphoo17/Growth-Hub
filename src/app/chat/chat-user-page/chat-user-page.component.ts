@@ -39,7 +39,8 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private webSocketService: WebSocketService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    
   ) {
     this.loginUser = sessionStorage.getItem('userId') || '';
     this.getUserDetails();
@@ -81,7 +82,6 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
           </div>`;
       }
     });
-
     this.refreshSubscription = interval(500).pipe(
       switchMap(() => this.messageService.getMessaageBySenderReciver(this.userDetails.body.staffId, this.staffIdProfile))
     ).subscribe(response => {
@@ -91,6 +91,25 @@ export class ChatUserPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  navigateToProfileViewPage(staffId: string) {
+    let routePrefix = '';
+  
+    if (this.isAdmin) {
+      routePrefix = '/admin/profile-view';
+    } else if (this.isInstructor) {
+      routePrefix = '/instructor/profile-view';
+    } else if (this.isStudent) {
+      routePrefix = '/student/profile-view';
+    }
+  
+    this.router.navigate([`${routePrefix}`, this.encodeId(staffId)]).then(() => {
+      setTimeout(() => {
+       
+      }, 50);
+    });
+  }
+  
+  
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.refreshSubscription) {

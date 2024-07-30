@@ -8,14 +8,18 @@
       </div>
 
       <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
-      <a class="nav-link" >Categories</a>
-      <!-- [matMenuTriggerFor]="categoriesMenu" -->
-      <!-- <mat-menu #categoriesMenu="matMenu" class="categories-menu">
-      <button mat-menu-item *ngFor="let category of categories" (click)="onCategorySelect(category.id)">
-        {{ category.name }}
-      </button>
-      </mat-menu> -->
+      
+      <a class="nav-link " [matMenuTriggerFor]="categoriesMenu">Categories</a>
+      <mat-menu #categoriesMenu="matMenu" class="categories-menu">
+        <button mat-menu-item *ngFor="let category of categories" (click)="onCategorySelect(category.name)">
+          {{ category.name }}
+        </button>
+      </mat-menu>
       <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
+      
+      <div *ngIf="selectedCategoryName" class="mt-4 text-center">
+        <p class="nav-link"><span class="nav-link">{{ selectedCategoryName }}</span></p>
+      </div>
     </div>
 
     <nav class="flex space-x-2 items-center"> 

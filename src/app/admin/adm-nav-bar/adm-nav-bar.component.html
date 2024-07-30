@@ -31,7 +31,7 @@
       <mat-icon aria-hidden="false" aria-label="Profile icon" class="text-sm">account_circle</mat-icon>
       Profile
     </a>
-    <div class="relative">
+    <div class="relative"> 
       <button class="text-black text-sm  px-2 py-1 rounded-md" [matMenuTriggerFor]="dropdown">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-<div class="p-2">
+      <div class="p-2">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
           <li *ngFor="let user of filteredEmployers" class="flex items-center py-2 space-x-2">
             <div *ngIf="user.staffId !== check" class="flex items-center w-full">

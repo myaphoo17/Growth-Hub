@@ -16,6 +16,7 @@
         </button>
       </mat-menu>
       <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
+      
       <div *ngIf="selectedCategoryName" class="mt-4 text-center">
         <p class="nav-link"><span class="nav-link">{{ selectedCategoryName }}</span></p>
       </div>
@@ -149,7 +150,6 @@
               </div>
               <div  *ngIf="isCourseCreate(notif.notificationType)"  class="w-full pl-3">
                   <div *ngIf="isRead(notif.isRead)" class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">{{notif.userFrom.name}}</span> created new course.</div>
-
               <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 "><span class="font-bold">{{notif.userFrom.name}}</span> created new course.</div>
                   <div class="text-xs text-blue-600 dark:text-blue-500">{{timeGenerator(notif.createdAt)}}</div>
               </div>

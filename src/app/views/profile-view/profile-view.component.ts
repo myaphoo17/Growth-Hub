@@ -77,7 +77,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   }
 
   shareProfileLink(): void {
-    const profileUrl = `${window.location.origin}/profile/${Base64.encode(this.staffIdProfile)}`;
+    const profileUrl = `${window.location.origin}/profile-view/${Base64.encode(this.staffIdProfile)}`;
     
     if (navigator.clipboard) {
       navigator.clipboard.writeText(profileUrl).then(() => {

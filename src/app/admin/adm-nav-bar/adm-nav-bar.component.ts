@@ -114,7 +114,8 @@ export class AdmNavBarComponent implements OnInit {
   
   navigateToProfileViewPage(staffId:string) {
     this.router.navigate(['/admin/profile-view', this.encodeId(staffId)]).then(()=>{
-      location.reload()
+      setTimeout(() => {
+      }, 50);
     });
   }
 
@@ -195,11 +196,15 @@ export class AdmNavBarComponent implements OnInit {
       if (type === "COURSECREATE") {
         this.router.navigate(['admin/adm-home/fact-check/fact-check-detail', this.encodeId(idPost.toString())]);
         this.funcRead( idRecepeintto,idUserFrom, type, idPost);
-       
+        setTimeout(() => {
+          location.reload();
+        }, 50);
       } else {
         this.router.navigate(['admin/privateChat', this.encodeId(staffId)]);
         this.funcRead(idRecepeintto, idUserFrom, type, idPost);
-        
+        setTimeout(() => {
+          location.reload();
+        }, 50);
       }
     }
   }

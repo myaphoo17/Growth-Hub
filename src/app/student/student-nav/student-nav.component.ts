@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl } from '@angular/forms';
 import { Category } from '../../models/category.model';
 import { HttpClient } from '@angular/common/http';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-student-nav',
@@ -48,7 +49,7 @@ export class StudentNavComponent implements OnInit {
   query: string = '';
   searchResults: any[] = [];
   showDropdown: boolean = false;
-
+  selectedCategoryName: string | null = null;
 
   constructor(
     private studentService: StudentprofileService, 
@@ -59,7 +60,8 @@ export class StudentNavComponent implements OnInit {
     private webSocketService: WebSocketService,
     private notificationService: NotificationService,
     private snackBar: MatSnackBar,
-    private http: HttpClient
+    private http: HttpClient,
+    private coursesService: CoursesService
   ) {
     this.loginUser = sessionStorage.getItem('userId') || '';
   }
@@ -69,6 +71,7 @@ export class StudentNavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchCategories();
     this.isAdmin = this.role === 'Admin';
     this.isInstructor = this.role === 'Instructor';
     this.isStudent = this.role === 'Student';
@@ -89,7 +92,22 @@ export class StudentNavComponent implements OnInit {
       });
     }, 900);
   }
-
+  fetchCategories(): void {
+    this.coursesService.getCategories().subscribe(
+      (data: Category[]) => {
+        const categoryMap = new Map<string, Category>();
+        data.forEach(item => categoryMap.set(item.name, item));
+        this.categories = Array.from(categoryMap.values());
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+  onCategorySelect(categoryName: string): void {
+    this.selectedCategoryName = categoryName;
+    this.router.navigate(['instructor/int-home',  categoryName]);
+  }
   searchCourses() {
     if (this.query.trim().length === 0) {
       this.showDropdown = false;
@@ -104,7 +122,9 @@ export class StudentNavComponent implements OnInit {
   }
   navigateToProfileViewPage(staffId:string) {
     this.router.navigate(['/student/profile-view', this.encodeId(staffId)]).then(()=>{
-      location.reload()
+      setTimeout(() => {
+       
+      }, 50);
     });
   }
 
@@ -238,6 +258,9 @@ export class StudentNavComponent implements OnInit {
     if (staffId != null) {
       this.router.navigate(['student/privateChat', this.encodeId(staffId)]);
       this.funcRead(idRecepeintto, idUserFrom, type, idPost);
+      setTimeout(() => {
+        location.reload();
+      }, 50);
     }
   }
 

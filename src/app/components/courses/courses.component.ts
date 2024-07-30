@@ -127,6 +127,7 @@ fetchCourses(categoryName?: string) {
     );
   }
   enrollCourse(staffId: string, courseId: string): void {
+    
     this.studentService.enrollCourse(staffId, courseId).subscribe(
       response => {
         this.getCoursesById(courseId, () => {

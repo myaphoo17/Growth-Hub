@@ -100,7 +100,9 @@ export class IntstructorNavBarComponent implements OnInit {
   }
   navigateToProfileViewPage(staffId:string) {
     this.router.navigate(['/instructor/profile-view', this.encodeId(staffId)]).then(()=>{
-      location.reload()
+      setTimeout(() => {
+        
+      }, 50);
     });
   }
 
@@ -207,9 +209,6 @@ export class IntstructorNavBarComponent implements OnInit {
     this.isHiddenChat = !this.isHiddenChat;
   }
 
-
-  
-
   funcRead(staffIdUserTo: string, staffIdUserFrom: string, type: string, idPost: number) {
     this.notificationService.funcRead(staffIdUserTo, staffIdUserFrom, type, idPost).subscribe();
   }
@@ -245,17 +244,36 @@ export class IntstructorNavBarComponent implements OnInit {
     }
   }
 
-  navigateToProfilePage(staffId: string, idPost: number, idRecepeintto: string, idUserFrom: string, type: string) {
-    if (staffId != null) {
-      if(type=="ENROLL"){
-        this.router.navigate(['instructor/course-details', this.encodeId(idPost.toString())]);
-        this.funcRead(idRecepeintto,idUserFrom,type,idPost);
-        }
-      this.router.navigate(['instructor/privateChat', this.encodeId(staffId)]);
-      this.funcRead(idRecepeintto, idUserFrom, type, idPost);
-     
+  navigateToProfilePage(
+    staffId: string, 
+    idPost: number, 
+    idRecepeintto: string, 
+    idUserFrom: string, 
+    type: string
+  ) {
+    if (staffId) {
+      console.log("Type:", type);
+      
+      if (type === "ENROLL") {
+        this.router.navigate(['instructor/course-details', this.encodeId(idPost.toString())])
+          .then(() => {
+            this.funcRead(idRecepeintto, idUserFrom, type, idPost);
+          })
+          .catch(err => {
+            console.error('Navigation error:', err);
+          });
+      } else {
+        this.router.navigate(['instructor/privateChat', this.encodeId(staffId)])
+          .then(() => {
+            this.funcRead(idRecepeintto, idUserFrom, type, idPost);
+          })
+          .catch(err => {
+            console.error('Navigation error:', err);
+          });
+      }
     }
   }
+  
 
   logout() {
     this.authenticationService.logout(); // Clear authentication data
