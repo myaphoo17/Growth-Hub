@@ -30,23 +30,9 @@
 quiz          </div>
         </div>
       </div> -->
-      <h3 class="font-bold text-lg mb-4 text-white mt-6">Assignment</h3>
+      
       <div>
-        <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg">
-          <div class="font-medium text-white">
-Quiz</div>
-        </div>
-      </div>
-      <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg">
-        <div class="font-medium text-white">
-Exam</div>
-      </div>
-    </div>
-      <div>
-        <div class="small-video w-full mb-4 p-2 border rounded-lg">
-          <div class="font-medium text-white">
-         Grade
-          </div>
+
         </div>
       </div>
     </div>
@@ -86,9 +72,10 @@ Exam</div>
           </ng-container>
           <ng-container *ngSwitchCase="'pptx'">
             <a [href]="currentVideo?.url" download="filename.pptx" (click)="confirmDownload($event)">
-              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PPTX Thumbnail">
+              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PPTX Thumbnail" class="w-20 h-20">
             </a>
           </ng-container>
+          
           <ng-container *ngSwitchCase="'xlsx'">
             <a [href]="currentVideo?.url" download="filename.xlsx" (click)="confirmDownload($event)">
               <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="XLSX Thumbnail">

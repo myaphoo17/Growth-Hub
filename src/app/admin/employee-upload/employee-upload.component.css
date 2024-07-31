@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(135deg, #f6f4f4 0%, #cdcdf6 100%);
+  background: linear-gradient(135deg, #f6f4f4 0%, #393993 100%);
 }
 
 .upload-card {
@@ -17,7 +17,7 @@
 
 .title {
   text-align: center;
-  color: #1e3a8a;
+  color: #162652;
   margin-bottom: 16px;
   font-size: 24px;
   font-weight: bold;
@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   padding: 8px 16px;
-  border: 2px dashed #1e3a8a;
+  border: 2px dashed #132861;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
