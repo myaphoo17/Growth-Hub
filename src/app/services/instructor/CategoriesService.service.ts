@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ObjectModel } from '../../models/instructor/objectModel';
 import { CategoriesDTO } from '../../models/instructor/categoriesDTO';
 
 @Injectable({

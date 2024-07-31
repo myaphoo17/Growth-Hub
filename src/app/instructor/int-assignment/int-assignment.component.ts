@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AssignmentService } from '../../services/assignment.service';
@@ -88,7 +87,16 @@ export class IntAssignmentComponent implements OnInit {
             verticalPosition: 'bottom'
           });
           console.log('Assignment created successfully', response);
-          // Redirect or reset form after successful creation
+          
+          // Reset the form after successful creation
+          this.assignmentForm.reset();
+  
+          // Optionally, set default values if necessary
+          this.assignmentForm.patchValue({
+            dueDate: ''
+          });
+  
+          // Redirect or refresh assignments list
           this.router.navigate(['instructor/int-assignment'], { queryParams: { courseId: this.encodeId(this.courseId) } });
           this.loadAssignmentsByCourseId(this.courseId); // Refresh assignments list
         },
@@ -98,12 +106,17 @@ export class IntAssignmentComponent implements OnInit {
       );
     }
   }
-
-  toggleMenu(id?: number): void {
+  
+  
+  toggleMenu(id?: number, event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation(); // Prevent click event from propagating to the card
+    }
     if (id !== undefined) {
       this.openMenuId = this.openMenuId === id ? null : id;
     }
   }
+  
 
   isMenuOpen(id: number | undefined): boolean {
     return this.openMenuId === id;
@@ -114,10 +127,33 @@ export class IntAssignmentComponent implements OnInit {
       console.log('Edit assignment', assignment);
     }
   }
+  // deleteAssignment(assignment: Assignment) {
+  //   if (assignment.id !== undefined) {
+  //     console.log('Delete assignment', assignment);
+  //   }
+  // }
 
   deleteAssignment(assignment: Assignment) {
     if (assignment.id !== undefined) {
-      console.log('Delete assignment', assignment);
+      this.assignmentService.deleteInstructorAssignment(assignment.id).subscribe(
+        () => {
+          this.snackBar.open('Assignment deleted successfully!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom'
+          });
+          this.assignments = this.assignments.filter(a => a.id !== assignment.id);
+        },
+        error => {
+          console.error('Error deleting assignment', error);
+        }
+      );
     }
   }
+  viewAssignmentDetails(assignmentId: number): void {
+    const encodedAssignmentId = this.encodeId(assignmentId.toString());
+    this.router.navigate(['instructor/int-assignment/student-all-assignment'], { queryParams: { assignmentId: encodedAssignmentId } });
+  }
+  
+  
 }

@@ -5,6 +5,7 @@ import { Employer } from '../../models/instructor/employer';
 import { Education } from '../../models/instructor/education.model';
 import { StdentCourseModel } from '../../models/student/StudentCourseModel';
 import { CourseModel } from '../../models/instructor/courseModel';
+import { UploadFiles } from '../../models/instructor/UploadFiles';
 @Injectable({
   providedIn: 'root',
 })
@@ -68,6 +69,14 @@ checkEmployeeExists(courseId: string,staffId:string): Observable<boolean> {
 // In studentprofile.service.ts
 getEnrollmentCount(courseId: string): Observable<number> {
   return this.httpClient.get<number>(`${this.baseURL}/course_count/${courseId}`);
+}
+markAsCompleted(id: number, completed: boolean): Observable<UploadFiles> {
+  return this.httpClient.put<UploadFiles>(`${this.baseURL}/${id}/complete`, {}, {
+    params: { completed: completed.toString() }
+  });
+}
+getCourseListById(courseId: string): Observable<UploadFiles[]> {
+  return this.httpClient.get<UploadFiles[]>(`${this.baseURL}/course/${courseId}`);
 }
 
 }

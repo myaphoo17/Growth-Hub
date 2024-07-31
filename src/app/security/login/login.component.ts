@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/']);
               break;
           }
-          this.showToast('Login successful', 'success');
+          // this.showToast('Login successful', 'success');
         },
         error => {
           this.showToast(error.error.errorMessage, 'error');

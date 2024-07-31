@@ -7,7 +7,7 @@
         <div class="text-blue-900 text-2xl mt-3 font-semibold">Growth Hub</div>
       </div>
 
-      <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
+      <!-- <mat-icon class="text-gray-1000" style="font-size: 26px;">arrow_forward_ios</mat-icon>
       
       <a class="nav-link " [matMenuTriggerFor]="categoriesMenu">Categories</a>
       <mat-menu #categoriesMenu="matMenu" class="categories-menu">
@@ -19,9 +19,9 @@
       
       <div *ngIf="selectedCategoryName" class="mt-4 text-center">
         <p class="nav-link"><span class="nav-link">{{ selectedCategoryName }}</span></p>
-      </div>
-    </div>
-
+      
+    </div> -->
+</div>
     <nav class="flex space-x-2 items-center"> 
       
       <div class="search-container flex items-center rounded-lg bg-gray-200 px-2 py-1 border border-blue-900">
@@ -87,7 +87,7 @@
                   <p class="text-sm font-medium text-gray-900 truncate dark:text-white">{{user.name}}</p>
                   <p class="text-xs text-gray-500 truncate dark:text-gray-400">{{user.email}}</p>
                 </div>
-                <a *ngIf="isAdmin  isInstructor  isStudent"
+                <a *ngIf="isAdmin || isInstructor || isStudent"
                   [routerLink]="[isAdmin ? '/admin/privateChat' : (isInstructor ? '/instructor/privateChat' : '/student/privateChat'), encodeId(user.staffId)]"
                   class="text-blue-600 dark:text-blue-500 hover:underline ml-2">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

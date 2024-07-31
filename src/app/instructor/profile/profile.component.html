@@ -38,7 +38,7 @@
     <p><mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">badge</mat-icon>{{ instructorData.department }}</p>
     <p><mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">vpn_key</mat-icon>{{ instructorData.doorLogNo }}</p>
     <p><mat-icon aria-hidden="false" aria-label="post icon" class="text-sm">work</mat-icon>{{ instructorData.role }}</p>
-    <button class="btn primary" (click)="openModal('updateProfileInfoModal')">Update your Info</button>
+    <button class="btn mt-4  bg-blue-900" (click)="openModal('updateProfileInfoModal')">Update your Info</button>
   </div>
 </div>
 <div *ngIf="instructorData.role == 'Instructor'">

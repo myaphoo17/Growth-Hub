@@ -1,93 +1,82 @@
+<!-- Loading Indicator -->
 <app-loading></app-loading>
-<div class="flex h-screen overflow-hidden  bg-gray-550">
-  <!-- Sidebar for Course Material -->
-  <!-- <div class="w-60 p-5 bg-gray-800 justify-content-center shadow-lg flex flex-col h-full transition-all duration-300">
-    <div class="flex flex-col items-start">
-      <h3 class="font-bold text-lg mb-4 text-white">Course Material</h3>
-      <div>
-        <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg " *ngFor="let video of videos; let i = index" (click)="selectVideo(i)">
-          <div class=" font-medium text-white">
-            {{ video.title }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <div class=" fixed w-60 p-5 bg-gray-800 justify-content-center shadow-lg flex flex-col h-full transition-all duration-300">
-    <div class="flex flex-col items-start">
-      <h3 class="font-bold text-lg mb-4 text-white">Course Material</h3>
-      <div>
-        <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg" *ngFor="let video of videos; let i = index" (click)="selectVideo(i)">
-          <div class="font-medium text-white">
-            {{ video.title }}
-          </div>
-        </div>
-      </div>
-    
-      <div>
-        <!-- <div class="small-video w-full mb-4 cursor-pointer p-2 border rounded-lg">
-          <div class="font-medium text-white">
-quiz          </div>
-        </div>
-      </div> -->
-      
-      <div>
 
+<!-- Sidebar for Course Material -->
+<div class="fixed w-72 h-full p-6 bg-gray-800 shadow-lg flex flex-col transition-transform duration-300 ease-in-out">
+  <h3 class="text-lg font-bold text-white mb-6">Course Material</h3>
+  <div class="flex-1 overflow-y-auto">
+    <div class="bg-gray-700 rounded-lg p-2">
+      <div *ngFor="let video of videos; let i = index"
+           class="flex items-center justify-between p-3 mb-2 rounded-lg cursor-pointer transition duration-300 ease-in-out hover:bg-gray-600"
+           [class.bg-gray-900]="i === currentVideoIndex"
+           [class.text-white]="i === currentVideoIndex"
+           (click)="selectVideo(i)">
+        <div class="flex items-center">
+          <input type="checkbox"
+                 [checked]="video.completed"
+                 class="mr-2 w-6 h-6 rounded-full border-gray-400 bg-gray-200 appearance-none checked:bg-green-500 checked:border-white focus:ring-0"
+                 [ngClass]="{
+                   'bg-green-500 border-white-500': video.completed,
+                   'bg-gray-200 border-gray-400': !video.completed
+                 }"
+                 disabled>
+          <span class="truncate text-white">{{ video.title }}</span>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Main content area for Video display -->
-  <div class="overflow-y-auto ml-64 flex flex-col items-center p-4 w-full">
-    <div class="w-full max-w-2xl">
-      <div class="small-video-container mb-6 p-4 border rounded-lg bg-white shadow-md">
-        <div class="text-xl font-semibold text-gray-900 mb-4">
-          {{ currentVideo?.title }}
-        </div>
-        
-        <ng-container [ngSwitch]="getFileType(currentVideo?.url)">
-          <ng-container *ngSwitchCase="'video'">
-            <div class="relative">
-              <video controls class="w-full rounded-lg shadow-lg selected-video">
-                <source [src]="currentVideo?.url" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </ng-container>
+<!-- Main Content Area for Video Display -->
+<div class="ml-72 flex-1 p-3 bg-gray-100 overflow-y-auto">
+  <div class="w-full max-w-2xl mx-auto">
+    <div class="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
+      <div class="text-2xl font-semibold text-gray-800 mb-2">
+        {{ currentVideo?.title }}
+      </div>
 
-          <ng-container *ngSwitchDefault>
-            <div class="relative">
-              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="w-full h-48 rounded-lg shadow-lg object-cover">
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center">
-                {{ currentVideo?.title }}
-              </div>
-            </div>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'pdf'">
-            <a [href]="currentVideo?.url" download="filename.pdf" (click)="confirmDownload($event)">
-              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PDF Thumbnail">
-            </a>
-          </ng-container>
-          <ng-container *ngSwitchCase="'pptx'">
-            <a [href]="currentVideo?.url" download="filename.pptx" (click)="confirmDownload($event)">
-              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PPTX Thumbnail" class="w-20 h-20">
-            </a>
-          </ng-container>
-          
-          <ng-container *ngSwitchCase="'xlsx'">
-            <a [href]="currentVideo?.url" download="filename.xlsx" (click)="confirmDownload($event)">
-              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="XLSX Thumbnail">
-            </a>
-          </ng-container>
-          <ng-container *ngSwitchCase="'docx'">
-            <a [href]="currentVideo?.url" download="filename.docx" (click)="confirmDownload($event)">
-              <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="DOCX Thumbnail">
-            </a>
-          </ng-container>
+      <!-- Video or Document Display -->
+      <ng-container [ngSwitch]="getFileType(currentVideo?.url)">
+        <ng-container *ngSwitchCase="'video'">
+          <div class="relative rounded-lg overflow-hidden">
+            <video #videoPlayer controls class="w-full rounded-lg p-3 shadow-lg selected-video">
+              <source [src]="currentVideo?.url" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </ng-container>
-      </div>   
+
+        <ng-container *ngSwitchDefault>
+          <div class="relative rounded-lg overflow-hidden">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/illustration-of-folder-document-for-docx-file-vector.jpg" alt="Document Preview" class="w-full h-auto p-3 rounded-lg shadow-lg">
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <!-- Next/Previous Lesson Buttons -->
+      <div class="mt-4 flex justify-between">
+        <button (click)="previousLesson()" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out">Previous Lesson</button>
+        <button (click)="nextLesson()" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out">Next Lesson</button>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="relative w-full bg-gray-300 rounded-full h-2 mt-4">
+        <div class="absolute top-0 left-0 h-full rounded-full bg-green-500 transition-all duration-300 ease-in-out"
+             [style.width.%]="progressPercentage"></div>
+        <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm"
+             [ngClass]="{ 'text-black': progressPercentage < 50, 'text-white': progressPercentage >= 50 }">
+          {{ progressPercentage | number:'1.0-0' }}%
+        </div>
+      </div>
+      <div class="text-center mt-2 text-gray-300">Completed</div>
+
+      <!-- Mark as Done Button -->
+      <div class="mt-4 flex justify-end">
+        <button (click)="markAsDone(currentVideo, $event)"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out">
+          Mark as Done
+        </button>
+      </div>
     </div>
   </div>
 </div>

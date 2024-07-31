@@ -8,5 +8,5 @@ export interface Assignment {
   studentId?: number;
   instructorId?: number;
   courseId?: number; // Add this line
-
+  studentName?: string;  // Added studentName field
 }
