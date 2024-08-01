@@ -105,6 +105,7 @@ import { StudentCertificateComponent } from './student/student-certificate/stude
 import { IntAssignmentComponent } from './instructor/int-assignment/int-assignment.component';
 import { StudentAssignmentComponent } from './student/student-assignment/student-assignment.component';
 import { AllAssignmentsComponent } from './all-assignments/all-assignments.component';
+import { StudentAllAssignmentComponent } from './student/student-all-assignment/student-all-assignment.component';
 
 
 
@@ -204,7 +205,8 @@ import { AllAssignmentsComponent } from './all-assignments/all-assignments.compo
     CreateCertificateComponent,    
     VideoChatComponent, StudentCertificateComponent,
     StudentAssignmentComponent,
-    AllAssignmentsComponent
+    AllAssignmentsComponent,
+    StudentAllAssignmentComponent
   ],
   imports: [
     

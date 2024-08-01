@@ -12,11 +12,7 @@ export class FormService {
   constructor(private http: HttpClient) {}
 
   addExam(exam: any, courseId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post<any>(`${this.apiUrl}/exam?courseId=${courseId}`, exam, { headers });
+    return this.http.post<any>(`${this.apiUrl}/exam?courseId=${courseId}, exam`, { responseType: 'text' as 'json' });
   }
 
   getExamDetailsByCourseId(courseId: number): Observable<ExamModel> {

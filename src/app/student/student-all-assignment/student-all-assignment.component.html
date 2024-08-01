@@ -1,0 +1,35 @@
+
+<!-- Display student assignments -->
+<div *ngIf="assignments && assignments.length > 0">
+    <h3>Student Assignments</h3>
+    <div *ngFor="let assignment of assignments" class="student-assignment-card">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ assignment.student?.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>File Type: {{ assignment.fileType }}</p>
+          <p>Submitted Date: {{ assignment.submittedDate | date }}</p>
+          <a [href]="getFileUrl(assignment.data)" target="_blank">View Uploaded File</a>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  
+  <!-- Display student assignments -->
+  <!-- <div *ngIf="studentAssignments && studentAssignments.length > 0">
+    <h3>Student Assignments</h3>
+    <div *ngFor="let studentAssignment of studentAssignments" class="student-assignment-card">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ studentAssignment.studentName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>File Type: {{ studentAssignment.fileType }}</p>
+          <p>Submitted Date: {{ studentAssignment.submittedDate | date }}</p>
+          <a [href]="getFileUrl(studentAssignment.data)" target="_blank">View Uploaded File</a>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div> -->
+  

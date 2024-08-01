@@ -60,6 +60,7 @@ import { VideoChatComponent } from './video-chat/video-chat.component';
 import { StudentCertificateComponent } from './student/student-certificate/student-certificate.component';
 import { AllAssignmentsComponent } from './all-assignments/all-assignments.component';
 import { StudentAssignmentComponent } from './student/student-assignment/student-assignment.component';
+import { StudentAllAssignmentComponent } from './student/student-all-assignment/student-all-assignment.component';
 
 
 const routes: Routes = [
@@ -125,6 +126,7 @@ const routes: Routes = [
       { path: 'grade', component: GradeModalComponent },
       { path: 'grade-detail', component: GradeDetailComponent },
       { path: 'int-assignment', component: IntAssignmentComponent},
+      { path: 'int-assignment/student-all-assignment', component: StudentAllAssignmentComponent},
       { path: 'all-assignments', component: AllAssignmentsComponent},
       { path: 'student-assignment', component: StudentAssignmentComponent},
       { path: '', redirectTo: 'int-home', pathMatch: 'full' },

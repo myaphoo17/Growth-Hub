@@ -1,0 +1,13 @@
+.flex {
+    display: flex;
+    gap: 1rem; /* Adjust gap between columns */
+  }
+  
+  .overflow-y-auto {
+    overflow-y: auto;
+    height: calc(100vh - 2rem); /* Adjust based on your layout needs */
+  }
+  
+  .flex-shrink-0 {
+    flex-shrink: 0;
+  }

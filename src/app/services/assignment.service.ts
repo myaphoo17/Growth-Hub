@@ -34,7 +34,7 @@ export class AssignmentService {
       console.error('An error occurred:', error.error.message);
     } else {
       console.error(
-        `Backend returned code ${error.status},`  +
+        `Backend returned code ${error.status}, `+
         `body was: ${error.error}`);
     }
     return throwError('Something bad happened; please try again later.');
@@ -86,11 +86,11 @@ export class AssignmentService {
   }
 
   deleteStudentAssignment(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
   deleteInstructorAssignment(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}` ).pipe(
+    return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       catchError(this.handleError)
     );
   }

@@ -75,6 +75,9 @@ markAsCompleted(id: number, completed: boolean): Observable<UploadFiles> {
     params: { completed: completed.toString() }
   });
 }
+getVideosByCourseId(courseId: number): Observable<UploadFiles[]> {
+  return this.httpClient.get<UploadFiles[]>(`${this.baseURL}/course/${courseId}`);
+}
 getCourseListById(courseId: string): Observable<UploadFiles[]> {
   return this.httpClient.get<UploadFiles[]>(`${this.baseURL}/course/${courseId}`);
 }

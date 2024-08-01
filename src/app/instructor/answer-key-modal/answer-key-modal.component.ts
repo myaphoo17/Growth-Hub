@@ -1,12 +1,11 @@
-
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-answer-key-modal',
   templateUrl: './answer-key-modal.component.html',
   styleUrls: ['./answer-key-modal.component.css']
 })
-export class AnswerKeyModalComponent {
+export class AnswerKeyModalComponent implements OnInit {
   @Input() question: any;
   @Output() save = new EventEmitter<any>();
   points: number = 1;
@@ -16,9 +15,8 @@ export class AnswerKeyModalComponent {
   ngOnInit() {
     if (this.question) {
       this.points = this.question.points;
-      this.selectedOptions = this.question.options
-        .map((opt: any, index: number) => this.question.correctAnswer?.includes(index) ? index : null)
-        .filter((index: null) => index !== null) as number[];
+      // Ensure correctAnswer is not null or undefined
+      this.selectedOptions = this.question.correctAnswer ? [...this.question.correctAnswer] : [];
     }
   }
 
@@ -28,7 +26,7 @@ export class AnswerKeyModalComponent {
     } else {
       this.selectedOptions.push(index);
     }
-    // Clear error message when options are selected
+
     if (this.selectedOptions.length > 0) {
       this.errorMessage = '';
     }
@@ -36,13 +34,12 @@ export class AnswerKeyModalComponent {
 
   saveAnswerKey() {
     if (this.selectedOptions.length === 0) {
-      // Show error if no options selected
-      this.errorMessage = 'Please Choose Correct Answer';
+      this.errorMessage = 'Please choose at least one correct answer.';
       return;
     }
 
     this.errorMessage = '';
-    this.save.emit({ points: this.points, selectedOptions: this.selectedOptions });
+    this.save.emit({ correctAnswer: this.selectedOptions, points: this.points });
   }
 
   closeModal() {

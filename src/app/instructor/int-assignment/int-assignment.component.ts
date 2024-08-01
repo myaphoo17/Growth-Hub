@@ -55,6 +55,7 @@ export class IntAssignmentComponent implements OnInit {
       }
     );
   }
+  
 
   encodeId(id: string): string {
     return Base64.encode(id);
@@ -127,12 +128,6 @@ export class IntAssignmentComponent implements OnInit {
       console.log('Edit assignment', assignment);
     }
   }
-  // deleteAssignment(assignment: Assignment) {
-  //   if (assignment.id !== undefined) {
-  //     console.log('Delete assignment', assignment);
-  //   }
-  // }
-
   deleteAssignment(assignment: Assignment) {
     if (assignment.id !== undefined) {
       this.assignmentService.deleteInstructorAssignment(assignment.id).subscribe(
@@ -142,7 +137,10 @@ export class IntAssignmentComponent implements OnInit {
             horizontalPosition: 'right',
             verticalPosition: 'bottom'
           });
+          // Remove the deleted assignment from the list
           this.assignments = this.assignments.filter(a => a.id !== assignment.id);
+          // Reload assignments to ensure the list is up-to-date
+          this.loadAssignmentsByCourseId(this.courseId);
         },
         error => {
           console.error('Error deleting assignment', error);
@@ -150,6 +148,7 @@ export class IntAssignmentComponent implements OnInit {
       );
     }
   }
+  
   viewAssignmentDetails(assignmentId: number): void {
     const encodedAssignmentId = this.encodeId(assignmentId.toString());
     this.router.navigate(['instructor/int-assignment/student-all-assignment'], { queryParams: { assignmentId: encodedAssignmentId } });

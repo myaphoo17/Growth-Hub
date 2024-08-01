@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener, ElementRef  } from '@angular/core';
 import { Employer } from '../../models/admin/employer';
 import { StudentprofileService } from '../../services/student/studentprofile.service';
 import { AuthServiceService } from '../../security/services/auth-service.service';
@@ -51,6 +51,7 @@ export class StudentNavComponent implements OnInit {
   showDropdown: boolean = false;
   selectedCategoryName: string | null = null;
 
+
   constructor(
     private studentService: StudentprofileService, 
     private cdr: ChangeDetectorRef,
@@ -61,7 +62,8 @@ export class StudentNavComponent implements OnInit {
     private notificationService: NotificationService,
     private snackBar: MatSnackBar,
     private http: HttpClient,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private eRef: ElementRef,
   ) {
     this.loginUser = sessionStorage.getItem('userId') || '';
   }
@@ -225,11 +227,33 @@ export class StudentNavComponent implements OnInit {
     this.isHiddenNotif = !this.isHiddenNotif;
   }
   dropDownMenueChat() {
-    this.isHiddenChat = !this.isHiddenChat;
+     this.isHiddenChat = !this.isHiddenChat;
+  }
+
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    const clickedInsideChat = this.eRef.nativeElement.querySelector('#dropdownChat')?.contains(event.target as Node);
+    const clickedInsideNotification = this.eRef.nativeElement.querySelector('#dropdownNotification')?.contains(event.target as Node);
+    const clickedOnChatButton = (event.target as HTMLElement).closest('[data-dropdown-toggle="dropdownChat"]');
+    const clickedOnNotifButton = (event.target as HTMLElement).closest('[data-dropdown-toggle="dropdownNotification"]');
+
+    if (!clickedInsideChat && !clickedOnChatButton) {
+      this.isHiddenChat = true;
+    }
+
+    if (!clickedInsideNotification && !clickedOnNotifButton) {
+      this.isHiddenNotif = true;
+    }
   }
 
   funcRead(staffIdUserTo: string, staffIdUserFrom: string, type: string, idPost: number) {
     this.notificationService.funcRead(staffIdUserTo, staffIdUserFrom, type, idPost).subscribe();
+  }
+
+
+  closeChatDropdown() {
+    this.isHiddenChat = true;
   }
 
   timeGenerator(date: number) {

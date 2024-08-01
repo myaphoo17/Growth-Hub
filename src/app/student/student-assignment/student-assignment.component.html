@@ -1,21 +1,33 @@
+<!-- student-assignment.component.html -->
 <div *ngIf="currentSection === 'assignment'" class="mt-6">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Your work</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="file-upload-container">
-          <button mat-button class="add-create-button" (click)="fileInputRef.nativeElement.click()">+ Add File</button>
-          <input type="file" #fileInput (change)="onFileChange($event)" hidden>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Your work</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="uploadedFile" class="uploaded-file-container">
+        <div class="file-details">
+          <mat-icon>insert_drive_file</mat-icon>
+          <span>{{ uploadedFile.name }}</span>
+          <span class="file-type">{{ uploadedFile.type }}</span>
         </div>
-        <div *ngIf="selectedFile" class="selected-file">
-          <img src="assets/google-drive-icon.png" alt="Google Drive Icon" class="file-icon">
+        <button mat-raised-button color="warn" (click)="onUnsubmit()">Unsubmit</button>
+      </div>
+      <div *ngIf="!uploadedFile" class="file-upload-container">
+        <button mat-button class="add-create-button" (click)="fileInputRef.nativeElement.click()">+ Add File</button>
+        <input type="file" #fileInput (change)="onFileChange($event)" hidden>
+      </div>
+      <div *ngIf="selectedFile" class="selected-file">
+        <div class="file-details">
+          <mat-icon>insert_drive_file</mat-icon>
           <span>{{ selectedFile.name }}</span>
-          <button mat-icon-button color="warn" (click)="removeFile()">
-            <mat-icon>close</mat-icon>
-          </button>
+          <span class="file-type">{{ selectedFile.type }}</span>
         </div>
-        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!selectedFile">Submit</button>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        <button mat-icon-button color="warn" (click)="removeFile()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!selectedFile">Submit</button>
+    </mat-card-content>
+  </mat-card>
+</div>
