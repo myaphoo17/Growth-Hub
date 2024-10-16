@@ -1,0 +1,51 @@
+<!-- course-table.component.html -->
+<div>
+    <h2>Courses List</h2>
+    
+    <!-- Search Form -->
+    <form (submit)="onSearch()">
+      <input [(ngModel)]="searchCriteria.courseName" placeholder="Course Name" name="courseName">
+      <input [(ngModel)]="searchCriteria.creatorId" placeholder="Creator ID" name="creatorId">
+      <input [(ngModel)]="searchCriteria.createdDate" type="date" placeholder="Created Date" name="createdDate">
+      <input [(ngModel)]="searchCriteria.enrolledCount" type="number" placeholder="Enrolled Count" name="enrolledCount">
+      <button type="submit">Search</button>
+    </form>
+  
+    <!-- Course Table -->
+    <table mat-table [dataSource]="courses" class="mat-elevation-z8">
+  
+      <!-- Index Column -->
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
+      </ng-container>
+  
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+  
+      <!-- Creator ID Column -->
+      <ng-container matColumnDef="creatorId">
+        <th mat-header-cell *matHeaderCellDef> Creator ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.employeeDTO.id}} </td>
+      </ng-container>
+  
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Created Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
+      </ng-container>
+  
+      <!-- Enrolled Students Count Column -->
+      <ng-container matColumnDef="enrolledCount">
+        <th mat-header-cell *matHeaderCellDef> Enrolled Count </th>
+        <td mat-cell *matCellDef="let element"> {{element.learningCourseDTO.length}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  

@@ -1,0 +1,148 @@
+<div class="employers-container p-6 bg-gray-100 rounded-lg shadow-lg">
+  <!-- Search Input -->
+  <div class="search-form-container mb-6 flex justify-between items-center">
+    <button
+      (click)="goBack()"
+      class="p-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 mr-2"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="flex items-center bg-white border border-gray-300 rounded-lg shadow-sm">
+      <input
+        type="text"
+        class="flex-grow p-3 border-none outline-none focus:ring-2 focus:ring-blue-400 rounded-l-lg"
+        placeholder="Search..."
+        [(ngModel)]="searchTerm"
+      />
+      <button
+        class="p-3 bg-blue-900 text-white rounded-r-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex mb-6 space-x-6 items-center">
+    <!-- Column Selection -->
+    <div class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
+      <ng-container *ngFor="let column of columns">
+        <input
+          type="checkbox"
+          [id]="'select' + column.key"
+          class="w-5 h-5 text-blue-900 rounded border-gray-300 focus:ring-2 focus:ring-blue-400"
+          (change)="toggleColumnVisibility(column.key, $event)"
+          [checked]="checkboxState[column.key]"
+        />
+        <label
+          [for]="'select' + column.key"
+          class="text-gray-700 cursor-pointer"
+          >{{ column.label }}</label
+        >
+      </ng-container>
+    </div>
+    <label for="selectAll" class="flex items-center space-x-2 cursor-pointer">
+      <input
+        type="checkbox"
+        id="selectAll"
+        class="w-5 h-5 text-blue-900 rounded border-gray-300 focus:ring-2 focus:ring-blue-400"
+        (change)="toggleSelectAll($event)"
+        [checked]="allSelected"
+      />
+      <span class="text-gray-700">Select All</span>
+    </label>
+  </div>
+
+  <div class="relative overflow-x-auto bg-white shadow-sm rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <thead class="bg-blue-900 text-white">
+        <tr>
+          <!-- Add checkbox column header -->
+          <th class="py-2 px-3 text-left font-medium"></th>
+          <th
+            class="py-2 px-3 text-left font-medium"
+            *ngFor="let column of columns"
+            [ngClass]="{ hidden: !shouldDisplayColumn(column.key) }"
+          >
+            {{ column.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr
+          *ngFor="let employer of pagedCards | filterData: searchTerm; let i = index"
+          class="hover:bg-blue-100 cursor-pointer"
+          (click)="navigateToProfileViewPage(employer.staffId)"
+        >
+          <!-- Add checkbox cell -->
+
+          <td class="py-2 px-3 text-center">{{ i + 1 }}</td>
+          <td
+            class="py-2 px-3"
+            *ngFor="let column of columns"
+            [ngClass]="{ hidden: !shouldDisplayColumn(column.key) }"
+          >
+            <ng-container
+              *ngIf="shouldDisplayImage(column.key); else textContent"
+            >
+              <img
+                [src]="getItemValue(employer, column.key)"
+                alt="Profile Image"
+                class="w-10 h-10 object-cover rounded-full"
+              />
+            </ng-container>
+            <ng-template #textContent>
+              {{ getItemValue(employer, column.key) }}
+            </ng-template>
+          </td>
+        </tr>
+        <tr *ngIf="pagedCards.length === 0">
+          <td colspan="8" class="text-center py-3 text-gray-500">
+            No employers found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Download Buttons -->
+  <div class="flex justify-end bg-white space-x-2 mt-6">
+    <mat-paginator
+      [length]="employers.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[4, 8, 16, 24]"
+      (page)="handlePageEvent($event)"
+      class="my-2"
+    ></mat-paginator>
+    <button
+      (click)="downloadFile('pdf')"
+      class="p-2 text-blue-900 rounded-full hover:bg-blue-100 transition duration-200"
+    >
+      <mat-icon>picture_as_pdf</mat-icon>
+    </button>
+    <button
+      (click)="downloadFile('excel')"
+      class="p-2 text-blue-900 rounded-full hover:bg-blue-100 transition duration-200"
+    >
+      <mat-icon>grid_on</mat-icon>
+    </button>
+    <button
+      (click)="downloadFile('csv')"
+      class="p-2 text-blue-900 rounded-full hover:bg-blue-100 transition duration-200"
+    >
+      <mat-icon>table_chart</mat-icon>
+    </button>
+  </div>
+</div>

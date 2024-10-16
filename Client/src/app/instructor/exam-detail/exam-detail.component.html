@@ -1,0 +1,74 @@
+<div *ngIf="exam" class="main-container flex justify-start items-start w-1/2 mx-auto">
+  <!-- Form section -->
+  <div class="form-section flex-grow mr-4">
+    <!-- Form container -->
+    <div class="form-container relative bg-white p-4 border border-gray-300 rounded-lg mb-4">
+      <!-- Color bar -->
+      <div class="color-bar bg-blue-600 h-2 absolute top-0 left-0 w-full rounded-t-lg"></div>
+      <!-- Form header -->
+      <div class="form-header mb-4">
+        <input type="text" [(ngModel)]="formTitle" class="text-xl font-bold w-full" placeholder="Form Title">
+        <textarea [(ngModel)]="formDescription" class="w-full mt-2" placeholder="Form Description"></textarea>
+      </div>
+    </div>
+
+    <!-- Questions container -->
+    <div class="questions-container flex flex-col">
+      <ng-container *ngFor="let question of exam?.questions; let qIndex = index; trackBy: trackByQuestionFn">
+        <!-- Question form container -->
+        <div class="form-container mb-4 p-4 border border-gray-300 rounded-lg bg-white">
+          <div class="question-title">
+            <textarea [(ngModel)]="question.title" class="text-lg w-full" rows="1" placeholder="Untitled Question"></textarea>
+          </div>
+          <!-- Options -->
+          <div class="options">
+            <div *ngFor="let option of question.options; let oIndex = index; trackBy: trackByOptionFn" class="option mb-2 flex items-center">
+              <input type="radio" [name]="'question' + qIndex" [value]="option.isCorrect" class="mr-2">
+              <input type="text" [(ngModel)]="option.multiple" class="w-full p-2 border border-gray-300 rounded" placeholder="Option">
+              <button (click)="removeOption(qIndex, oIndex)" class="text-red-500 ml-2" title="Remove Option">
+                <i class="material-icons">remove_circle</i>
+              </button>
+            </div>
+            <button (click)="addOption(qIndex)" class="bg-blue-500 text-white px-2 py-1 rounded mt-2" [disabled]="question.options.length >= 4">Add option</button>
+          </div>
+          <!-- Action buttons -->
+          <div class="flex justify-end items-center mt-2">
+            <button class="p-2 ml-2 text-blue-800" title="Delete" (click)="deleteQuestion(qIndex)">
+              <i class="material-icons">delete</i>
+            </button>
+            <button class="flex items-center bg-blue-800 text-white px-3 py-2 rounded ml-2" (click)="openAnswerKeyModal(qIndex)">
+              <i class="material-icons mr-2">assignment_turned_in</i>
+              Answer key ({{ question.totalPoints }} points)
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Floating action buttons -->
+  <div class="flex flex-col items-center fixed ml-[800px] mt-[200px] p-2 border border-gray-300 rounded-lg bg-white">
+    <button class="custom-button add-question text-blue-800 p-2 rounded" title="Add Question" (click)="addQuestion()">
+      <i class="material-icons">add</i>
+    </button>
+    <button class="custom-button preview text-blue-800 p-2 rounded" title="Update" (click)="saveExam()">
+      <i class="material-icons">update</i>
+    </button>
+    <button class="custom-button preview text-blue-800 p-2 rounded" title="Go Back" (click)="goBack()">
+      <i class="material-icons">arrow_back</i>
+    </button>
+  </div>
+</div>
+
+<!-- Answer key instructor modal -->
+<app-answer-key-instructor
+  *ngIf="showAnswerKeyModal"
+  [question]="selectedQuestion"
+  (close)="closeAnswerKeyModal()"
+  (save)="saveAnswerKey($event)">
+</app-answer-key-instructor>
+
+<!-- If no exam is loaded -->
+<div *ngIf="!exam">
+  <app-form></app-form>
+</div>

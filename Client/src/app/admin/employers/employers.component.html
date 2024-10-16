@@ -1,0 +1,12 @@
+<!-- header.component.html -->
+<header>
+    <h1>Upload Employer Data</h1>
+    <div class="header-container">
+      <div class="upload-container">
+        <input type="file" id="fileInput" accept=".xlsx, .xls" (change)="onFileSelected($event)" />
+        <button type="button" (click)="uploadFile()">Upload</button>
+      </div>
+    </div>
+  </header>
+  <a routerLink="/employersList" class="block">Employers List</a>
+  

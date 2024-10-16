@@ -1,0 +1,28 @@
+<div class="main-container">
+  <div class="modal-content">
+    <div class="form-preview-card">
+      <div class="color-bar"></div>
+      <div class="form-header">
+        <h2>{{ formTitle }}</h2>
+        <p>{{ formDescription }}</p>
+      </div>       
+    </div>
+
+    <div class="questions-preview">
+      <div *ngFor="let question of questions" class="question-card">
+        <div class="question-title">{{ question.title }}</div>
+        <div class="options">
+          <div *ngFor="let option of question.options">
+            <input type="radio" disabled /> {{ option }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Add buttons for navigation -->
+    <div class="button-group">
+      <button class="go-back-button" (click)="goBack()">Go Back</button>
+      <button class="submit-button" (click)="submitForm()">Submit</button>
+    </div>
+  </div>
+</div>

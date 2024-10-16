@@ -1,0 +1,147 @@
+<div class="course-container">
+  <div class="course-header">
+    <h1>{{course.title}}</h1>
+    <p class="subtitle">{{course.description}}</p>
+  </div>
+  <div class="course-body">
+    <div class="video-container">
+      <video [src]="getVideoFiles(course.uploadFiles)[0].url" controls></video>
+    </div>
+    <div class="course-details-vertical">
+      <div *ngIf="isAdmin">
+        <div class="detail-item" (click)="navigateToEnrolledUser()">
+          <mat-icon>group</mat-icon>
+          <p class="enrolled-count">{{ enrolledCount | number }} already enrolled</p>
+        </div>
+      </div>
+      
+      <div *ngIf="!isAdmin">
+        <div class="detail-item" (click)="toggleChatBox()">
+          <mat-icon>group</mat-icon>
+          <p class="enrolled-count">{{ enrolledCount | number }} already enrolled</p>
+        </div>
+      </div>
+      <div *ngIf="getVideoCount(course.uploadFiles) > 0" class="detail-item">
+        <mat-icon>video_library</mat-icon>
+        <p class="video-count">
+          {{ getVideoCount(course.uploadFiles) }} {{ getVideoCount(course.uploadFiles) > 1 ? ' Videos' : ' Video' }}
+        </p>
+      </div>       
+      <div class="detail-item">
+        <mat-icon>assignment</mat-icon> <!-- Icon for documents -->
+        <p class="exam-count">
+          {{ getDocumentCount(course.uploadFiles) }}
+          {{ getDocumentCount(course.uploadFiles) > 1 ? ' Documents' : ' Document' }}
+        </p>
+      </div>      
+      <div class="detail-item" *ngIf="hasExam">
+        <mat-icon>assignment</mat-icon> 
+        <p class="exam-count">Has Exam</p>
+        <!-- <div class="exam-details">
+          <p>Exam Title: {{ examDetails?.title }}</p>
+          <p>Exam Description: {{ examDetails?.description }}</p>
+        </div> -->
+      </div>
+      <div class="detail-item" *ngIf="!hasExam">
+        <mat-icon>assignment_late</mat-icon> <!-- 'assignment_late' for no Exam -->
+        <p class="exam-count">No Exam</p>
+      </div>
+      <div class="detail-item" *ngIf="hasExam">
+        <mat-icon>emoji_events</mat-icon> <!-- 'emoji_events' for Certificate -->
+        <p class="certificate-count">Has Certificate</p>
+      </div>     
+      <div class="detail-item" *ngIf="!hasExam">
+        <mat-icon>emoji_events</mat-icon> <!-- 'emoji_events' for Certificate -->
+        <p class="certificate-count">No Certificate</p>
+      </div>     
+      <button class="btn-primary" *ngIf="!enrollStatus && !enrollInst" (click)="enrollCourse(staffId, course.id)">
+        Enroll
+      </button>
+    </div>
+  </div>
+  <div class="course-details">
+    <div class="course-level">
+      <span>Recommended Date </span>
+      <span>{{course.date}}</span>
+    </div>
+    <div class="course-duration">
+      <span>{{course.duration}} (approximately)</span>
+    </div>
+    <button class="view-modules" (click)="toggleInstructorModal()"><b>View Instructor Information</b></button>
+  </div>
+</div>
+
+<br><br>
+
+
+
+<!-- Instructor Modal -->
+<div *ngIf="showInstructorModal" id="instructorModal" class="modal-instructor">
+  <div class="instructor-modal-content">
+    <span class="close" (click)="closeInstructorModal()">&times;</span>
+    <h2>Instructor Information</h2>
+    <img [src]="instructorInformation.profilePhotoUrl" alt="Instructor Photo" class="instructor-photo">
+    <div class="info-row">
+      <mat-icon>person</mat-icon>
+      <p>{{instructorInformation.name}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>work</mat-icon>
+      <p>{{instructorInformation.role}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>email</mat-icon>
+      <p>{{instructorInformation.email}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>apartment</mat-icon>
+      <p>{{instructorInformation.department}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>account_tree</mat-icon>
+      <p>{{instructorInformation.division}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>groups</mat-icon>
+      <p>{{instructorInformation.team}}</p>
+    </div>
+    
+  </div>
+</div>
+
+
+
+<!-- Chat Box Modal -->
+<div *ngIf="!isHiddenChat" class="absolute top-4 right-4 w-72 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700">
+  <div class="px-4 py-2 font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-800 dark:text-white rounded-t-lg text-sm">
+    Chat
+    <div class="mb-4">
+      <input [(ngModel)]="searchTerm" type="text" class="w-full p-2 border border-gray-300 rounded-lg text-black dark:text-black" placeholder="Search friends...">
+    </div>
+  </div>
+  <div class="p-2">
+    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+      <li *ngFor="let user of filteredEmployers" class="flex items-center py-2 space-x-2">
+        <div *ngIf="user.staffId !== check" class="flex items-center w-full">
+          <img (click)="navigateToProfileViewPage(user.staffId)" class="w-6 h-6 rounded-full cursor-pointer" [src]="user.profilePhotoUrl" alt="{{user.name}} profile photo">
+          <div class="flex-1 min-w-0 ml-2">
+            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+              {{user.name}}
+            </p>
+            <p class="text-xs text-gray-500 truncate dark:text-gray-400">
+              {{user.email}}
+            </p>
+          </div> 
+          <a *ngIf="isAdmin || isInstructor || isStudent"
+             [routerLink]="[isAdmin ? '/admin/privateChat' : (isInstructor ? '/instructor/privateChat' : '/student/privateChat'), encodeId(user.staffId)]"
+             class="text-blue-600 dark:text-blue-500 hover:underline ml-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
+            </svg>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

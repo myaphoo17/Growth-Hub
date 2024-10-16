@@ -1,0 +1,171 @@
+<app-loading></app-loading>
+
+<div class="video-gallery">
+  <!-- Selected video and text next to it -->
+  <div class="selected-video-container">
+    <div class="selected-video-and-text">
+      <div *ngIf="videos?.length" class="selected-file">
+        <ng-container [ngSwitch]="getFileType(videos[currentVideoIndex].url)">
+          <!-- Video File -->
+          <ng-container *ngSwitchCase="'video'">
+            <video controls class="selected-video">
+              <source [src]="videos[currentVideoIndex].url" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </ng-container>
+          <!-- Non-Video Files (Document) -->
+          <ng-container *ngSwitchDefault>
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="selected-video">
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="video-text" *ngIf="videos?.length">
+        <div class="icon-container">
+          <mat-icon class="edit-icon" aria-hidden="false" aria-label="edit icon" (click)="openEditModal()">edit</mat-icon>
+          <mat-icon class="delete-icon" aria-hidden="false" aria-label="delete icon" (click)="openDeleteModal()">delete</mat-icon>
+        </div>
+        <h2>{{ videos[currentVideoIndex].title }}</h2>
+        <ul>
+          <div class="hover:underline hover:text-blue-600">
+            <li>
+              <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm inline-block align-middle" (click)="navigateToAssignment()">assignment</mat-icon>
+              <span class="inline-block align-middle">Assignment</span>
+            </li>
+          </div>
+          <div class="hover:underline hover:text-blue-600">
+            <li>
+              <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle" (click)="navigateToExamDetail()">task</mat-icon>
+              <span class="inline-block align-middle">Exam</span>
+            </li>
+          </div>
+          <div class="hover:underline hover:text-blue-600" (click)="navigateToGrade()">
+            <li>
+              <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm inline-block align-middle" >grade</mat-icon>
+              <span class="inline-block align-middle">Grade</span>
+            </li>
+          </div>
+          <!-- <li>
+            <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle" (click)="navigateToAddCertificate()">military_tech</mat-icon>
+            <span class="inline-block align-middle">Add Certificate Frame</span>
+          </li> -->
+          <li>
+            <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm inline-block align-middle" (click)="navigateToCertificate()">military_tech</mat-icon>
+            <span class="inline-block align-middle">Certificate</span>
+          </li>
+          <div class="detail-item" *ngIf="(enrolledCount ?? 0) > 0">
+            <div class="hover:underline hover:text-blue-600" (click)="navigateToEnrolledUser()">
+              <li>
+                <mat-icon aria-hidden="false" aria-label="tv icon" class="text-sm inline-block align-middle">group</mat-icon>
+                <span class="inline-block align-middle">{{ enrolledCount | number }} already enrolled</span>
+              </li>
+            </div> 
+          </div>         
+        </ul>
+        <div class="button-group">
+          <button class="customize-button" (click)="openInsertModal()">Add New Lecture</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scrollable small videos container -->
+  <div class="navigation">
+  <div class="small-videos-container" (scroll)="onScroll($event)">
+    <div class="small-video" *ngFor="let video of videos; let i = index"
+         [class.selected]="currentVideoIndex === i"
+         (click)="selectVideo(i)">
+      <ng-container [ngSwitch]="getFileType(video.url)">
+        <!-- Video File -->
+        <ng-container *ngSwitchCase="'video'">
+          <video controls>
+            <source [src]="video.url" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </ng-container>
+
+        <!-- Image File -->
+        <ng-container *ngSwitchCase="'image'">
+          <img [src]="video.url" alt="Image">
+        </ng-container>
+
+        <!-- Downloadable Files -->
+        <ng-container *ngSwitchCase="'pdf'">
+          <a [href]="video.url" download="filename.pdf" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PDF Thumbnail">
+          </a>
+        </ng-container>
+        <ng-container *ngSwitchCase="'pptx'">
+          <a [href]="video.url" download="filename.pptx" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="PPTX Thumbnail">
+          </a>
+        </ng-container>
+        <ng-container *ngSwitchCase="'xlsx'">
+          <a [href]="video.url" download="filename.xlsx" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="XLSX Thumbnail">
+          </a>
+        </ng-container>
+        <ng-container *ngSwitchCase="'docx'">
+          <a [href]="video.url" download="filename.docx" (click)="confirmDownload($event)">
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="DOCX Thumbnail">
+          </a>
+        </ng-container>
+
+      </ng-container>
+      <div class="video-overlay">
+        <p>{{ video.title }}</p> <!-- Display title here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Insert Video Modal -->
+<div *ngIf="showInsertModal" id="insertModal" class="modal-insert">
+  <div class="insert-modal-content">
+    <span class="close" (click)="toggleInsertModal()">&times;</span>
+    <h2>Insert New Video</h2>
+    <form (ngSubmit)="saveFile()">
+      <label for="videoTitle">Video Title</label>
+      <input type="text" id="videoTitle" [(ngModel)]="updateVideoFileModel.title" name="title" required>
+
+      <label for="videoFile">Video File</label>
+      <input type="file" id="videoFile" (change)="onFileChange($event)" accept=".xlsx, .xls, .pdf, .doc, .docx, .ppt, .pptx, .mp4, .webm, .ogg, image/*" required>
+      <button type="submit" class="submit-button">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Video Modal -->
+<div *ngIf="showEditModal" id="editModal" class="modal-edit">
+  <div class="edit-modal-content">
+    <span class="close" (click)="toggleEditModal()">&times;</span>
+    <h2>Edit Video</h2>
+    <form (ngSubmit)="saveEdit()">
+      <label for="editVideoTitle">Video Title</label>
+      <input type="text" id="editVideoTitle" [(ngModel)]="updateVideoFileModel.title" name="title" required>
+      <label for="videoFile">Video File</label>
+      <input type="file" id="videoFile" (change)="onFileChange($event)" accept="video/mp4, video/webm, video/ogg" required>
+      <button type="submit" class="submit-button">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div *ngIf="showDeleteModal" id="deleteModal" class="modal-delete">
+  <div class="delete-modal-content">
+    <span class="close" (click)="toggleDeleteModal()">&times;</span>
+    <h2>Are you sure you want to delete this video?</h2>
+    <button class="confirm-button" (click)="confirmDelete()">Yes</button>
+    <button class="cancel-button" (click)="toggleDeleteModal()">No</button>
+  </div>
+</div>
+<!-- course-creation.component.html -->
+<div id="successModal" class="modal" *ngIf="showSuccessModal">
+  <div class="modal-content">
+    <div class="success-icon">
+      <span>&#10004;</span>
+    </div>
+    <div class="modal-title">Success</div>
+    <div class="modal-message">Check your Video Update information. We'll see you soon!</div>
+    <button class="close-btn" (click)="redirectToCreationPage()">OK</button>
+  </div>
+</div>

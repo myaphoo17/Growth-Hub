@@ -1,0 +1,9 @@
+<div class="card rounded-lg shadow-lg">
+  <div class="header">
+    <select id="yearSelect" (change)="onYearChange($event)">
+      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+    </select>
+    <button (click)="printChart()">Print Chart</button>
+  </div>
+  <div id="chartContainer3" class="chart-container"></div>
+</div>

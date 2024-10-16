@@ -1,0 +1,10 @@
+<div *ngFor="let certificate of certificates" class="certificate-container">
+    <div class="certificate-details">
+      <h2>{{ certificate.staffName }}</h2>
+      <p>{{ certificate.courseName }}</p>
+      <p>Grade: {{ certificate.grade }}</p>
+    </div>
+    <div class="certificate-image">
+      <img *ngIf="imageUrls[certificate.certificateId]" [src]="imageUrls[certificate.certificateId]" alt="Certificate Image" width="400" height="200">
+    </div>
+  </div>

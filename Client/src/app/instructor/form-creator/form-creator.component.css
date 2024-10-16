@@ -1,0 +1,74 @@
+.main-container {
+  @apply flex justify-start items-start w-1/2 mx-auto my-5;
+}
+
+.form-section {
+  @apply flex-grow mr-5;
+}
+
+.form-header {
+  @apply mb-5;
+}
+
+.questions-container {
+  @apply flex flex-col;
+}
+
+.form-container {
+  @apply relative w-full mb-5 p-5 border border-gray-300 rounded-lg bg-white;
+}
+
+.color-bar {
+  @apply absolute top-0 left-0 w-full h-2 bg-blue-800 rounded-t-lg;
+}
+
+.form-title,
+.form-description,
+.question-title,
+.option-input {
+  @apply w-full p-2 mb-2 border border-gray-300 rounded;
+}
+
+.form-title {
+  @apply text-2xl;
+}
+
+.form-description {
+  @apply text-lg text-gray-600;
+}
+
+.options {
+  @apply mb-5;
+}
+
+.option {
+  @apply flex items-center mb-2;
+}
+
+.option input[type="radio"] {
+  @apply mr-2;
+}
+
+.add-option-button {
+  @apply mt-2 bg-blue-800 text-white px-3 py-2 rounded;
+}
+
+.form-controls {
+  @apply flex justify-end items-center mt-2;
+}
+
+.icon-button {
+  @apply relative p-2 ml-2 text-blue-800;
+}
+
+.answer-key-button {
+  @apply flex items-center bg-blue-800 text-white px-3 py-2 rounded ml-2;
+}
+
+.answer-key-button i {
+  @apply mr-2;
+}
+
+.additional-buttons {
+  @apply flex flex-col items-center fixed ml-[800px] mt-[200px] p-2 border border-gray-300 rounded-lg bg-white;
+}

@@ -1,0 +1,75 @@
+<div class="flex justify-start items-start w-1/2 mx-auto my-5">
+  <div class="flex-grow mr-5">
+    <div class="relative w-full mb-5 p-5 border border-gray-300 rounded-lg bg-white">
+      <div class="absolute top-0 left-0 w-full h-2 bg-blue-800 rounded-t-lg"></div>
+      <div class="mb-5">
+        <!-- Exam Title Input -->
+        <input [(ngModel)]="formTitle" (ngModelChange)="validateFormTitle()" placeholder="Exam Title" class="w-full p-2 mb-2 text-2xl border border-gray-300 rounded" />
+        <!-- Error Message for Form Title -->
+        <p *ngIf="formTitleError" class="text-red-500 text-sm mt-2">Firstly Fill out Title</p>
+        
+        <!-- Exam Description Input -->
+        <input [(ngModel)]="formDescription" (ngModelChange)="onDescriptionChanged($event)" placeholder="Exam Description" class="w-full p-2 mb-2 text-lg text-gray-600 border border-gray-300 rounded" />
+      </div>
+    </div>
+    
+    <div class="flex flex-col">
+      <ng-container *ngFor="let question of questions; let qIndex = index">
+        <div class="relative w-full mb-5 p-5 border border-gray-300 rounded-lg bg-white">
+          <!-- Question Title Input -->
+          <textarea class="w-full p-2 mb-2 text-lg border border-gray-300 rounded" [(ngModel)]="question.title" (ngModelChange)="validateQuestionTitle(qIndex)" placeholder="Question Title"></textarea>
+          <!-- Error Message for Question Title -->
+          <p *ngIf="question.titleError && !showAnswerKeyModal" class="text-red-500 text-sm mt-2">Firstly Define Question</p>
+
+          <div class="mb-5">
+            <div *ngFor="let option of question.options; let oIndex = index; trackBy: trackByOptionFn" class="flex items-center mb-2">
+              <input type="radio" class="mr-2" />
+              <input class="w-full p-2 border border-gray-300 rounded" [(ngModel)]="question.options[oIndex]" (ngModelChange)="onOptionChanged($event, qIndex, oIndex)" placeholder="Option" />
+              <!-- Error Message for Option Text -->
+              <p *ngIf="question.optionTextError[oIndex] && !showAnswerKeyModal" class="text-red-500 text-sm mt-2">Please Fill out Option</p>
+              <!-- Remove Option Icon -->
+              <button *ngIf="question.options.length > 2" class="text-red-500 ml-2" (click)="removeOption(qIndex, oIndex)" [disabled]="showAnswerKeyModal">
+                <i class="material-icons">remove_circle</i>
+              </button>
+            </div>
+            <!-- Error Message for At Least Two Options -->
+            <p *ngIf="question.options.length < 2 && !showAnswerKeyModal" class="text-red-500 text-sm mt-2">Please Choose at least Two Options</p>
+
+            <button class="mt-2 bg-blue-800 text-white px-3 py-2 rounded" (click)="addOption(qIndex)" [disabled]="showAnswerKeyModal">
+              Add option
+            </button>
+          </div>
+          <div class="flex justify-end items-center mt-2">
+            <button class="relative p-2 ml-2 text-blue-800" title="Duplicate" (click)="duplicateQuestion(qIndex)">
+              <i class="material-icons">content_copy</i>
+            </button>
+            <button class="relative p-2 ml-2 text-blue-800" title="Delete" (click)="deleteQuestion(qIndex)" [disabled]="showAnswerKeyModal || answerKeyError[qIndex]">
+              <i class="material-icons">delete</i>
+            </button>
+            <button class="flex items-center bg-blue-800 text-white px-3 py-2 rounded ml-2" (click)="openAnswerKeyModal(qIndex)">
+              <i class="material-icons mr-2">assignment_turned_in</i>
+              Answer key ({{ question.points }} points)
+            </button>
+          </div>
+          <!-- Error Message for Not Choosing Answer Key -->
+          <p *ngIf="answerKeyError[qIndex] && !showAnswerKeyModal" class="text-red-500 text-sm mt-2">Please Choose Answer You Defined Question</p>
+          
+          
+        </div>
+      </ng-container>
+    </div>
+     <!-- Error Message for Minimum Questions -->
+     <p *ngIf="questions.length < 10 && !showAnswerKeyModal" class="text-red-500 text-sm mt-2">Please Define at least 10 Questions! You need to define {{ 10 - questions.length }} Questions</p>
+  </div>
+
+  <div class="flex flex-col items-center fixed ml-[800px] mt-[200px] p-2 border border-gray-300 rounded-lg bg-white">
+    <button class="custom-button add-question text-blue-800 p-2 rounded" title="Add Question" (click)="addQuestion()" [disabled]="questions.length >= 10">
+      <i class="material-icons">add</i>
+    </button>
+    <button class="custom-button preview text-blue-800 p-2 rounded" title="Save" (click)="submitForm()">
+      <i class="material-icons">save</i>
+    </button>
+  </div>
+</div>
+
+<app-answer-key-modal *ngIf="showAnswerKeyModal" [question]="questions[selectedQuestionIndex]" (save)="saveAnswerKey($event)"></app-answer-key-modal>

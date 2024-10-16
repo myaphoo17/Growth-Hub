@@ -1,0 +1,12 @@
+<div class="video-chat-container">
+  <div class="video-container">
+    <video id="localVideo" autoplay></video>
+    <video id="remoteVideo" autoplay></video>
+  </div>
+  <div class="controls">
+    <button (click)="call()">Call</button>
+    <button (click)="endCall()">End Call</button>
+    <button (click)="toggleMute()">{{ isMuted ? 'Unmute' : 'Mute' }}</button>
+    <button (click)="toggleSpeaker()">{{ isSpeakerOn ? 'Speaker Off' : 'Speaker On' }}</button>
+  </div>
+</div>

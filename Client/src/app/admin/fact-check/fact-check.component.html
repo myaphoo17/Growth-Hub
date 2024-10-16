@@ -1,0 +1,18 @@
+<div class="card-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="card-wrapper" *ngFor="let card of pagedCards; let i = index">
+    <mat-card class="card bg-blue-100 w-full mb-4" (mouseenter)="showDetails(card)" (mouseleave)="hideDetails(card)">
+      <mat-card-header>
+        <mat-card-title>{{ card.title }}</mat-card-title>
+        <mat-card-subtitle>{{ card.description }}</mat-card-subtitle>
+      </mat-card-header>
+      <div *ngIf="getVideoFiles(card.uploadFiles).length > 0">
+        <video mat-card-image [src]="getVideoFiles(card.uploadFiles)[0].url" controls></video>
+      </div>
+      <mat-card-actions>
+        <a [routerLink]="['fact-check-detail/', encodeId(card.id)]">
+          <button mat-button color="primary" role="button">View Course</button>
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

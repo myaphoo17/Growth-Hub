@@ -1,0 +1,15 @@
+<div class="card">
+  <div class="header">
+    <div>
+      <label for="yearSelect">Select Year:</label>
+      <select id="yearSelect" (change)="onYearChange($event)">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+    <button (click)="printChart()"
+      class="bg-transparent text-blue-500 border border-blue-500 rounded-lg px-4 py-2 font-semibold shadow-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400">
+      Print Chart
+    </button>
+  </div>
+  <div class="chart-container" id="chartContainer3"></div>
+</div>

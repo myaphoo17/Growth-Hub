@@ -1,0 +1,25 @@
+
+<div class="flex justify-center items-center w-full mt-8">
+  <div class="flex flex-col space-y-4 w-3/4 mr-4">
+    <div *ngIf="assignments.length === 0" class="p-4 bg-white rounded-lg shadow-md">
+      <p>No student assignments found for this assignment</p>
+      
+    </div>
+  <div *ngIf="assignments && assignments.length > 0">
+    <h3>All Student Assignments</h3>
+    <div *ngFor="let assignment of assignments" class="student-assignment-card">
+      <mat-card class="mb-4">
+        <mat-card-header>
+          <mat-card-title>{{ assignment.student?.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Submitted Date: {{ assignment.submittedDate }}</p>
+          <button (click)="downloadFile(assignment.fileType)" class="btn btn-outline mx-4 bg-blue-900 text-white py-2 px-4 rounded-md hover:bg-blue-700">Download Uploaded File</button>
+        </mat-card-content>
+      </mat-card> 
+    </div>
+  </div>
+  <button (click)="goBack()">Go Back</button>
+  </div>
+  </div>
+  

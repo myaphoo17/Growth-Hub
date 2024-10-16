@@ -1,0 +1,20 @@
+<!-- employee-upload.component.html -->
+<div class="container">
+  <mat-card class="upload-card">
+    <mat-card-header>
+      <mat-card-title class="title">Upload Excel File</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="file-input-container">
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" accept=".xlsx, .xls" hidden>
+        <label for="fileInput" class="file-input-label">
+          <mat-icon>upload_file</mat-icon>
+          <span>{{ selectedFile?.name || 'Select Excel File' }}</span>
+        </label>
+      </div>
+      <div class="button-container">
+        <button class="bg-blue-900 text-white" type="button" (click)="uploadFile()">Upload</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

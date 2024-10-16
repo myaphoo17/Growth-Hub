@@ -1,0 +1,34 @@
+<div class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white p-5 rounded-lg w-96 shadow-lg">
+    <div>
+      <h3 class="text-xl font-semibold">Choose correct answers:</h3>
+    </div>
+    <div class="my-5">
+      <div class="mb-4">{{ question.title }}</div>
+      <div>
+        <div *ngFor="let option of question.options; let oIndex = index" class="flex items-center mb-2">
+          <input 
+            type="checkbox" 
+            [checked]="selectedOptions.includes(oIndex)" 
+            (change)="toggleOption(oIndex)" 
+            class="mr-2"
+          />
+          <label>{{ option }}</label>
+        </div>
+        
+
+      </div>
+      <div class="flex items-center mt-5">
+        <label for="points" class="mr-2">Points:</label>
+        <input type="number" [(ngModel)]="points" min="1" max="1" id="points"/>
+      </div>
+      <!-- Inline error message -->
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    </div>
+    <div class="flex justify-end">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded ml-2" (click)="saveAnswerKey()">Done</button>
+      <button class="bg-gray-400 text-black px-4 py-2 rounded ml-2" (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>

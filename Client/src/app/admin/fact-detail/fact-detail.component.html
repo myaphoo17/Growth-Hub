@@ -1,0 +1,135 @@
+<div class="video-gallery p-4 bg-gray-100">
+  <!-- Selected video and text next to it -->
+  <div class="selected-video-container mb-8">
+    <div class="selected-video-and-text flex flex-col lg:flex-row bg-white shadow-md rounded-lg overflow-hidden">
+      <div *ngIf="videos?.length" class="selected-file flex-1">
+        <ng-container [ngSwitch]="getFileType(videos[currentVideoIndex].url)">
+          <!-- Video File -->
+          <ng-container *ngSwitchCase="'video'">
+            <video controls class="selected-video w-full h-auto">
+              <source [src]="videos[currentVideoIndex].url" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </ng-container>
+          <!-- Non-Video Files (Document) -->
+          <ng-container *ngSwitchDefault>
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="selected-video w-full h-auto">
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="video-text flex-1 p-6" *ngIf="videos?.length">
+        <h2 class="text-2xl font-semibold mb-4">{{ videos[currentVideoIndex].title }}</h2>
+        <ul class="space-y-2">
+          <li class="flex items-center">
+            <mat-icon aria-hidden="false" aria-label="assignment icon" class="text-sm mr-2">assignment</mat-icon>
+            <span>Assignment</span>
+          </li>
+          <li *ngIf="hasExam" class="flex items-center">
+            <mat-icon aria-hidden="false" aria-label="exam icon" class="text-sm mr-2" (click)="navigateToExamView()">task</mat-icon>
+            <span>Exam</span>
+          </li>
+          <li class="flex items-center">
+            <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm mr-2">military_tech</mat-icon>
+            <span>Certificate</span>
+          </li>    
+          <li class="flex">
+            <button class="view-modules text-blue-900 hover:underline" (click)="toggleInstructorModal()"><span>View Instructor Information</span></button>
+
+          </ul>
+        <div class="button-group mt-6">
+          <button class="customize-button bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-900" (click)="approveCourse()">Approve Course</button>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <!-- Scrollable small videos container -->
+  <div class="navigation">
+    <div class="small-videos-container overflow-x-auto whitespace-nowrap py-4 px-2 bg-white shadow-md rounded-lg">
+      <div class="small-video inline-block mr-4 cursor-pointer" *ngFor="let video of videos; let i = index"
+           [class.selected]="currentVideoIndex === i"
+           (click)="selectVideo(i)">
+        <ng-container [ngSwitch]="getFileType(video.url)">
+          <!-- Video File -->
+          <ng-container *ngSwitchCase="'video'">
+            <video class="w-40 h-24">
+              <source [src]="video.url" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </ng-container>
+  
+          <!-- Non-Video Files (Document) -->
+          <ng-container *ngSwitchDefault>
+            <img src="https://static.vecteezy.com/system/resources/previews/022/609/064/non_2x/document-file-type-icon-cute-illustration-vector.jpg" alt="Document Thumbnail" class="w-40 h-24">
+          </ng-container>
+        </ng-container>
+        <div class="video-overlay text-center bg-black bg-opacity-50 text-white p-1 mt-2">
+          <p>{{ video.title }}</p>
+        </div>
+      </div>
+
+  
+  </div>
+<!-- Instructor Modal -->
+<div *ngIf="showInstructorModal" id="instructorModal" class="modal-instructor">
+  <div class="instructor-modal-content">
+    <span class="close" (click)="closeInstructorModal()">&times;</span>
+    <h2>Instructor Information</h2>
+    <img [src]="instructorInformation.profilePhotoUrl" alt="Instructor Photo" class="instructor-photo">
+    <div class="info-row">
+      <mat-icon>person</mat-icon>
+      <p>{{instructorInformation.name}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>work</mat-icon>
+      <p>{{instructorInformation.role}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>email</mat-icon>
+      <p>{{instructorInformation.email}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>badge</mat-icon>
+      <p>{{instructorInformation.staffId}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>apartment</mat-icon>
+      <p>{{instructorInformation.department}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>account_tree</mat-icon>
+      <p>{{instructorInformation.division}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>check_circle</mat-icon>
+      <p>{{instructorInformation.status}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>groups</mat-icon>
+      <p>{{instructorInformation.team}}</p>
+    </div>
+    <div class="info-row">
+      <mat-icon>vpn_key</mat-icon>
+      <p>{{instructorInformation.doorLogNo}}</p>
+    </div>
+  </div>
+</div>
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+    <div class="bg-blue-900 text-white rounded-lg p-6 max-w-sm w-full">
+      <div class="flex justify-center mb-4">
+        <div class="text-4xl">
+          &#10004;
+        </div>
+      </div>
+      <div class="text-center text-2xl font-semibold mb-2">Success</div>
+      <div class="text-center mb-4">Course Approved Successfully!</div>
+      <div class="flex justify-center">
+        <button (click)="redirectToCreationPage()" class="bg-white text-blue-900 font-bold py-2 px-4 rounded-lg hover:bg-gray-100">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

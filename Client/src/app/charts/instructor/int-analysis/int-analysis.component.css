@@ -1,0 +1,57 @@
+.card {
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* Optional: Add a background color to the card */
+  }
+  
+  .chart-container {
+    height: 370px;
+    width: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px; /* Increased padding for better spacing */
+    background-color: #424e5c; /* Set header background color */
+    color: white; /* Set header text color */
+    border-top-left-radius: 15px; /* Match card border radius */
+    border-top-right-radius: 15px; /* Match card border radius */
+  }
+  
+  .header h2 {
+    margin: 0; /* Remove default margin for h2 */
+    font-size: 1.25rem; /* Adjust font size */
+  }
+  
+  #yearSelect {
+    padding: 5px 10px; /* Add padding for better click area */
+    border-radius: 5px;
+    border: 1px solid #ddd; /* Updated border color */
+    background-color: #fff; /* Set select background color */
+    color: #333;
+    outline: none;
+  }
+  
+  #yearSelect:focus {
+    border-color: #007bff;
+  }
+  
+  button {
+    padding: 5px 15px; /* Adjusted padding for better appearance */
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff; /* Set button background color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

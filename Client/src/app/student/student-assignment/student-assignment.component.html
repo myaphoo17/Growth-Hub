@@ -1,0 +1,35 @@
+
+<!-- student-assignment.component.html -->
+<div *ngIf="currentSection === 'assignment'" class="flex justify-center items-center w-full mt-8">
+
+  <mat-card class="flex flex-col space-y-4 w-2/4 mr-4">
+    <mat-card-header>
+      <button (click)="goBack()" class="ml-5">Go Back</button>
+      <mat-card-title>Your work</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+     
+      <div *ngIf="uploadedFile" class="uploaded-file-container">
+        <div class="file-details">
+          <mat-icon>insert_drive_file</mat-icon>
+          <span>{{ uploadedFile.name }}</span>
+        </div>
+        <button mat-raised-button color="warn" (click)="onUnsubmit()">Unsubmit</button>
+      </div>
+      <div *ngIf="!uploadedFile" class="file-upload-container">
+        <button mat-button class="add-create-button" (click)="fileInputRef.nativeElement.click()">+ Add File</button>
+        <input type="file" #fileInput (change)="onFileChange($event)" hidden>
+      </div>
+      <div *ngIf="selectedFile" class="selected-file">
+        <div class="file-details">
+          <mat-icon>insert_drive_file</mat-icon>
+          <span>{{ selectedFile.name }}</span>
+        </div>
+        <button mat-icon-button color="warn" (click)="removeFile()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!selectedFile">Submit</button>
+    </mat-card-content>
+  </mat-card>
+</div>

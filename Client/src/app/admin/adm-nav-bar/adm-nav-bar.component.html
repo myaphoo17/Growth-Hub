@@ -1,0 +1,140 @@
+
+<mat-toolbar  class="bg-blue-500 h-20 justify-center">
+<mat-toolbar-row class="flex items-center justify-between h-full">
+  <div class="flex items-center"> 
+    <div class="flex items-center">
+      <mat-icon class="text-blue-900 text-5xl " style="width: 60px;  height: 50px;">cast_for_education</mat-icon>
+      <div class="text-blue-900 text-3xl mt-3 mb-2 font-semibold">Growth Hub</div>
+    </div>
+  </div>
+   
+
+  <nav class="flex space-x-2 items-center"> 
+    <a mat-button class="text-white text-sm  px-2" routerLink="adm-home">Home</a>
+    <a mat-button class="text-white text-sm  px-2" routerLink="courses">Courses</a>
+    <a mat-button class="text-white text-sm  px-2" routerLink="mycourses">MyCourses</a>
+    <!-- <a mat-button class="text-white text-sm  px-2" routerLink="hasbeenCertificate">
+      <mat-icon aria-hidden="false" aria-label="certificate icon" class="text-sm">verified</mat-icon>
+      CompletedCourses
+    </a> -->
+    <a mat-button class="text-white text-sm  px-2" (click)="dropDownMenueChat()" data-dropdown-toggle="dropdownChat">
+      <mat-icon aria-hidden="false" aria-label="chat icon" class="text-sm">message</mat-icon>
+      Chat
+    </a> 
+  
+    <button (click)="dropDownMenueNotif()" id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="inline-flex bg items-center text-sm font-medium text-center text-black-500 hover:text-gray-500 focus:outline-none dark:hover:text-gray dark:text-black-400" type="button"> 
+      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
+          <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z"/>
+      </svg>
+      <div *ngIf="isAllRead" class="relative flex">
+          <div class="relative inline-flex w-3 h-3 bg-red-500 border-2 border-white rounded-full -top-2 right-3 dark:border-gray-900"></div>
+      </div>
+    </button>
+
+    <a mat-button class="text-white text-sm  px-2" routerLink="profile">
+      <mat-icon aria-hidden="false" aria-label="Profile icon" class="text-sm">account_circle</mat-icon>
+      Profile
+    </a>
+    <div class="relative"> 
+      <button class="text-black text-sm  px-2 py-1 rounded-md" [matMenuTriggerFor]="dropdown">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <mat-menu #dropdown="matMenu">
+        <button mat-menu-item routerLink="about" class="text-sm text-white ">About</button>
+        <button mat-menu-item routerLink="contact" class="text-sm text-white ">Contact</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </div>
+  </nav>
+</mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="relative z-20">
+  <div *ngIf="!isHiddenChat" class="absolute right-3 w-72">
+    <div id="dropdownChat" class="bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700">
+      <div class="px-4 py-2 font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-800 dark:text-white rounded-t-lg text-sm">
+        Chat
+        <div class="mb-4">
+          <input [(ngModel)]="searchTerm" type="text" class="w-full p-2 border border-gray-300 rounded-lg text-black dark:text-black" placeholder="Search friends...">
+        </div>
+      </div>
+
+      <div class="p-2">
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+          <li *ngFor="let user of filteredEmployers" class="flex items-center py-2 space-x-2">
+            <div *ngIf="user.staffId !== check" class="flex items-center w-full">
+              <img (click)="navigateToProfileViewPage(user.staffId)" class="w-6 h-6 rounded-full cursor-pointer" [src]="user.profilePhotoUrl" alt="{{user.name}} profile photo">
+              <div class="flex-1 min-w-0 ml-2">
+                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                  {{user.name}}
+                </p>
+                <p class="text-xs text-gray-500 truncate dark:text-gray-400">
+                  {{user.email}}
+                </p>
+              </div>
+              <a *ngIf="isAdmin || isInstructor || isStudent"
+                 [routerLink]="[isAdmin ? '/admin/privateChat' : (isInstructor ? '/instructor/privateChat' : '/student/privateChat'), encodeId(user.staffId)]"
+                 class="text-blue-600 dark:text-blue-500 hover:underline ml-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
+                </svg>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="absolute right-3 z-20" [ngClass]="{'hidden': isHiddenNotif, '': !isHiddenNotif}">
+  <div id="dropdownNotification" class="z-10 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
+    <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
+      Notifications
+    </div>
+    <div class="divide-y overflow-y-scroll min-h-[76px] max-w-[384px] min-w-[308px] max-h-[344px] divide-gray-100 dark:divide-gray-700">
+      <a *ngFor="let notif of notifications" (click)="navigateToProfilePage(notif.userFrom.staffId, notif.idPost, notif.recipient.sr, notif.userFrom.sr, notif.notificationType)" class="cursor-pointer flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <div class="flex-shrink-0">
+          <img class="rounded-full w-11 h-11 cursor-pointer" (click)="navigateToProfileViewPage(notif.userFrom.staffId)" [src]="notif.userFrom.profilePhotoUrl" alt="{{notif.userFrom.name}} profile photo">
+          <div *ngIf="isMessage(notif.notificationType)" class="relative flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
+            <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+              <path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z"/>
+              <path d="M4.439 9a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239Z"/>
+            </svg>
+          </div>
+          <div *ngIf="isCourseCreate(notif.notificationType)" class="relative flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-black border border-white rounded-full dark:border-gray-800">
+            <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+
+        <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
+            </svg>
+          </div>
+        </div>
+        <div *ngIf="isMessage(notif.notificationType)" class="w-full pl-3">
+          <div *ngIf="isRead(notif.isRead)" class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
+            New message from <span class="font-semibold text-gray-900 dark:text-white">{{notif.userFrom.name}}</span>
+          </div>
+          <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5">
+            New message from {{notif.userFrom.name}}
+          </div>
+          <div class="text-xs text-blue-600 dark:text-blue-500">{{timeGenerator(notif.createdAt)}}</div>
+        </div>
+        <div *ngIf="isCourseCreate(notif.notificationType)" class="w-full pl-3">
+          <div *ngIf="isRead(notif.isRead)" class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
+            New course created by <span class="font-semibold text-gray-900 dark:text-white">{{notif.userFrom.name}}</span>
+          </div>
+          <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5">
+            New course created by {{notif.userFrom.name}}
+          </div>
+          <div class="text-xs text-blue-600 dark:text-blue-500">{{timeGenerator(notif.createdAt)}}</div>
+        </div>
+      </a>
+    </div>
+    <!-- <a class="block py-2 text-sm font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">
+      <div (click)="viewAll()">View all</div>
+    </a> -->
+  </div>
+</div>
